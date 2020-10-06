@@ -96,11 +96,6 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
-		<dependency>
-			<groupId>c1808g1</groupId>
-			<artifactId>aem_trickcode</artifactId>
-		
-		</dependency>
 	</dependencies>
 
 	<build>
