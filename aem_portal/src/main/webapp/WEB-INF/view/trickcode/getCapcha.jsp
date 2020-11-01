@@ -20,8 +20,6 @@ ${getCapcha}
             }, error: function (err) {
                 console.log(err.message);
             }
-
-
         });
     }
 </script>
