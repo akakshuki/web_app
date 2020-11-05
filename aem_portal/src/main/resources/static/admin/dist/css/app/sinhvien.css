@@ -1,0 +1,36 @@
+.headTitle,.itemRow,.itemMH{
+    display: flex;
+}
+.headTitle div{
+    height: 32px;
+}
+.headTitle div,.itemHK,.titleMH,.itemDT>div,.itemLT>div,.itemPass>div{
+    font-size: 13px;
+    padding: 5px;
+    border: solid 1px #d5d5d5;
+}
+.headTitle div{
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.colHK{
+    width: 140px;
+}
+.colMH{
+    width: 450px;
+}
+.colLT,.colDT,.colPass{
+    width: 80px;
+}
+.colDT{
+    text-align: right;
+}
+.colPass{
+    text-align: center;
+}
+.itemRow,.itemMH{
+    min-height: 32px;
+}
+.itemDT>div{
+    text-align: right;
+}

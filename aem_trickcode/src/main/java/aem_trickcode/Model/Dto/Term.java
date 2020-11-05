@@ -1,6 +1,7 @@
 package aem_trickcode.Model.Dto;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import lombok.Data;
 
@@ -8,5 +9,5 @@ import lombok.Data;
 public class Term {
 	private int id;
 	private String name;
-	private ArrayList<Module> modules;
+	private List<Module> modules;
 }
