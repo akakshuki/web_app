@@ -18,9 +18,7 @@
 		<tiles:insertAttribute name="body" />
 	</div>
 	<tiles:insertAttribute name="footer" />
-	
-	
-	
+	<script type="text/javascript" src="/admin/bower_components/jquery/dist/jquery.min.js"></script>
 	<tiles:insertAttribute name="javascriptPage" />
 </body>
 </html>
