@@ -1,26 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE tiles-definitions PUBLIC
-        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
+
+<!-- this is config tiles file -->
+<!-- you will define your page here  and javascrip page here -->
 <tiles-definitions>
-	<definition name="protal_template"
-		template="/WEB-INF/views/admin/layouts/layout.jsp">
+	<!--do not edit this-->
+	<definition name="protal_template" template="/WEB-INF/views/admin/layouts/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/admin/layouts/_header/index.jsp" />
+		<put-attribute name="slidebar" value="/WEB-INF/views/admin/layouts/_slidebar/index.jsp" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/admin/layouts/_footer/index.jsp" />
 		<put-attribute name="javascriptPage" value="" />
 	</definition>
 
+
+	<!-- you will define your page here, with you need replcace page here	-->
 	<definition name="admin" extends="protal_template">
-		<put-attribute name="body"
-			value="/WEB-INF/views/admin/layouts/home/index.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/layouts/home/index.jsp" />
 	</definition>
 
 	<definition name="admin2" extends="protal_template">
-		<put-attribute name="body"
-			value="/WEB-INF/views/admin/layouts/home/index2.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/layouts/home/index2.jsp" />
 	</definition>
 
+	<!-- 
+	<definition name="admin2" extends="protal_template">
+		<put-attribute name="body" value="/WEB-INF/views/admin/layouts/example.jsp" />
+		<put-attribute name="javascriptPage" value="/WEB-INF/views/admin/layouts/example.js" />
+	</definition>
+	-->
 
 </tiles-definitions>
