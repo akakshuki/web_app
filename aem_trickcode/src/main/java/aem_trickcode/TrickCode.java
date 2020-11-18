@@ -253,10 +253,6 @@ public class TrickCode {
 		formData.put("ctl00$cphContentPanel$gvwFetchStudentDetails$ctl07$hdnKYCFlag", "0");
 		
 
-
-
-
-
 		//response form post request link
 		var response = Jsoup.connect("https://aptrack.asia/Academics/CascadingDropdown.asmx/GetSessionsForModule")
 				.header("Content-Type", "application/json")

@@ -1,16 +1,11 @@
 package c1808g1.aem_portal.configs;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
-
 @Configuration
 public class SpringMvcConfig {
      
@@ -29,7 +24,8 @@ public class SpringMvcConfig {
     public TilesConfigurer getTilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
  
-        // TilesView 3
+        // you will insert new  tilex.xml here
+        //tilesConfigurer.setDefinitions("/WEB-INF/tiles/admin-tiles.xml","/WEB-INF/tiles/example-tiles.xml");
         tilesConfigurer.setDefinitions("/WEB-INF/tiles/admin-tiles.xml");
  
         return tilesConfigurer;
