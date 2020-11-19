@@ -50,9 +50,7 @@ $(function () {
   $(".my-colorpicker2").colorpicker();
 
   //Timepicker
-  $(".timepicker").timepicker({
-    showInputs: false,
-  });
+  $("[istime]").inputmask("h:s",{ "placeholder": "hh/mm" });
   //setting ajax and download
   $.RequestAjax = function (url, data, methodExcute) {
     $.ajax({
@@ -342,6 +340,8 @@ function ScrollLoadData(selectorTable, urlData, data,methodAfterLoad) {
           // Tăng số trang lên 1
           page++;
           data=data??[];
+          data[page]=page;
+          data[ajaxLoad]="ajaxLoad";
           // Gửi Ajax
           $.ajax({
               type: "get",

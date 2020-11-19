@@ -18,7 +18,7 @@
 	<div class="tab-content">
 		<!-- Home tab content -->
 		<div class="tab-pane" id="control-sidebar-home-tab">
-			<h3 class="control-sidebar-heading">
+			<!-- <h3 class="control-sidebar-heading">
 				Birthdays <span id="dateBirth"></span>
 			</h3>
 			<ul class="control-sidebar-menu">
@@ -31,7 +31,7 @@
 						</div>
 				</a></li>
 
-			</ul>
+			</ul> -->
 		</div>
 		<!-- /.tab-pane -->
 	</div>
