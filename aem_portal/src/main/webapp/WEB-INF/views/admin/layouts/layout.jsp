@@ -39,8 +39,6 @@
 	<link rel="stylesheet" href="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 	<!-- Bootstrap Color Picker -->
 	<link rel="stylesheet" href="/admin/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
-	<!-- Bootstrap time Picker -->
-	<link rel="stylesheet" href="/admin/plugins/timepicker/bootstrap-timepicker.min.css">
 	<!-- Select2 -->
 	<link rel="stylesheet" href="/admin/bower_components/select2/dist/css/select2.min.css">
 	<!-- DataTables -->
@@ -72,6 +70,45 @@
 		<div class="content-wrapper" id="loadPageAll">
 			<tiles:insertAttribute name="body" />
 		</div>
+		<!--modal default-->
+		<div class="modal fade" id="modal-dungchung">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Chi tiết</h4>
+					</div>
+					<div class="modal-body">
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!--modal default-->
+		<!--modal large-->
+		<div class="modal fade" id="modal-large-dunchung">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">Chi tiết</h4>
+					</div>
+					<div class="modal-body">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--modal large-->
 		<!--Btn scroll top-->
 		<button onclick="topFunction()" id="myBtn" title="Go to top">&#x2B06;</button>
 		<!--Btn scroll top-->
@@ -112,8 +149,6 @@
 	<script src="/admin/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 	<!-- bootstrap color picker -->
 	<script src="/admin/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-	<!-- bootstrap time picker -->
-	<script src="/admin/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 	<!-- daterangepicker -->
 	<script src="/admin/bower_components/moment/min/moment.min.js"></script>
 	<script src="/admin/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -124,8 +159,6 @@
 	<script src="/admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<!-- Bootstrap WYSIHTML5 -->
 	<script src="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-	<!-- Slimscroll -->
-	<script src="/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src="/admin/bower_components/fastclick/lib/fastclick.js"></script>
 	<!-- AdminLTE App -->
@@ -202,7 +235,7 @@
 			});
 		function imgError(image) {
 			image.onerror = "";
-			image.src = ""; //image default if path image not found
+			image.src = "/admin/dist/img/default-user.png"; //image default if path image not found
 			return true;
 		}
 	</script>
