@@ -22,7 +22,7 @@ public class ShiftStudyModel {
 	private String note;
 	
 	public ShiftStudyModel() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	@Id

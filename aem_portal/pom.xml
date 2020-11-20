@@ -14,9 +14,9 @@
 	<description>Demo project for Spring Boot</description>
 	<packaging>war</packaging>
 
-	<properties>
-		<java.version>11</java.version>
-	</properties>
+<!--	<properties>-->
+<!--		<java.version>11</java.version>-->
+<!--	</properties>-->
 
 	<dependencies>
 		<dependency>
