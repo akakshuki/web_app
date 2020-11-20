@@ -90,7 +90,7 @@ html {
 
 /*btn scroll top*/
 #myBtn {
-    display: none;
+    display         : none;
     position        : fixed;
     bottom          : 60px;
     right           : 15px;
@@ -167,6 +167,10 @@ html {
 }
 
 /*Form*/
+.content-header h1,.modal-title,
+.table tr>th {
+    text-transform: capitalize;
+}
 
 .content-header .wrap-btn-header {
     right       : 0;
@@ -184,74 +188,139 @@ html {
 .wrap-btn-header>button>i {
     font-size: 1.3em !important;
 }
-.img-sv-tbl{
+
+.img-sv-tbl {
     width: 80px;
 }
-.btn-del{
+
+.btn-del {
     background-color: brown;
-    color: white;
-    border: 0;
-    font-size: 18px;
-}
-.btn-edit{
-    background-color: darkblue;
-    color: white;
-    border: 0;
-    font-size: 18px;
-}
-.btn{
-    margin-top: unset!important;
-    padding: 5px 10px!important;
-    font-size: 15px!important;
-}
-.btnSearch{
-    margin-left: -8px;
-}
-.cur-pointer{
-    cursor: pointer;
-}
-.form-group{
-    margin: unset!important;
-}
-.itemSV{
-    border-bottom: solid 1px #d2d2d2;
-    padding: 5px;
-}
-.itemSV:nth-last-child(1){
-    border-bottom: none;
-}
-.itemSV img{
-    width: 40px;
-}
-.inputImgSV {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    width: 200px;
-    height: 200px;
-}
-.wrap-chitiet{
-    height: 390px;
-    overflow: auto;
-}
-/*custom scrollbar*/
-body::-webkit-scrollbar,.wrap-chitiet::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 5px;
+    color           : white;
+    border          : 0;
+    font-size       : 18px;
 }
 
-body::-webkit-scrollbar-thumb,.wrap-chitiet::-webkit-scrollbar-thumb {
-    background-color: brown;
+.btn-edit {
+    background-color: darkblue;
+    color           : white;
+    border          : 0;
+    font-size       : 18px;
+}
+
+.btn {
+    margin-top: unset !important;
+    padding   : 5px 10px !important;
+    font-size : 15px !important;
+}
+
+.btnSearch {
+    margin-left: -8px;
+}
+
+.form-group {
+    margin: unset !important;
+}
+
+.itemSV {
+    border-bottom: solid 1px #d2d2d2;
+    padding      : 5px;
+    cursor       : pointer;
+}
+
+.itemSV:nth-last-child(1) {
+    border-bottom: none;
+}
+
+.itemSV img {
+    width: 40px;
+}
+
+.inputImgSV {
+    position: absolute;
+    top     : 0;
+    bottom  : 0;
+    left    : 0;
+    right   : 0;
+    opacity : 0;
+    width   : 200px;
+    height  : 200px;
+}
+
+.wrap-chitiet {
+    height  : 390px;
+    overflow: auto;
+}
+
+/*custom scrollbar*/
+body::-webkit-scrollbar,
+.wrap-chitiet::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width             : 5px;
+}
+
+body::-webkit-scrollbar-thumb,
+.wrap-chitiet::-webkit-scrollbar-thumb {
+    background-color  : brown;
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
+
 /*modal*/
-.modal-content .modal-footer{
-    padding: 15px!important;
+.modal-content .modal-footer {
+    padding: 15px !important;
 }
-.modal-title{
+
+.modal-title {
     font-weight: 600;
-    font-size: 20px;
+    font-size  : 20px;
+}
+label{
+    color: #454545!important;
+}
+/*-----------*/
+.d-flex {
+    display: flex;
+}
+.m-auto{
+    margin: auto;
+}
+.content {
+    min-height: unset !important;
+}
+
+.stt {
+    text-align: center;
+}
+
+input[onlynumber],
+input[ismoney] {
+    text-align: right;
+}
+
+[data-toggle="modal"],
+.cur-pointer {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+#loadPageAll .content table {
+    position: relative;
+}
+
+#loadPageAll .content .table-wrapper table>thead th {
+    position  : sticky;
+    top       : 0;
+    /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    min-height: 34px;
+}
+.table-wrapper{
+    overflow-y: scroll;
+    flex-grow: 1;
+  }
+.required::after{
+content: " *";
+color: red;
 }
