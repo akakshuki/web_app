@@ -9,15 +9,17 @@ window.formatTimeServer = "YYYY/MM/DD HH:mm";
 window.formatInputTypeDate = "YYYY-MM-DD";
 window.formatInputTypeDateTime = "YYYY-MM-DDTHH:mm:ss.SSS";
 $(function () {
-  //setting input
+  //setting input;
   getElementDefault("[onlynumberleter]").InputAlowNumberLeter();
   getElementDefault("[onlynumber]").InputAlowNumber();
   getElementDefault("[isInputAllowVarchar]").InputAllowVarchar();
+  getElementDefault("[ismoney]").InputAlowNumberMoney();
+
   //Initialize Select2 Elements
   $(".select2").select2();
   //Init Datatable
   $("#table").DataTable({
-    "ordering": false
+    ordering: false,
   });
   //Datemask dd/mm/yyyy
   $("#datemask").inputmask("dd/mm/yyyy", { placeholder: "dd/mm/yyyy" });
@@ -34,53 +36,12 @@ $(function () {
     timePickerIncrement: 30,
     format: "MM/DD/YYYY h:mm A",
   });
-  //Date range as a button
-  $("#daterange-btn").daterangepicker(
-    {
-      ranges: {
-        Today: [moment(), moment()],
-        Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-        "Last 7 Days": [moment().subtract(6, "days"), moment()],
-        "Last 30 Days": [moment().subtract(29, "days"), moment()],
-        "This Month": [moment().startOf("month"), moment().endOf("month")],
-        "Last Month": [
-          moment().subtract(1, "month").startOf("month"),
-          moment().subtract(1, "month").endOf("month"),
-        ],
-      },
-      startDate: moment().subtract(29, "days"),
-      endDate: moment(),
-    },
-    function (start, end) {
-      $("#daterange-btn span").html(
-        start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY")
-      );
-    }
-  );
+  InitDateRangePicker();
 
   //Date picker
   $(".datepicker").datepicker({
-    format: 'dd/mm/yyyy',
+    format: "dd/mm/yyyy",
     autoclose: true,
-    
-  });
-
-  //iCheck for checkbox and radio inputs
-  $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-    checkboxClass: "icheckbox_minimal-blue",
-    radioClass: "iradio_minimal-blue",
-  });
-  //Red color scheme for iCheck
-  $(
-    'input[type="checkbox"].minimal-red, input[type="radio"].minimal-red'
-  ).iCheck({
-    checkboxClass: "icheckbox_minimal-red",
-    radioClass: "iradio_minimal-red",
-  });
-  //Flat red color scheme for iCheck
-  $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-    checkboxClass: "icheckbox_flat-green",
-    radioClass: "iradio_flat-green",
   });
 
   //Colorpicker
@@ -89,9 +50,7 @@ $(function () {
   $(".my-colorpicker2").colorpicker();
 
   //Timepicker
-  $(".timepicker").timepicker({
-    showInputs: false,
-  });
+  $("[istime]").inputmask("h:s",{ "placeholder": "hh/mm" });
   //setting ajax and download
   $.RequestAjax = function (url, data, methodExcute) {
     $.ajax({
@@ -103,7 +62,7 @@ $(function () {
       async: false,
       cache: false,
       success: function (data) {
-        if (methodExcute) methodExcute(data);
+        if (methodExcute && typeof methodExcute == "function") methodExcute(data);
       },
     });
   };
@@ -117,7 +76,7 @@ $(function () {
       async: true,
       cache: false,
       success: function (data) {
-        if (methodExcute) methodExcute(data);
+        if (methodExcute && typeof methodExcute == "function") methodExcute(data);
       },
     });
   };
@@ -131,7 +90,7 @@ $(function () {
       async: false,
       cache: false,
       success: function (data) {
-        if (methodExcute) methodExcute(data);
+        if (methodExcute && typeof methodExcute == "function") methodExcute(data);
       },
     });
   };
@@ -188,7 +147,7 @@ $.fn.extend({
     return this.each(function () {
       $(this).keypress(function (e) {
         var keyCode = e.which;
-        if (keyCode == 45 || keyCode == 95 || keyCode == 92 || keyCode==46) {
+        if (keyCode == 45 || keyCode == 95 || keyCode == 92 || keyCode == 46) {
           //
         } else if (
           !(
@@ -223,6 +182,86 @@ $.fn.extend({
       });
     });
   },
+  InputAlowNumberMoney: function () {
+    $(this).InputAlowNumber();
+    $(this).keyup(function (e) {
+      var value = $(this).val();
+      value = MoneyToNumber(value);
+      $(this).val(NumberToMoney(value));
+    });
+  },
+  AddOrUpdateForm: function (url, methodSuccess, validatorExtension, methodSetData) {
+    if ($(this).is("form")) {
+        var allow = true;
+        if (validatorExtension != null && validatorExtension != undefined) {
+            allow = validatorExtension(this);
+        }
+        if (allow) {
+            var entity = new Object();
+            $(this).find("[ismodel]").each(function () {
+                if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
+                    entity[$(this).attr("id")] = $(this).val();
+                if ($(this).is("input[type='checkbox']"))
+                    entity[$(this).attr("id")] = this.checked;
+                if ($(this).is("[ismoney]"))
+                    entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
+                if ($(this).is("[isdate]") && $(this).val() != "") {
+                    entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD");
+                }
+                if ($(this).is("[isdatetime]") && $(this).val() != "") {
+                    entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD HH:mm");
+                }
+                if ($(this).is("input[type='radio']") && this.checked) {
+                    entity[$(this).attr("name")] = this.value;
+                }
+            })
+            var data = JSON.stringify({
+                entity: entity,
+                isUpdate: $(this).find("[isidmodel]").val() != 0,
+            });
+            if (methodSetData != null && methodSetData != undefined)
+                data = methodSetData(entity, $(this).find("[isidmodel]").val() != 0);
+            $.RequestAjax(url, data, methodSuccess);
+        } else {
+            console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
+        }
+    }
+},
+AddOrUpdateFormData: function (url, methodSuccess, validatorExtension, methodSetData) {
+    if ($(this).is("form")) {
+        var allow = true;
+        if (validatorExtension != null && validatorExtension != undefined) {
+            allow = validatorExtension(this);
+        }
+        if (allow) {
+            var entity = new Object();
+            $(this).find("[ismodel]").each(function () {
+                if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
+                    entity[$(this).attr("id")] = $(this).val();
+                if ($(this).is("input[type='checkbox']"))
+                    entity[$(this).attr("id")] = this.checked;
+                if ($(this).is("[ismoney]"))
+                    entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
+                if ($(this).is("[isdate]") && $(this).val() != "") {
+                    entity[$(this).attr("id")] = moment(entity[$(this).attr("id")], $(this).attr("formatdate")).format("YYYY/MM/DD");
+                }
+                if ($(this).is("input[type='radio']") && this.checked) {
+                    entity[$(this).attr("name")] = this.value;
+                }
+            })
+            var formData = new FormData();
+            formData.append("entity", JSON.stringify(entity));
+            formData.append("isUpdate", $(this).find("[isidmodel]").val() != "0");
+
+            if (methodSetData != null && methodSetData != undefined)
+                formData = methodSetData(entity, $(this).find("[isidmodel]").val() != "0");
+
+            $.RequestAjaxFormData(url, formData, methodSuccess);
+        } else {
+            console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
+        }
+    }
+},
 });
 var getElementDefault = function (seletor) {
   var lsElements = $(seletor).filter(function () {
@@ -236,29 +275,193 @@ var getElementDefault = function (seletor) {
   return lsElements;
 };
 function resetSoThuTuRecordTable(selectThuTu) {
-  selectThuTu=selectThuTu??$(".tblChiTiet .thuTu");
+  selectThuTu = selectThuTu ?? $(".tblChiTiet .stt");
   if (selectThuTu.length > 0) {
     selectThuTu.each(function (i) {
-      $(this).val(i + 1);
+      $(this).text(i + 1);
     });
   }
 }
-//setting alertity
-function ThongBao_ThanhCong(msg){
-  alertify.success(msg); 
-}
-function ThongBao_Loi(msg){
-  alertify.error(msg); 
-}
-function Delete(id,title,content,methodAfterDone) {
-  alertify.confirm(title, content, function () {
-      // window.location.href=;
-      methodAfterDone(id)
-  }, null); //display form yes/no using onclick="" in the a tag
+InitDateRangePicker = function (
+  selectorInput,
+  selectorTuNgay,
+  selectorDenNgay
+) {
+  selectorInput = selectorInput ?? $("#daterange");
+  selectorTuNgay = selectorTuNgay ?? $("#tuNgay");
+  selectorDenNgay = selectorDenNgay ?? $("#denNgay");
+  selectorInput.daterangepicker(
+    {
+      ranges: {
+        "Hôm nay": [moment(), moment()],
+        "Ngày hôm qua": [
+          moment().subtract(1, "days"),
+          moment().subtract(1, "days"),
+        ],
+        "7 ngày trước": [moment().subtract(6, "days"), moment()],
+        "30 ngày trước": [moment().subtract(29, "days"), moment()],
+        "Tháng này": [moment().startOf("month"), moment().endOf("month")],
+        "Tháng trước": [
+          moment().subtract(1, "month").startOf("month"),
+          moment().subtract(1, "month").endOf("month"),
+        ],
+      },
+      startDate: moment().subtract(29, "days"),
+      endDate: moment(),
+      locale: {
+        format: "DD/MM/YYYY",
+      },
+    },
+    function (start, end) {
+      $("#daterange span").html(
+        start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
+      );
+      selectorTuNgay.val(start.format("DD/MM/YYYY"));
+      selectorDenNgay.val(end.format("DD/MM/YYYY"));
+    }
+  );
 };
+function ScrollLoadData(selectorTable, urlData, data,methodAfterLoad) {
+  // Biến lưu trữ trang hiện tại
+  var page = 1;
+  // Biến lưu trữ rạng thái phân trang
+  var stopped = false;
+  // Khi kéo scroll thì xử lý
+  var positionlast = 0;
+  $(window).scroll(function () {
+      // Element append nội dung
+      $element = selectorTable ?? $("#tableSV tbody");
+      var newposition = $(window).scrollTop();
+      if (newposition - positionlast > 500) {
+          // Nếu hết dữ liệu thì ngưng
+          if (stopped == true) {
+              return false;
+          }
+          // Tăng số trang lên 1
+          page++;
+          data=data??[];
+          data[page]=page;
+          data[ajaxLoad]="ajaxLoad";
+          // Gửi Ajax
+          $.ajax({
+              type: "get",
+              dataType: "text",
+              url: urlData,
+              data: data,
+              success: function (result) {
+                  console.log("res:" + result);
+                  if (result == null || result == "") {
+                      stopped = true;
+                      return false;
+                  }
+                  $element.append(result);
+                  if (methodAfterLoad && typeof methodAfterLoad == "function") {
+                      methodAfterLoad(result);
 
+                  }
+                  positionlast = newposition;
+              },
+          })
+          return false;
+      }
+  });
+    
+}
+function NumberToMoney(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+function MoneyToNumber(money) {
+  return money.replace(/,/gi, "");
+}
+//setting alertity
+function ThongBao_ThanhCong(msg) {
+  alertify.success(msg);
+}
+function ThongBao_Loi(msg) {
+  alertify.error(msg);
+}
+function Delete(id,urlDel, methodComplete) {
+  alertify.confirm(
+    "Xóa dữ liệu",
+    "Bạn muốn xóa dòng dữ liệu này?",
+    function () {
+      setTimeout(function () {
+      $.ajax({
+        type: "POST",
+        url: urlDel,
+        data: {maId:id},
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          if (res){
+ThongBao_ThanhCong("Xóa thành công");
+if (methodComplete && typeof methodComplete == "function") {
+  methodComplete(res);
+  return;
+}else {
+  ThongBao_Loi("Xóa thất bại");
+}
+          }
+          
+        },
+    });
+}, 200);
+    },
+    null
+  ); //display form yes/no using onclick="" in the a tag
+}
+//init redirect
+function Redirect(conTroller, action, paramter) {
+  var url = "/" + conTroller + "/" + action + "?ajaxLoad=Menu";
+  if (paramter)
+      url += paramter;
+  $("#loadPageAll").load(url, function () {
+      window.history.pushState("object or string", "Title", url.replace("ajaxLoad=Menu", ""));
+  });
+}
+function Redirect_Detail(conTroller, maId) {
+  var action = "Detail";
+  var url = "/" + conTroller + "/" + action + "?&ajaxLoad=Menu" + "&maId=" + maId;
+  $("#loadPageAll").load(url, function () {
+      window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
+  });
+}
+function Redirect_Edit(conTroller, maId) {
+  var url = "/" + conTroller + "/Edit?" + "&ajaxLoad=Menu" + "&maId=" + maId;
+  $("#loadPageAll").load(url, function () {
+      window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
+  });
+}
+function Redirect_Create(conTroller) {
+  var url = "/" + conTroller + "/Create?ajaxLoad=Menu";
+  $("#loadPageAll").load(url, function () {
+      window.history.pushState("object or string", "Title", url.replace("?ajaxLoad=Menu", ""));
+  });
+}
+//so sánh giá trị 2 input ngày
+function soSanh2Ngay(valueTuNgay,valueDenNgay,methodSuccess,methodError){
+  var momentBatDau = moment(valueTuNgay, window.formatDateTime);
+  var momentKetThuc = moment(valueDenNgay, window.formatDateTime);
+  if (!momentKetThuc.isAfter(momentBatDau)) {
+      ThongBao_Loi("Ngày kết thúc phải lớn hơn ngày bắt đầu.", "Thông báo");
+      methodError();
+  }else{
+methodSuccess();
+  }
+}
 //chuyển tiền số thành tiền chữ
-var ChuSo = new Array(" không"," một"," hai"," ba"," bốn"," năm"," sáu"," bảy"," tám"," chín");
+var ChuSo = new Array(
+  " không",
+  " một",
+  " hai",
+  " ba",
+  " bốn",
+  " năm",
+  " sáu",
+  " bảy",
+  " tám",
+  " chín"
+);
 var Tien = new Array("", " nghìn", " triệu", " tỷ", " nghìn tỷ", " triệu tỷ");
 function DocSo3ChuSo(baso) {
   var tram;
