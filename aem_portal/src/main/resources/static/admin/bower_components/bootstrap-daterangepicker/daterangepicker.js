@@ -67,12 +67,12 @@
 
         this.locale = {
             direction: 'ltr',
-            format: moment.localeData().longDateFormat('L'),
-            separator: ' - ',
-            applyLabel: 'Apply',
-            cancelLabel: 'Cancel',
+            dateFormat: 'dd/mm/yy',
+            separator: '/',
+            applyLabel: 'Chọn',
+            cancelLabel: 'Hủy',
             weekLabel: 'W',
-            customRangeLabel: 'Custom Range',
+            customRangeLabel: 'Tùy chỉnh',
             daysOfWeek: moment.weekdaysMin(),
             monthNames: moment.monthsShort(),
             firstDay: moment.localeData().firstDayOfWeek()
@@ -97,25 +97,25 @@
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template = '<div class="daterangepicker dropdown-menu">' +
                 '<div class="calendar left">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini form-control" type="text" name="daterangepicker_start" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
-                    '</div>' +
+                    // '<div class="daterangepicker_input">' +
+                    //   '<input class="input-mini form-control" type="text" name="daterangepicker_start" value="" />' +
+                    //   '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                    //   '<div class="calendar-time">' +
+                    //     '<div></div>' +
+                    //     '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                    //   '</div>' +
+                    // '</div>' +
                     '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="calendar right">' +
-                    '<div class="daterangepicker_input">' +
-                      '<input class="input-mini form-control" type="text" name="daterangepicker_end" value="" />' +
-                      '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
-                    '</div>' +
+                    // '<div class="daterangepicker_input">' +
+                    //   '<input class="input-mini form-control" type="text" name="daterangepicker_end" value="" />' +
+                    //   '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
+                    //   '<div class="calendar-time">' +
+                    //     '<div></div>' +
+                    //     '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
+                    //   '</div>' +
+                    // '</div>' +
                     '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="ranges">' +
