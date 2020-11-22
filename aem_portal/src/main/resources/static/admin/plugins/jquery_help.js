@@ -50,7 +50,7 @@ $(function () {
   $(".my-colorpicker2").colorpicker();
 
   //Timepicker
-  $("[istime]").inputmask("h:s",{ "placeholder": "hh/mm" });
+  $("[istime]").inputmask("h:s", { "placeholder": "hh/mm" });
   //setting ajax and download
   $.RequestAjax = function (url, data, methodExcute) {
     $.ajax({
@@ -192,76 +192,76 @@ $.fn.extend({
   },
   AddOrUpdateForm: function (url, methodSuccess, validatorExtension, methodSetData) {
     if ($(this).is("form")) {
-        var allow = true;
-        if (validatorExtension != null && validatorExtension != undefined) {
-            allow = validatorExtension(this);
-        }
-        if (allow) {
-            var entity = new Object();
-            $(this).find("[ismodel]").each(function () {
-                if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
-                    entity[$(this).attr("id")] = $(this).val();
-                if ($(this).is("input[type='checkbox']"))
-                    entity[$(this).attr("id")] = this.checked;
-                if ($(this).is("[ismoney]"))
-                    entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
-                if ($(this).is("[isdate]") && $(this).val() != "") {
-                    entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD");
-                }
-                if ($(this).is("[isdatetime]") && $(this).val() != "") {
-                    entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD HH:mm");
-                }
-                if ($(this).is("input[type='radio']") && this.checked) {
-                    entity[$(this).attr("name")] = this.value;
-                }
-            })
-            var data = JSON.stringify({
-                entity: entity,
-                isUpdate: $(this).find("[isidmodel]").val() != 0,
-            });
-            if (methodSetData != null && methodSetData != undefined)
-                data = methodSetData(entity, $(this).find("[isidmodel]").val() != 0);
-            $.RequestAjax(url, data, methodSuccess);
-        } else {
-            console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
-        }
+      var allow = true;
+      if (validatorExtension != null && validatorExtension != undefined) {
+        allow = validatorExtension(this);
+      }
+      if (allow) {
+        var entity = new Object();
+        $(this).find("[ismodel]").each(function () {
+          if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
+            entity[$(this).attr("id")] = $(this).val();
+          if ($(this).is("input[type='checkbox']"))
+            entity[$(this).attr("id")] = this.checked;
+          if ($(this).is("[ismoney]"))
+            entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
+          if ($(this).is("[isdate]") && $(this).val() != "") {
+            entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD");
+          }
+          if ($(this).is("[isdatetime]") && $(this).val() != "") {
+            entity[$(this).attr("id")] = moment($(this).val(), $(this).attr("formatdate")).format("YYYY/MM/DD HH:mm");
+          }
+          if ($(this).is("input[type='radio']") && this.checked) {
+            entity[$(this).attr("name")] = this.value;
+          }
+        })
+        var data = JSON.stringify({
+          entity: entity,
+          isUpdate: $(this).find("[isidmodel]").val() != 0,
+        });
+        if (methodSetData != null && methodSetData != undefined)
+          data = methodSetData(entity, $(this).find("[isidmodel]").val() != 0);
+        $.RequestAjax(url, data, methodSuccess);
+      } else {
+        console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
+      }
     }
-},
-AddOrUpdateFormData: function (url, methodSuccess, validatorExtension, methodSetData) {
+  },
+  AddOrUpdateFormData: function (url, methodSuccess, validatorExtension, methodSetData) {
     if ($(this).is("form")) {
-        var allow = true;
-        if (validatorExtension != null && validatorExtension != undefined) {
-            allow = validatorExtension(this);
-        }
-        if (allow) {
-            var entity = new Object();
-            $(this).find("[ismodel]").each(function () {
-                if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
-                    entity[$(this).attr("id")] = $(this).val();
-                if ($(this).is("input[type='checkbox']"))
-                    entity[$(this).attr("id")] = this.checked;
-                if ($(this).is("[ismoney]"))
-                    entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
-                if ($(this).is("[isdate]") && $(this).val() != "") {
-                    entity[$(this).attr("id")] = moment(entity[$(this).attr("id")], $(this).attr("formatdate")).format("YYYY/MM/DD");
-                }
-                if ($(this).is("input[type='radio']") && this.checked) {
-                    entity[$(this).attr("name")] = this.value;
-                }
-            })
-            var formData = new FormData();
-            formData.append("entity", JSON.stringify(entity));
-            formData.append("isUpdate", $(this).find("[isidmodel]").val() != "0");
+      var allow = true;
+      if (validatorExtension != null && validatorExtension != undefined) {
+        allow = validatorExtension(this);
+      }
+      if (allow) {
+        var entity = new Object();
+        $(this).find("[ismodel]").each(function () {
+          if ($(this).is("input[type='text'],input[type='number'],input[type='email'],textarea,select,input[type='hidden'],input[type='password']"))
+            entity[$(this).attr("id")] = $(this).val();
+          if ($(this).is("input[type='checkbox']"))
+            entity[$(this).attr("id")] = this.checked;
+          if ($(this).is("[ismoney]"))
+            entity[$(this).attr("id")] = entity[$(this).attr("id")].replace(/,/gi, '');
+          if ($(this).is("[isdate]") && $(this).val() != "") {
+            entity[$(this).attr("id")] = moment(entity[$(this).attr("id")], $(this).attr("formatdate")).format("YYYY/MM/DD");
+          }
+          if ($(this).is("input[type='radio']") && this.checked) {
+            entity[$(this).attr("name")] = this.value;
+          }
+        })
+        var formData = new FormData();
+        formData.append("entity", JSON.stringify(entity));
+        formData.append("isUpdate", $(this).find("[isidmodel]").val() != "0");
 
-            if (methodSetData != null && methodSetData != undefined)
-                formData = methodSetData(entity, $(this).find("[isidmodel]").val() != "0");
+        if (methodSetData != null && methodSetData != undefined)
+          formData = methodSetData(entity, $(this).find("[isidmodel]").val() != "0");
 
-            $.RequestAjaxFormData(url, formData, methodSuccess);
-        } else {
-            console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
-        }
+        $.RequestAjaxFormData(url, formData, methodSuccess);
+      } else {
+        console.log("Đối tượng insert or update không hợp lệ. Đối tưởng phải là form");
+      }
     }
-},
+  },
 });
 var getElementDefault = function (seletor) {
   var lsElements = $(seletor).filter(function () {
@@ -321,7 +321,7 @@ InitDateRangePicker = function (
     }
   );
 };
-function ScrollLoadData(selectorTable, urlData, data,methodAfterLoad) {
+function ScrollLoadData(selectorTable, urlData, data, methodAfterLoad) {
   // Biến lưu trữ trang hiện tại
   var page = 1;
   // Biến lưu trữ rạng thái phân trang
@@ -329,43 +329,43 @@ function ScrollLoadData(selectorTable, urlData, data,methodAfterLoad) {
   // Khi kéo scroll thì xử lý
   var positionlast = 0;
   $(window).scroll(function () {
-      // Element append nội dung
-      $element = selectorTable ?? $("#tableSV tbody");
-      var newposition = $(window).scrollTop();
-      if (newposition - positionlast > 500) {
-          // Nếu hết dữ liệu thì ngưng
-          if (stopped == true) {
-              return false;
-          }
-          // Tăng số trang lên 1
-          page++;
-          data=data??[];
-          data[page]=page;
-          data[ajaxLoad]="ajaxLoad";
-          // Gửi Ajax
-          $.ajax({
-              type: "get",
-              dataType: "text",
-              url: urlData,
-              data: data,
-              success: function (result) {
-                  console.log("res:" + result);
-                  if (result == null || result == "") {
-                      stopped = true;
-                      return false;
-                  }
-                  $element.append(result);
-                  if (methodAfterLoad && typeof methodAfterLoad == "function") {
-                      methodAfterLoad(result);
-
-                  }
-                  positionlast = newposition;
-              },
-          })
-          return false;
+    // Element append nội dung
+    $element = selectorTable ?? $("#tableSV tbody");
+    var newposition = $(window).scrollTop();
+    if (newposition - positionlast > 500) {
+      // Nếu hết dữ liệu thì ngưng
+      if (stopped == true) {
+        return false;
       }
+      // Tăng số trang lên 1
+      page++;
+      data = data ?? [];
+      data[page] = page;
+      data[ajaxLoad] = "ajaxLoad";
+      // Gửi Ajax
+      $.ajax({
+        type: "get",
+        dataType: "text",
+        url: urlData,
+        data: data,
+        success: function (result) {
+          console.log("res:" + result);
+          if (result == null || result == "") {
+            stopped = true;
+            return false;
+          }
+          $element.append(result);
+          if (methodAfterLoad && typeof methodAfterLoad == "function") {
+            methodAfterLoad(result);
+
+          }
+          positionlast = newposition;
+        },
+      })
+      return false;
+    }
   });
-    
+
 }
 function NumberToMoney(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -380,73 +380,252 @@ function ThongBao_ThanhCong(msg) {
 function ThongBao_Loi(msg) {
   alertify.error(msg);
 }
-function Delete(id,urlDel, methodComplete) {
+function Delete(id, urlDel, methodComplete) {
   alertify.confirm(
     "Xóa dữ liệu",
     "Bạn muốn xóa dòng dữ liệu này?",
     function () {
       setTimeout(function () {
-      $.ajax({
-        type: "POST",
-        url: urlDel,
-        data: {maId:id},
-        processData: false,
-        contentType: false,
-        success: function (res) {
-          if (res){
-ThongBao_ThanhCong("Xóa thành công");
-if (methodComplete && typeof methodComplete == "function") {
-  methodComplete(res);
-  return;
-}else {
-  ThongBao_Loi("Xóa thất bại");
-}
-          }
-          
-        },
-    });
-}, 200);
+        $.ajax({
+          type: "POST",
+          url: urlDel,
+          data: { maId: id },
+          processData: false,
+          contentType: false,
+          success: function (res) {
+            if (res) {
+              ThongBao_ThanhCong("Xóa thành công");
+              if (methodComplete && typeof methodComplete == "function") {
+                methodComplete(res);
+                return;
+              } else {
+                ThongBao_Loi("Xóa thất bại");
+              }
+            }
+
+          },
+        });
+      }, 200);
     },
     null
   ); //display form yes/no using onclick="" in the a tag
+}
+function s_Save(url, form, method, exitCheckbox, setFormMethod) {
+	//set 
+    if (!form)
+        form = $("#form");
+    if (!url)
+        url = _urlEdit;
+
+	var lsCheckBox;
+    exitCheckbox = exitCheckbox ? exitCheckbox : false;
+
+    form.validate().destroy();
+
+    $.validator.unobtrusive.parse(form);
+    form.validate();
+
+    if (form.valid()) {
+        form.find("[disabled]").removeAttr("disabled");
+        form.find("[readonly]").removeAttr("readonly");
+
+        form.find("[onlynumber]").each(function () {
+            $(this).inputmask("remove");
+            this.value = this.value.replace(/,/gi, '');
+        })
+
+        form.find("[isdate]").each(function () {
+            if ($(this).is("[type='date']")) {
+                changeTypeDateToText(this, 0);
+                return;
+            }
+
+            var value = this.value;
+            if (value && value != "")
+                this.value = moment(this.value, "DD/MM/YYYY").format("YYYY/MM/DD");
+        })
+
+        form.find("[istime]").each(function () {
+
+            var value = this.value;
+            if (value && value != "")
+                this.value = moment(this.value, "HH:mm").format("YYYY/MM/DD HH:mm");
+        })
+
+        form.find("[isdatetime]").each(function () {
+            if ($(this).is("[type='datetime-local']")) {
+                changeTypeDateToText(this, 1);
+                return;
+            }
+
+            var value = this.value;
+            if (value && value != "")
+                this.value = moment(this.value, "DD/MM/YYYY HH:mm").format("YYYY/MM/DD HH:mm");
+        })
+
+        if (exitCheckbox) {
+            lsCheckBox = form.find("[type='checkbox']");
+            lsCheckBox.each(function () {
+                var value = this.checked ? "true" : "false";
+                $(this).attr("value", value);
+            })
+        }
+
+        var formdata = new FormData(form[0]);
+
+        //set form
+        if (typeof setFormMethod === "function") {
+            formdata = _setFormMethod(formdata);
+            setFormMethod = null
+        }
+
+        loaddingStart();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                loaddingEnd()
+                if (method)
+                    method(data);
+                else {
+
+                    if (data.result) {
+                        ThongBao_ThanhCong("Lưu thành công");
+                        setTimeout(function () {
+                            $("#loadPageAll").load(data.url + "&ajaxLoad=Menu", function () {
+                                window.history.pushState("object or string", "Title", data.url.replace("&ajaxLoad=Menu", ""));
+                            });
+                        }, 1000)
+                    }
+                    else {
+                        Thong_BaoLoi($.hronlineLangText("Lưu thất bại"));
+                        ThongBao_Loi(data.message);
+                    }
+                }
+            },
+        });
+    }
+
+}
+
+function changeTypeTextToDate(input, opitonType, isLoadFirst) {
+    if ($(input).is("input[type='text']")) {
+        var value = $(input).val();
+        //0 type là date
+        //1 type là datetime-local
+        //mặc định là time
+        switch (opitonType) {
+            case 0:
+                $(input).attr("type", "date");
+
+                if (value && value != "") {
+                    if (!isLoadFirst)
+                        value = moment(value, window.formatDateServer).format(window.formatDate)
+
+                    $(input).val(value);
+                }
+                break;
+            case 1:
+                $(input).attr("type", "datetime-local");
+
+                if (value && value != "") {
+                    if (!isLoadFirst)
+                        value = moment(value, window.formatDateTimeServer).format(window.formatDateTime)
+
+                    $(input).val(value);
+                }
+                break;
+            default:
+                $(input).attr("type", "time");
+
+                if (value && value != "") {
+                    if (!isLoadFirst)
+                        value = moment(value, window.formatDateTimeServer).format(window.formatTime)
+
+                    $(input).val(value);
+                }
+                break;
+        }
+    }
+}
+
+function changeTypeDateToText(input, opitonType) {
+    //0 type là date
+    //1 type là datetime-local
+    //mặc định là time
+    switch (opitonType) {
+        case 0:
+            if ($(input).is("[type='date']")) {
+                var value = $(input).val();
+
+                $(input).attr("type", "text");
+
+                if (value && value != "")
+                    $(input).val(moment(value, window.formatDate).format(window.formatDateServer));
+            }
+            break;
+        case 1:
+            if ($(input).is("[type='datetime-local']")) {
+                var value = $(input).val();
+
+                $(input).attr("type", "text");
+
+                if (value && value != "")
+                    $(input).val(moment(value, window.formatDateTime).format(window.formatDateTimeServer));
+            }
+            break;
+        default:
+            if ($(input).is("[type='time']")) {
+                var value = $(input).val();
+
+                $(input).attr("type", "text");
+
+                if (value && value != "")
+                    $(input).val(moment(value, window.formatTime).format(window.formatDateTimeServer));
+            }
+            break;
+    }
 }
 //init redirect
 function Redirect(conTroller, action, paramter) {
   var url = "/" + conTroller + "/" + action + "?ajaxLoad=Menu";
   if (paramter)
-      url += paramter;
+    url += paramter;
   $("#loadPageAll").load(url, function () {
-      window.history.pushState("object or string", "Title", url.replace("ajaxLoad=Menu", ""));
+    window.history.pushState("object or string", "Title", url.replace("ajaxLoad=Menu", ""));
   });
 }
 function Redirect_Detail(conTroller, maId) {
   var action = "Detail";
   var url = "/" + conTroller + "/" + action + "?&ajaxLoad=Menu" + "&maId=" + maId;
   $("#loadPageAll").load(url, function () {
-      window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
+    window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
   });
 }
 function Redirect_Edit(conTroller, maId) {
   var url = "/" + conTroller + "/Edit?" + "&ajaxLoad=Menu" + "&maId=" + maId;
   $("#loadPageAll").load(url, function () {
-      window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
+    window.history.pushState("object or string", "Title", url.replace("&ajaxLoad=Menu", ""));
   });
 }
 function Redirect_Create(conTroller) {
   var url = "/" + conTroller + "/Create?ajaxLoad=Menu";
   $("#loadPageAll").load(url, function () {
-      window.history.pushState("object or string", "Title", url.replace("?ajaxLoad=Menu", ""));
+    window.history.pushState("object or string", "Title", url.replace("?ajaxLoad=Menu", ""));
   });
 }
 //so sánh giá trị 2 input ngày
-function soSanh2Ngay(valueTuNgay,valueDenNgay,methodSuccess,methodError){
+function soSanh2Ngay(valueTuNgay, valueDenNgay, methodSuccess, methodError) {
   var momentBatDau = moment(valueTuNgay, window.formatDateTime);
   var momentKetThuc = moment(valueDenNgay, window.formatDateTime);
   if (!momentKetThuc.isAfter(momentBatDau)) {
-      ThongBao_Loi("Ngày kết thúc phải lớn hơn ngày bắt đầu.", "Thông báo");
-      methodError();
-  }else{
-methodSuccess();
+    ThongBao_Loi("Ngày kết thúc phải lớn hơn ngày bắt đầu.");
+    methodError();
+  } else {
+    methodSuccess();
   }
 }
 //chuyển tiền số thành tiền chữ
