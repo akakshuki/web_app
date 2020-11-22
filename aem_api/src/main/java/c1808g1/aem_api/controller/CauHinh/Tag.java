@@ -19,7 +19,7 @@ import c1808g1.aem_api.models.CauHinh.TagModel;
 import c1808g1.aem_api.service.CauHinh.TagService;
 
 @RestController
-@RequestMapping("/cauhinh/tagapi")
+@RequestMapping("/api/cauhinh/tagapi")
 public class Tag {
 	private TagService tagSv;
 
@@ -28,7 +28,7 @@ public class Tag {
 		this.tagSv = tagSv;
 	}
 
-	@RequestMapping(value = "/tag", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<TagModel>> findAlltag() {
 		List<TagModel> tag = tagSv.findAllTag();
 		if (tag.isEmpty()) {
@@ -37,7 +37,7 @@ public class Tag {
 		return new ResponseEntity<>(tag, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/tag/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getTagById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TagModel> gettagById(@PathVariable("id") String id) {
 		Optional<TagModel> tag = tagSv.findTagById(id);
 
@@ -47,15 +47,15 @@ public class Tag {
 		return new ResponseEntity<>(tag.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/tag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TagModel> createtag(@RequestBody TagModel tag, UriComponentsBuilder builder) {
 		tagSv.save(tag);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/tag/{id}").buildAndExpand(tag.getId_tag()).toUri());
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(tag.getId_tag()).toUri());
 		return new ResponseEntity<>(tag, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/tag/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<TagModel> updatetag(@PathVariable("id") String id, @RequestBody TagModel tag) {
 		Optional<TagModel> currenttag = tagSv.findTagById(id);
 
@@ -71,7 +71,7 @@ public class Tag {
 		return new ResponseEntity<>(currenttag.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/tag/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<TagModel> deletetag(@PathVariable("id") String id) {
 		Optional<TagModel> tag = tagSv.findTagById(id);
 		if (!tag.isPresent()) {
