@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import c1808g1.aem_api.models.DonTu.ExemptionMs;
-import c1808g1.aem_api.repository.*;
 import c1808g1.aem_api.service.DonTu.ExemptionMsService;
 
 @RestController

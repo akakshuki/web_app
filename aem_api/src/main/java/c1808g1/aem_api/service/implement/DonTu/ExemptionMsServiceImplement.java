@@ -20,25 +20,25 @@ public class ExemptionMsServiceImplement implements ExemptionMsService {
 	}
 	@Override
 	public List<ExemptionMs> findAllExemptionMs() {
-		// TODO Auto-generated method stub
+		 
 		return (List<ExemptionMs>) emsrepo.findAll();
 	}
 
 	@Override
 	public Optional<ExemptionMs> findById(Integer id) {
-		// TODO Auto-generated method stub
+		 
 		return emsrepo.findById(id);
 	}
 
 	@Override
 	public void save(ExemptionMs ems) {
-		// TODO Auto-generated method stub
+		 
 		emsrepo.save(ems);
 	}
 
 	@Override
 	public void remove(ExemptionMs ems) {
-		// TODO Auto-generated method stub
+		 
 		emsrepo.delete(ems);
 	}
 

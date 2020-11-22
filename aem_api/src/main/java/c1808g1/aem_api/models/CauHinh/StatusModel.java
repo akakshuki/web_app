@@ -16,7 +16,7 @@ public class StatusModel {
 	private Boolean active;
 	
 	public StatusModel() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
     @Id

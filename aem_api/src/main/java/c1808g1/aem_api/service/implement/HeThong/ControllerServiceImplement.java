@@ -22,25 +22,25 @@ public class ControllerServiceImplement implements ControllerService {
 	}
 	@Override
 	public List<Controller> findAllController() {
-		// TODO Auto-generated method stub
+		 
 		return (List<Controller>) clrepo.findAll();
 	}
 
 	@Override
 	public Optional<Controller> findById(String id) {
-		// TODO Auto-generated method stub
+		 
 		return clrepo.findById(id);
 	}
 
 	@Override
 	public void save(Controller cl) {
-		// TODO Auto-generated method stub
+		 
 		clrepo.save(cl);
 	}
 
 	@Override
 	public void remove(Controller cl) {
-		// TODO Auto-generated method stub
+		 
 		clrepo.delete(cl);
 	}
 }
