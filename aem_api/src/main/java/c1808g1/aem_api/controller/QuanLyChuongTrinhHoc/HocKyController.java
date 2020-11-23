@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/semesterapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/semesterapi")
 public class HocKyController {
 	private SemesterServices smtSv;
 	

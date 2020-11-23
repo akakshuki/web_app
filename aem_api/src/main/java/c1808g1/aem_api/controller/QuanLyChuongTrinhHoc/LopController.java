@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/classapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/classapi")
 public class LopController {
 	private ClassServices classSv;
 	

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/courseapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/courseapi")
 public class KhoaHocController {
 	private CourseServices cosSv;
 	

@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceFCModel;
-import c1808g1.aem_api.repositories.QuanLyLichHoc.AttendanceFCRepository;
+import c1808g1.aem_api.repository.QuanLyLichHoc.AttendanceFCRepository;
 import c1808g1.aem_api.services.QuanLyLichHoc.AttendanceFCService;
 
 @Service

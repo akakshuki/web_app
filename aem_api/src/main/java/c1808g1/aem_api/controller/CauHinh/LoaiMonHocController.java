@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cauhinh/type_subjectapi")
+@RequestMapping("/api/cauhinh/type_subjectapi")
 public class LoaiMonHocController {
 	private Type_SubjectServices tysubSv;
 	

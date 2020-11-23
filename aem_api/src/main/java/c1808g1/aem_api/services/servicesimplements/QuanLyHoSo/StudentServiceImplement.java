@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
-import c1808g1.aem_api.repositories.QuanLyHoSo.StudentRepository;
+import c1808g1.aem_api.repository.QuanLyHoSo.StudentRepository;
 import c1808g1.aem_api.services.QuanLyHoSo.StudentService;
 
 @Service

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/subjectapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/subjectapi")
 public class MonHocController {
 	private SubjectServices subSv;
 	

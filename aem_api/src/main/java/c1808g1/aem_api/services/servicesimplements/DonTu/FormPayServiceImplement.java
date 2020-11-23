@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.DonTu.FormPayModel;
-import c1808g1.aem_api.repositories.DonTu.FormPayRepository;
+import c1808g1.aem_api.repository.DonTu.FormPayRepository;
 import c1808g1.aem_api.services.DonTu.FormPayService;
 
 @Service
