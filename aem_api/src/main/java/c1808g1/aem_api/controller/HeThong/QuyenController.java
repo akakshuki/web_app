@@ -21,7 +21,7 @@ import c1808g1.aem_api.service.HeThong.RoleService;
 
 
 @RestController
-@RequestMapping("/hethong/Roleapi")
+@RequestMapping("/api/hethong/Roleapi")
 public class QuyenController {
 	private RoleService rSv;
 
@@ -30,7 +30,7 @@ public class QuyenController {
 		this.rSv = rSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<Role>> findAllRole() {
 		List<Role> Roles =rSv.findAllRole();
 		if (Roles.isEmpty()) {
@@ -39,7 +39,7 @@ public class QuyenController {
 		return new ResponseEntity<>(Roles, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getRoleById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Role> getRoleById(@PathVariable("id") Integer id) {
 		Optional<Role> Role = rSv.findById(id);
 

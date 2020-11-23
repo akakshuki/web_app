@@ -19,7 +19,7 @@ import c1808g1.aem_api.models.DonTu.TransferClass;
 import c1808g1.aem_api.service.DonTu.TransferClassService;
 
 @RestController
-@RequestMapping("/dontu/transferclassapi")
+@RequestMapping("/api/dontu/transferclassapi")
 public class ChuyenLopController {
 	private TransferClassService tfcSv;
 
@@ -28,7 +28,7 @@ public class ChuyenLopController {
 		this.tfcSv = tfcSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<TransferClass>> findAllTransferClass() {
 		List<TransferClass> TransferClasss =tfcSv.findAllTransferClass();
 		if (TransferClasss.isEmpty()) {
@@ -37,7 +37,7 @@ public class ChuyenLopController {
 		return new ResponseEntity<>(TransferClasss, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getTransferClassById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TransferClass> getTransferClassById(@PathVariable("id") Integer id) {
 		Optional<TransferClass> TransferClass = tfcSv.findById(id);
 

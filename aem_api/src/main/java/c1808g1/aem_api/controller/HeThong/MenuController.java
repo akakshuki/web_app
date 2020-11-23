@@ -20,7 +20,7 @@ import c1808g1.aem_api.service.HeThong.ControllerService;
 
 
 @RestController
-@RequestMapping("/hethong/Controllerapi")
+@RequestMapping("/api/hethong/Controllerapi")
 public class MenuController {
 	private ControllerService clSv;
 
@@ -29,7 +29,7 @@ public class MenuController {
 		this.clSv = clSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<Controller>> findAllController() {
 		List<Controller> cl =clSv.findAllController();
 		if (cl.isEmpty()) {
@@ -38,7 +38,7 @@ public class MenuController {
 		return new ResponseEntity<>(cl, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getAll/{id_controller}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getControllerById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Controller> getControllerById(@PathVariable("id") String id) {
 		Optional<Controller> cl = clSv.findById(id);
 

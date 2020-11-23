@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import c1808g1.aem_api.models.DonTu.ExemptionMs;
-<<<<<<< HEAD:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/MienNghiaVu.java
-
-=======
->>>>>>> 4de3a8ab80257f04521cd78a978bd8c7a58c0d5e:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/MienNghiaVuController.java
 import c1808g1.aem_api.service.DonTu.ExemptionMsService;
 
+
 @RestController
-@RequestMapping("/dontu/exemptionmsapi")
+@RequestMapping("/api/dontu/exemptionmsapi")
 public class MienNghiaVuController {
 	private ExemptionMsService emsSv;
 
@@ -41,7 +38,7 @@ public class MienNghiaVuController {
 		return new ResponseEntity<>(ExemptionMss, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getExemptionMsById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExemptionMs> getExemptionMsById(@PathVariable("id") Integer id) {
 		Optional<ExemptionMs> ExemptionMs = emsSv.findById(id);
 
