@@ -1,6 +1,6 @@
 package c1808g1.Models.QuanLiLichHoc;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -9,13 +9,13 @@ public class AttendanceStudentDTO {
 	public Integer id;	
 	public Integer attendance_id;
 	public String student_id;
-	public Date check_in;
-	public Date check_out;
+	public Timestamp check_in;
+	public Timestamp check_out;
 	public Integer minute_late;
 	public Integer minute_leave_early;
 	public Integer status_id;
 	public String note;
-	public AttendanceStudentDTO(Integer id, Integer attendance_id, String student_id, Date check_in, Date check_out,
+	public AttendanceStudentDTO(Integer id, Integer attendance_id, String student_id, Timestamp check_in, Timestamp check_out,
 			Integer minute_late, Integer minute_leave_early, Integer status_id, String note) {
 		super();
 		this.id = id;

@@ -90,21 +90,18 @@ public class AttendanceModel implements Serializable {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	public AttendanceModel(Integer id, Integer schedule_id, Integer shift_id, Integer brand_id, Date date_attendance,
-			Integer status_id, Boolean disable, String note) {
-		super();
-		this.id = id;
-		this.schedule_id = schedule_id;
-		this.shift_id = shift_id;
-		this.brand_id = brand_id;
-		this.date_attendance = date_attendance;
-		this.status_id = status_id;
-		this.disable = disable;
-		this.note = note;
-	}
+//	public AttendanceModel(Integer id, Integer schedule_id, Integer shift_id, Integer brand_id, Date date_attendance,
+//			Integer status_id, Boolean disable, String note) {
+//		super();
+//		this.id = id;
+//		this.schedule_id = schedule_id;
+//		this.shift_id = shift_id;
+//		this.brand_id = brand_id;
+//		this.date_attendance = date_attendance;
+//		this.status_id = status_id;
+//		this.disable = disable;
+//		this.note = note;
+//	}
 	
 	
 }

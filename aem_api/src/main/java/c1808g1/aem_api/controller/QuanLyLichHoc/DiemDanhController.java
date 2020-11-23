@@ -34,21 +34,23 @@ public class DiemDanhController {
 	private AttendanceStudentService ASSv;
 
 	@Autowired
-	public DiemDanhController(AttendanceFCService AFCSv) {
+	public DiemDanhController(AttendanceFCService AFCSv,AttendanceService ASv,AttendanceStudentService ASSv) {
 		this.AFCSv = AFCSv;
-	}
-	@Autowired
-	public DiemDanhController(AttendanceService ASv) {
 		this.ASv = ASv;
-	}
-	@Autowired
-	public DiemDanhController(AttendanceStudentService ASSv) {
 		this.ASSv = ASSv;
 	}
+//	@Autowired
+//	public DiemDanhController() {
+//		
+//	}
+//	@Autowired
+//	public DiemDanhController() {
+//		
+//	}
 	
 	//Attendance
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllAttendance" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AttendanceDTO>> ListAllAttendance(){
 		List<AttendanceModel> am = ASv.ListAllAttendance();
 		List<AttendanceDTO> adto =  ModelMapperConfig.mapList(am, AttendanceDTO.class);
@@ -68,7 +70,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(adto ,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createAttendance" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AttendanceDTO> CreateAttendance(@RequestBody AttendanceDTO adto, UriComponentsBuilder builder){
 		AttendanceModel am = ModelMapperConfig.modelMapper.map(adto, AttendanceModel.class);
 		ASv.save(am);
@@ -78,7 +80,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(adto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateAttendance/{id}",method = RequestMethod.PUT)
     public ResponseEntity<AttendanceDTO> updateAttendance(@PathVariable("id") Integer id,@RequestBody AttendanceDTO adto) {
         AttendanceModel currentAttendance = ASv.ListAttendanceById(id);
 
@@ -100,7 +102,7 @@ public class DiemDanhController {
     }
 
 
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteAttendance/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceModel> deleteAttendance(@PathVariable("id") Integer id) {
 		AttendanceModel am = ASv.ListAttendanceById(id);
 		if (am == null){
@@ -111,7 +113,7 @@ public class DiemDanhController {
 	
 	//AttendanceFC
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllAttendanceFC" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AttendanceFCDTO>> ListAllAttendanceFC(){
 		List<AttendanceFCModel> afcm = AFCSv.ListAllAttendanceFC();
 		List<AttendanceFCDTO> afcdto = ModelMapperConfig.mapList(afcm, AttendanceFCDTO.class);
@@ -131,7 +133,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(afcdto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createAttendanceFC" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AttendanceFCDTO> CreateAttendanceFC(@RequestBody AttendanceFCDTO afcdto, UriComponentsBuilder builder){
 		AttendanceFCModel afcm = ModelMapperConfig.modelMapper.map(afcdto, AttendanceFCModel.class);
 		AFCSv.save(afcm);
@@ -141,7 +143,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(afcdto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateAttendanceFC/{id}",method = RequestMethod.PUT)
     public ResponseEntity<AttendanceFCDTO> updateAFC(@PathVariable("id") Integer id,@RequestBody AttendanceFCDTO afcdto) {
         AttendanceFCModel currentAFC = AFCSv.ListAttendanceFCById(id);
 
@@ -160,7 +162,7 @@ public class DiemDanhController {
     }
 
 
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteAttendanceFC/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceFCModel> deleteAFC(@PathVariable("id") Integer id) {
 		AttendanceFCModel afcm = AFCSv.ListAttendanceFCById(id);
 		if (afcm == null){
@@ -171,7 +173,7 @@ public class DiemDanhController {
 	
 	//AttendanceStudent
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllAttendanceStudent" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AttendanceStudentDTO>> ListAllAttendanceStudent(){
 		List<AttendanceStudentModel> asm = ASSv.ListAllAttendanceStudent();
 		List<AttendanceStudentDTO> asdto = ModelMapperConfig.mapList(asm, AttendanceStudentDTO.class);
@@ -191,7 +193,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(asdto,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createAttendanceStudent" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AttendanceStudentDTO> CreateAttendanceStudent(@RequestBody AttendanceStudentDTO asdto, UriComponentsBuilder builder){
 		AttendanceStudentModel asm = ModelMapperConfig.modelMapper.map(asdto, AttendanceStudentModel.class);
 		ASSv.save(asm);
@@ -201,7 +203,7 @@ public class DiemDanhController {
 		return new ResponseEntity<>(asdto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateAttendanceStudent/{id}",method = RequestMethod.PUT)
     public ResponseEntity<AttendanceStudentDTO> updateAS(@PathVariable("id") Integer id,@RequestBody AttendanceStudentDTO asdto) {
         AttendanceStudentModel currentAS = ASSv.ListAttendanceStudentById(id);
 
@@ -209,7 +211,6 @@ public class DiemDanhController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentAS.setId(asdto.getId());
         currentAS.setAttendance_id(asdto.getAttendance_id());
         currentAS.setStudent_id(asdto.getStudent_id());
         currentAS.setCheck_in(asdto.getCheck_in());
@@ -224,7 +225,7 @@ public class DiemDanhController {
     }
 
 
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteAttendanceStudent/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceStudentModel> deleteAS(@PathVariable("id") Integer id) {
 		AttendanceStudentModel asm = ASSv.ListAttendanceStudentById(id);
 		if (asm == null){

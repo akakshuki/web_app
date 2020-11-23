@@ -137,25 +137,23 @@ public class ScheduleModel implements Serializable {
 	public void setMax_session(Integer max_session) {
 		this.max_session = max_session;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	public ScheduleModel(Integer id, String list_fc, String subject_id, String class_id, Integer shift_id,
-			String brand_id, Date start_date, Date end_date, String note, String list_student, Integer current_session,
-			Integer max_session) {
-		super();
-		this.id = id;
-		this.list_fc = list_fc;
-		this.subject_id = subject_id;
-		this.class_id = class_id;
-		this.shift_id = shift_id;
-		this.brand_id = brand_id;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.note = note;
-		this.list_student = list_student;
-		this.current_session = current_session;
-		this.max_session = max_session;
-	}
+
+//	public ScheduleModel(Integer id, String list_fc, String subject_id, String class_id, Integer shift_id,
+//			String brand_id, Date start_date, Date end_date, String note, String list_student, Integer current_session,
+//			Integer max_session) {
+//		super();
+//		this.id = id;
+//		this.list_fc = list_fc;
+//		this.subject_id = subject_id;
+//		this.class_id = class_id;
+//		this.shift_id = shift_id;
+//		this.brand_id = brand_id;
+//		this.start_date = start_date;
+//		this.end_date = end_date;
+//		this.note = note;
+//		this.list_student = list_student;
+//		this.current_session = current_session;
+//		this.max_session = max_session;
+//	}
 	
 }
