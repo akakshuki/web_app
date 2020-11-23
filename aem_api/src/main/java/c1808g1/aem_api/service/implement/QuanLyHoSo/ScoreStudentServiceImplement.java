@@ -19,8 +19,8 @@ public class ScoreStudentServiceImplement implements ScoreStudentService{
 	}
 
 	@Override
-	public Optional<ScoreStudentModel> ListScoreStudentById(Integer id) {
-		return (Optional<ScoreStudentModel>) SSRepo.findById(id);
+	public ScoreStudentModel ListScoreStudentById(Integer id) {
+		return SSRepo.findById(id).get();
 	}
 
 	@Override

@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.QuanLiHoSo.FCDTO;
+import c1808g1.Models.QuanLiHoSo.ScoreFCDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.QuanLyHoSo.FCModel;
 import c1808g1.aem_api.models.QuanLyHoSo.ScoreFCModel;
-import c1808g1.aem_api.services.QuanLyHoSo.FCService;
-import c1808g1.aem_api.services.QuanLyHoSo.ScoreFCService;
+import c1808g1.aem_api.service.QuanLyHoSo.FCService;
+import c1808g1.aem_api.service.QuanLyHoSo.ScoreFCService;
 
 @RestController
 @RequestMapping("/api/quanlyhoso/giangvienapi")
@@ -38,122 +41,128 @@ public class GiangVienController {
 	
 	// ScoreFC
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ScoreFCModel>> ListAllScoreFC(){
-		List<ScoreFCModel> lsfc = SFCSv.ListAllScoreFC();
-		if (lsfc.isEmpty()) {
+	public ResponseEntity<List<ScoreFCDTO>> ListAllScoreFC(){
+		List<ScoreFCModel> sfcm = SFCSv.ListAllScoreFC();
+		List<ScoreFCDTO> sfcdto = ModelMapperConfig.mapList(sfcm, ScoreFCDTO.class);
+		if (sfcdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lsfc,HttpStatus.OK);
+		return new ResponseEntity<>(sfcdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getScoreFcById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ScoreFCModel> ListScoreFCById(@PathVariable("id") Integer id){
-		Optional<ScoreFCModel> osfc = SFCSv.ListScoreFCById(id);
-		if(!osfc.isPresent()) {
-			return new ResponseEntity<>(osfc.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<ScoreFCDTO> ListScoreFCById(@PathVariable("id") Integer id){
+		var data = SFCSv.ListScoreFCById(id);
+		ScoreFCDTO sfcdto = ModelMapperConfig.modelMapper.map(data, ScoreFCDTO.class);
+		if(sfcdto == null) {
+			return new ResponseEntity<>(sfcdto ,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(osfc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(sfcdto , HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ScoreFCModel> CreateScoreFC(@RequestBody ScoreFCModel sfcm, UriComponentsBuilder builder){
+	public ResponseEntity<ScoreFCDTO> CreateScoreFC(@RequestBody ScoreFCDTO sfcdto, UriComponentsBuilder builder){
+		ScoreFCModel sfcm = ModelMapperConfig.modelMapper.map(sfcdto,ScoreFCModel.class);  
 		SFCSv.save(sfcm);
+		sfcdto.setId(sfcm.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(sfcm.getId()).toUri());
-		return new ResponseEntity<>(sfcm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(sfcdto.getId()).toUri());
+		return new ResponseEntity<>(sfcdto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<ScoreFCModel> updateScoreFC(@PathVariable("id") Integer id,@RequestBody ScoreFCModel usfc) {
-        Optional<ScoreFCModel> currentScoreFC = SFCSv.ListScoreFCById(id);
+    public ResponseEntity<ScoreFCDTO> updateScoreFC(@PathVariable("id") Integer id,@RequestBody ScoreFCDTO sfcdto) {
+        ScoreFCModel currentScoreFC = SFCSv.ListScoreFCById(id);
 
-        if (!currentScoreFC.isPresent()) {
+        if (currentScoreFC == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentScoreFC.get().setId(usfc.getId());
-        currentScoreFC.get().setSubject_id(usfc.getSubject_id());
-        currentScoreFC.get().setFc_id(usfc.getFc_id());
-        currentScoreFC.get().setScore_percent(usfc.getScore_percent());
-        currentScoreFC.get().setScore_number(usfc.getScore_number());
-        currentScoreFC.get().setDate_create(usfc.getDate_create());
+        currentScoreFC.setId(sfcdto.getId());
+        currentScoreFC.setSubject_id(sfcdto.getSubject_id());
+        currentScoreFC.setFc_id(sfcdto.getFc_id());
+        currentScoreFC.setScore_percent(sfcdto.getScore_percent());
+        currentScoreFC.setScore_number(sfcdto.getScore_number());
+        currentScoreFC.setDate_create(sfcdto.getDate_create());
         
-        SFCSv.save(currentScoreFC.get());
-        return new ResponseEntity<>(currentScoreFC.get(), HttpStatus.OK);
+        SFCSv.save(currentScoreFC);
+        return new ResponseEntity<>(sfcdto, HttpStatus.OK);
     }
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<ScoreFCModel> deleteScoreFC(@PathVariable("id") Integer id) {
-		Optional<ScoreFCModel> dsfc = SFCSv.ListScoreFCById(id);
-		if (!dsfc.isPresent()) {
+		ScoreFCModel sfcm = SFCSv.ListScoreFCById(id);
+		if (sfcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		SFCSv.delete(dsfc.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	// FC
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<FCModel>> FindAllFC(){
-		List<FCModel> lfc = FCSv.ListAllFC();
-		if (lfc.isEmpty()) {
+	public ResponseEntity<List<FCDTO>> FindAllFC(){
+		List<FCModel> fcm = FCSv.ListAllFC();
+		List<FCDTO> fcdto = ModelMapperConfig.mapList(fcm, FCDTO.class);
+		if (fcdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lfc,HttpStatus.OK);
+		return new ResponseEntity<>(fcdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getFCById/{id_fc}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FCModel> FindFCById(@PathVariable("id_fc") String id_fc){
-		Optional<FCModel> ofc = FCSv.ListFCById(id_fc);
-		if(!ofc.isPresent()) {
-			return new ResponseEntity<>(ofc.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<FCDTO> FindFCById(@PathVariable("id_fc") String id_fc){
+		var data = FCSv.ListFCById(id_fc);
+		FCDTO fcdto = ModelMapperConfig.modelMapper.map(data, FCDTO.class);
+		if(fcdto == null){
+			return new ResponseEntity<>(fcdto,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(ofc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(fcdto, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FCModel> CreateFC(@RequestBody FCModel fcm, UriComponentsBuilder builder){
+	public ResponseEntity<FCDTO> CreateFC(@RequestBody FCDTO fcdto, UriComponentsBuilder builder){
+		FCModel fcm = ModelMapperConfig.modelMapper.map(fcdto, FCModel.class);
 		FCSv.save(fcm);
+		fcdto.setId_fc(fcm.getId_fc());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id_fc}").buildAndExpand(fcm.getId_fc()).toUri());
-		return new ResponseEntity<>(fcm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id_fc}").buildAndExpand(fcdto.getId_fc()).toUri());
+		return new ResponseEntity<>(fcdto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id_fc}",method = RequestMethod.PUT)
-    public ResponseEntity<FCModel> updateFC(@PathVariable("id_fc") String id_fc,@RequestBody FCModel ufcm) {
-        Optional<FCModel> currentFC = FCSv.ListFCById(id_fc);
+    public ResponseEntity<FCDTO> updateFC(@PathVariable("id_fc") String id_fc,@RequestBody FCDTO fcdto) {
+        FCModel currentFC = FCSv.ListFCById(id_fc);
 
-        if (!currentFC.isPresent()) {
+        if (currentFC == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentFC.get().setId_fc(ufcm.getId_fc());
-        currentFC.get().setName_fc(ufcm.getName_fc());
-        currentFC.get().setEmail_fc(ufcm.getEmail_fc());
-        currentFC.get().setEmail_school(ufcm.getEmail_school());
-        currentFC.get().setPassword(ufcm.getPassword());
-        currentFC.get().setPhone_fc(ufcm.getPhone_fc());
-        currentFC.get().setColor_css(ufcm.getColor_css());
-        currentFC.get().setActive_account(ufcm.getActive_account());
-        currentFC.get().setList_role(ufcm.getList_role());
-        currentFC.get().setStatus_id(ufcm.getStatus_id());
-        currentFC.get().setStart_date(ufcm.getStart_date());
-        currentFC.get().setEnd_date(ufcm.getEnd_date());
-        currentFC.get().setNote_status(ufcm.getNote_status());
+        currentFC.setId_fc(fcdto.getId_fc());
+        currentFC.setName_fc(fcdto.getName_fc());
+        currentFC.setEmail_fc(fcdto.getEmail_fc());
+        currentFC.setEmail_school(fcdto.getEmail_school());
+        currentFC.setPassword(fcdto.getPassword());
+        currentFC.setPhone_fc(fcdto.getPhone_fc());
+        currentFC.setColor_css(fcdto.getColor_css());
+        currentFC.setActive_account(fcdto.getActive_account());
+        currentFC.setList_role(fcdto.getList_role());
+        currentFC.setStatus_id(fcdto.getStatus_id());
+        currentFC.setStart_date(fcdto.getStart_date());
+        currentFC.setEnd_date(fcdto.getEnd_date());
+        currentFC.setNote_status(fcdto.getNote_status());
 
-        FCSv.save(currentFC.get());
-        return new ResponseEntity<>(currentFC.get(), HttpStatus.OK);
+        FCSv.save(currentFC);
+        return new ResponseEntity<>(fcdto,HttpStatus.OK);
     }
 
 
 	@RequestMapping(value = "/delete/{id_fc}",method = RequestMethod.DELETE)
 	public ResponseEntity<FCModel> deleteFC(@PathVariable("id_fc") String id_fc) {
-		Optional<FCModel> dfc = FCSv.ListFCById(id_fc);
-		if (!dfc.isPresent()) {
+		FCModel fcm = FCSv.ListFCById(id_fc);
+		if (fcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		FCSv.delete(dfc.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

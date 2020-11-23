@@ -19,8 +19,8 @@ public class AttendanceFCServiceImplement implements AttendanceFCService{
 	}
 
 	@Override
-	public Optional<AttendanceFCModel> ListAttendanceFCById(Integer id) {
-		return (Optional<AttendanceFCModel>) AFCRepo.findById(id);
+	public AttendanceFCModel ListAttendanceFCById(Integer id) {
+		return AFCRepo.findById(id).get();
 	}
 
 	@Override

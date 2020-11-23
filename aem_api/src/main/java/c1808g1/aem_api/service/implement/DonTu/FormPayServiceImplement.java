@@ -24,8 +24,8 @@ public class FormPayServiceImplement implements FormPayService{
 		return (List<FormPayModel>) FPRepo.findAll();
 	}
 	@Override
-	public Optional<c1808g1.aem_api.models.DonTu.FormPayModel> ListFormPayById(Integer id) {
-		return (Optional<FormPayModel>) FPRepo.findById(id);
+	public FormPayModel ListFormPayById(Integer id) {
+		return FPRepo.findById(id).get();
 	}
 	@Override
 	public void save(c1808g1.aem_api.models.DonTu.FormPayModel fpm) {

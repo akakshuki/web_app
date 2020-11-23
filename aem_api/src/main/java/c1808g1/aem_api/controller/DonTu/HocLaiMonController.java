@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.DonTu.FormPayDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.DonTu.FormPayModel;
-import c1808g1.aem_api.services.DonTu.FormPayService;
+import c1808g1.aem_api.service.DonTu.FormPayService;
 
 @RestController
 @RequestMapping("/api/dontu/hoclaimonapi")
@@ -29,67 +31,70 @@ public class HocLaiMonController {
 	}
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<FormPayModel>> ListAllFormPay(){
-		List<FormPayModel> lfp = FPSv.ListAllFormPay();
-		if (lfp.isEmpty()) {
+	public ResponseEntity<List<FormPayDTO>> ListAllFormPay(){
+		List<FormPayModel> fpm = FPSv.ListAllFormPay();
+		List<FormPayDTO> fpdto = ModelMapperConfig.mapList(fpm, FormPayDTO.class);
+		if (fpdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lfp,HttpStatus.OK);
+		return new ResponseEntity<>(fpdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getFormPayById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FormPayModel> ListFormPayById(@PathVariable("id") Integer id){
-		Optional<FormPayModel> ofp = FPSv.ListFormPayById(id);
-		if(!ofp.isPresent()) {
-			return new ResponseEntity<>(ofp.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<FormPayDTO> ListFormPayById(@PathVariable("id") Integer id){
+		var data = FPSv.ListFormPayById(id);
+		FormPayDTO fpdto = ModelMapperConfig.modelMapper.map(data, FormPayDTO.class);
+		if(fpdto == null){
+			return new ResponseEntity<>(fpdto,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(ofp.get(), HttpStatus.OK);
+		return new ResponseEntity<>(fpdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FormPayModel> CreateFP(@RequestBody FormPayModel fpm, UriComponentsBuilder builder){
+	public ResponseEntity<FormPayDTO> CreateFP(@RequestBody FormPayDTO fpdto, UriComponentsBuilder builder){
+		FormPayModel fpm = ModelMapperConfig.modelMapper.map(fpdto, FormPayModel.class);
 		FPSv.save(fpm);
+		fpdto.setId(fpm.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(fpm.getId()).toUri());
-		return new ResponseEntity<>(fpm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(fpdto.getId()).toUri());
+		return new ResponseEntity<>(fpdto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<FormPayModel> updateFP(@PathVariable("id") Integer id,@RequestBody FormPayModel ufpm) {
-        Optional<FormPayModel> currentFP = FPSv.ListFormPayById(id);
+    public ResponseEntity<FormPayDTO> updateFP(@PathVariable("id") Integer id,@RequestBody FormPayDTO fpdto) {
+        FormPayModel currentFP = FPSv.ListFormPayById(id);
 
-        if (!currentFP.isPresent()) {
+        if (currentFP == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentFP.get().setId(ufpm.getId());
-        currentFP.get().setClass_id(ufpm.getClass_id());
-        currentFP.get().setSubject_id(ufpm.getSubject_id());
-        currentFP.get().setStudent_id(ufpm.getStudent_id());
-        currentFP.get().setMoney(ufpm.getMoney());
-        currentFP.get().setMoney_sku(ufpm.getMoney_sku());
-        currentFP.get().setType_payment(ufpm.getType_payment());
-        currentFP.get().setType_form(ufpm.getType_form());
-        currentFP.get().setCreator(ufpm.getCreator());
-        currentFP.get().setDate_create(ufpm.getDate_create());
-        currentFP.get().setNote(ufpm.getNote());
-        currentFP.get().setPath_file(ufpm.getPath_file());
-        currentFP.get().setConfirmed(ufpm.getConfirmed());
-        currentFP.get().setCreator_confirm(ufpm.getCreator_confirm());
-        currentFP.get().setDate_confirm(ufpm.getDate_confirm());
+        currentFP.setId(fpdto.getId());
+        currentFP.setClass_id(fpdto.getClass_id());
+        currentFP.setSubject_id(fpdto.getSubject_id());
+        currentFP.setStudent_id(fpdto.getStudent_id());
+        currentFP.setMoney(fpdto.getMoney());
+        currentFP.setMoney_sku(fpdto.getMoney_sku());
+        currentFP.setType_payment(fpdto.getType_payment());
+        currentFP.setType_form(fpdto.getType_form());
+        currentFP.setCreator(fpdto.getCreator());
+        currentFP.setDate_create(fpdto.getDate_create());
+        currentFP.setNote(fpdto.getNote());
+        currentFP.setPath_file(fpdto.getPath_file());
+        currentFP.setConfirmed(fpdto.getConfirmed());
+        currentFP.setCreator_confirm(fpdto.getCreator_confirm());
+        currentFP.setDate_confirm(fpdto.getDate_confirm());
 
-        FPSv.save(currentFP.get());
-        return new ResponseEntity<>(currentFP.get(), HttpStatus.OK);
+        FPSv.save(currentFP);
+        return new ResponseEntity<>(fpdto, HttpStatus.OK);
     }
 
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<FormPayModel> deleteFP(@PathVariable("id") Integer id) {
-		Optional<FormPayModel> dfp = FPSv.ListFormPayById(id);
-		if (!dfp.isPresent()) {
+		FormPayModel fpm = FPSv.ListFormPayById(id);
+		if (fpm == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		FPSv.delete(dfp.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

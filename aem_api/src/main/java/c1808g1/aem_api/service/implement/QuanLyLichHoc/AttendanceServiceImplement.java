@@ -19,8 +19,8 @@ public class AttendanceServiceImplement implements AttendanceService{
 	}
 
 	@Override
-	public Optional<AttendanceModel> ListAttendanceById(Integer id) {
-		return (Optional<AttendanceModel>) ARepo.findById(id);
+	public AttendanceModel ListAttendanceById(Integer id) {
+		return  ARepo.findById(id).get();
 	}
 
 	@Override

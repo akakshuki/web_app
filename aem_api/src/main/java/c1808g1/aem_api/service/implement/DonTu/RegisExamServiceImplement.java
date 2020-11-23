@@ -14,8 +14,8 @@ public class RegisExamServiceImplement implements RegisExamService{
 	private RegisExamRepository RERepo;
 
 	@Override
-	public Optional<RegisExamModel> ListRegisExamById(Integer id) {
-		return (Optional<RegisExamModel>) RERepo.findById(id);
+	public RegisExamModel ListRegisExamById(Integer id) {
+		return RERepo.findById(id).get();
 	}
 
 	@Override

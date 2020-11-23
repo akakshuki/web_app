@@ -25,8 +25,8 @@ public class EmployeeServiceImplement implements EmployeeService{
 	}
 	
 	@Override
-	public Optional<EmployeeModel> ListEmployeeById(String id_emp){
-		return (Optional<EmployeeModel>) EmpRepo.findById(id_emp);
+	public EmployeeModel ListEmployeeById(String id_emp){
+		return  EmpRepo.findById(id_emp).get();
 	}
 	
 	@Override

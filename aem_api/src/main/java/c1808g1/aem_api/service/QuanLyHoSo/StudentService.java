@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
 
 public interface StudentService {
 	List<StudentModel> ListAllStudent();
-	Optional<StudentModel> ListStudentById(String id_student);
+	StudentModel ListStudentById(String id_student);
 	void save(StudentModel student);
 	void delete(StudentModel student);
 }

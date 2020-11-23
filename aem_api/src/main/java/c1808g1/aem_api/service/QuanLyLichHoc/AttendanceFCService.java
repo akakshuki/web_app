@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceFCModel;
 
 public interface AttendanceFCService {
 	List<AttendanceFCModel> ListAllAttendanceFC();
-	Optional<AttendanceFCModel> ListAttendanceFCById(Integer id);
+	AttendanceFCModel ListAttendanceFCById(Integer id);
 	void save(AttendanceFCModel afcm);
 	void delete(AttendanceFCModel afcm);
 	

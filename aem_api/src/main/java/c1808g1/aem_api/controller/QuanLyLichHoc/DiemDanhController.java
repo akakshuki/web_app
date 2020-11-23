@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.QuanLiLichHoc.AttendanceDTO;
+import c1808g1.Models.QuanLiLichHoc.AttendanceFCDTO;
+import c1808g1.Models.QuanLiLichHoc.AttendanceStudentDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceFCModel;
 import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceModel;
 import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceStudentModel;
-import c1808g1.aem_api.services.QuanLyLichHoc.AttendanceFCService;
-import c1808g1.aem_api.services.QuanLyLichHoc.AttendanceService;
-import c1808g1.aem_api.services.QuanLyLichHoc.AttendanceStudentService;
+import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceFCService;
+import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceService;
+import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceStudentService;
 
 @RestController
 @RequestMapping("/api/dontu/diemdanhapi")
@@ -45,178 +49,187 @@ public class DiemDanhController {
 	//Attendance
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AttendanceModel>> ListAllAttendance(){
-		List<AttendanceModel> la = ASv.ListAllAttendance();
-		if (la.isEmpty()) {
+	public ResponseEntity<List<AttendanceDTO>> ListAllAttendance(){
+		List<AttendanceModel> am = ASv.ListAllAttendance();
+		List<AttendanceDTO> adto =  ModelMapperConfig.mapList(am, AttendanceDTO.class);
+		if (adto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(la,HttpStatus.OK);
+		return new ResponseEntity<>(adto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getAttendanceById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceModel> ListAttendanceById(@PathVariable("id") Integer id){
-		Optional<AttendanceModel> oa = ASv.ListAttendanceById(id);
-		if(!oa.isPresent()) {
-			return new ResponseEntity<>(oa.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<AttendanceDTO> ListAttendanceById(@PathVariable("id") Integer id){
+		var data = ASv.ListAttendanceById(id);
+		AttendanceDTO adto = ModelMapperConfig.modelMapper.map(data , AttendanceDTO.class);
+		if(adto == null){
+			return new ResponseEntity<>(adto ,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(oa.get(), HttpStatus.OK);
+		return new ResponseEntity<>(adto ,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceModel> CreateAttendance(@RequestBody AttendanceModel am, UriComponentsBuilder builder){
+	public ResponseEntity<AttendanceDTO> CreateAttendance(@RequestBody AttendanceDTO adto, UriComponentsBuilder builder){
+		AttendanceModel am = ModelMapperConfig.modelMapper.map(adto, AttendanceModel.class);
 		ASv.save(am);
+		adto.setId(am.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(am.getId()).toUri());
-		return new ResponseEntity<>(am,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(adto.getId()).toUri());
+		return new ResponseEntity<>(adto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<AttendanceModel> updateAttendance(@PathVariable("id") Integer id,@RequestBody AttendanceModel uam) {
-        Optional<AttendanceModel> currentAttendance = ASv.ListAttendanceById(id);
+    public ResponseEntity<AttendanceDTO> updateAttendance(@PathVariable("id") Integer id,@RequestBody AttendanceDTO adto) {
+        AttendanceModel currentAttendance = ASv.ListAttendanceById(id);
 
-        if (!currentAttendance.isPresent()) {
+        if (currentAttendance == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentAttendance.get().setId(uam.getId());
-        currentAttendance.get().setSchedule_id(uam.getSchedule_id());
-        currentAttendance.get().setShift_id(uam.getShift_id());
-        currentAttendance.get().setBrand_id(uam.getBrand_id());
-        currentAttendance.get().setDate_attendance(uam.getDate_attendance());
-        currentAttendance.get().setStatus_id(uam.getStatus_id());
-        currentAttendance.get().setDisable(uam.getDisable());
-        currentAttendance.get().setNote(uam.getNote());
+        currentAttendance.setId(adto.getId());
+        currentAttendance.setSchedule_id(adto.getSchedule_id());
+        currentAttendance.setShift_id(adto.getShift_id());
+        currentAttendance.setBrand_id(adto.getBrand_id());
+        currentAttendance.setDate_attendance(adto.getDate_attendance());
+        currentAttendance.setStatus_id(adto.getStatus_id());
+        currentAttendance.setDisable(adto.getDisable());
+        currentAttendance.setNote(adto.getNote());
 
-        ASv.save(currentAttendance.get());
-        return new ResponseEntity<>(currentAttendance.get(), HttpStatus.OK);
+        ASv.save(currentAttendance);
+        return new ResponseEntity<>(adto,HttpStatus.OK);
     }
 
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceModel> deleteAttendance(@PathVariable("id") Integer id) {
-		Optional<AttendanceModel> da = ASv.ListAttendanceById(id);
-		if (!da.isPresent()) {
+		AttendanceModel am = ASv.ListAttendanceById(id);
+		if (am == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		ASv.delete(da.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	//AttendanceFC
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AttendanceFCModel>> ListAllAttendanceFC(){
-		List<AttendanceFCModel> lafc = AFCSv.ListAllAttendanceFC();
-		if (lafc.isEmpty()) {
+	public ResponseEntity<List<AttendanceFCDTO>> ListAllAttendanceFC(){
+		List<AttendanceFCModel> afcm = AFCSv.ListAllAttendanceFC();
+		List<AttendanceFCDTO> afcdto = ModelMapperConfig.mapList(afcm, AttendanceFCDTO.class);
+		if (afcdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lafc,HttpStatus.OK);
+		return new ResponseEntity<>(afcdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getAttendanceFCById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceFCModel> ListAttendanceFCById(@PathVariable("id") Integer id){
-		Optional<AttendanceFCModel> oafc = AFCSv.ListAttendanceFCById(id);
-		if(!oafc.isPresent()) {
-			return new ResponseEntity<>(oafc.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<AttendanceFCDTO> ListAttendanceFCById(@PathVariable("id") Integer id){
+		var data = AFCSv.ListAttendanceFCById(id);
+		AttendanceFCDTO afcdto = ModelMapperConfig.modelMapper.map(data, AttendanceFCDTO.class);
+		if(afcdto == null) {
+			return new ResponseEntity<>(afcdto ,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(oafc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(afcdto, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceFCModel> CreateAttendanceFC(@RequestBody AttendanceFCModel afcm, UriComponentsBuilder builder){
+	public ResponseEntity<AttendanceFCDTO> CreateAttendanceFC(@RequestBody AttendanceFCDTO afcdto, UriComponentsBuilder builder){
+		AttendanceFCModel afcm = ModelMapperConfig.modelMapper.map(afcdto, AttendanceFCModel.class);
 		AFCSv.save(afcm);
+		afcdto.setId(afcm.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(afcm.getId()).toUri());
-		return new ResponseEntity<>(afcm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(afcdto.getId()).toUri());
+		return new ResponseEntity<>(afcdto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<AttendanceFCModel> updateAFC(@PathVariable("id") Integer id,@RequestBody AttendanceFCModel uafcm) {
-        Optional<AttendanceFCModel> currentAFC = AFCSv.ListAttendanceFCById(id);
+    public ResponseEntity<AttendanceFCDTO> updateAFC(@PathVariable("id") Integer id,@RequestBody AttendanceFCDTO afcdto) {
+        AttendanceFCModel currentAFC = AFCSv.ListAttendanceFCById(id);
 
-        if (!currentAFC.isPresent()) {
+        if (currentAFC == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentAFC.get().setId(uafcm.getId());
-        currentAFC.get().setAttendance_id(uafcm.getAttendance_id());
-        currentAFC.get().setFc_id(uafcm.getFc_id());
-        currentAFC.get().setStatus_id(uafcm.getStatus_id());
-        currentAFC.get().setNote(uafcm.getNote());
+        currentAFC.setId(afcdto.getId());
+        currentAFC.setAttendance_id(afcdto.getAttendance_id());
+        currentAFC.setFc_id(afcdto.getFc_id());
+        currentAFC.setStatus_id(afcdto.getStatus_id());
+        currentAFC.setNote(afcdto.getNote());
 
-        AFCSv.save(currentAFC.get());
-        return new ResponseEntity<>(currentAFC.get(), HttpStatus.OK);
+        AFCSv.save(currentAFC);
+        return new ResponseEntity<>(afcdto, HttpStatus.OK);
     }
 
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceFCModel> deleteAFC(@PathVariable("id") Integer id) {
-		Optional<AttendanceFCModel> dafc = AFCSv.ListAttendanceFCById(id);
-		if (!dafc.isPresent()) {
+		AttendanceFCModel afcm = AFCSv.ListAttendanceFCById(id);
+		if (afcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		AFCSv.delete(dafc.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	//AttendanceStudent
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AttendanceStudentModel>> ListAllAttendanceStudent(){
-		List<AttendanceStudentModel> las = ASSv.ListAllAttendanceStudent();
-		if (las.isEmpty()) {
+	public ResponseEntity<List<AttendanceStudentDTO>> ListAllAttendanceStudent(){
+		List<AttendanceStudentModel> asm = ASSv.ListAllAttendanceStudent();
+		List<AttendanceStudentDTO> asdto = ModelMapperConfig.mapList(asm, AttendanceStudentDTO.class);
+		if (asdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(las,HttpStatus.OK);
+		return new ResponseEntity<>(asdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getAttendanceStudentById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceStudentModel> ListAttendanceStudentById(@PathVariable("id") Integer id){
-		Optional<AttendanceStudentModel> oas = ASSv.ListAttendanceStudentById(id);
-		if(!oas.isPresent()) {
-			return new ResponseEntity<>(oas.get(), HttpStatus.NO_CONTENT);
+	public ResponseEntity<AttendanceStudentDTO> ListAttendanceStudentById(@PathVariable("id") Integer id){
+		var data = ASSv.ListAttendanceStudentById(id);
+		AttendanceStudentDTO asdto = ModelMapperConfig.modelMapper.map(data , AttendanceStudentDTO.class);
+		if(asdto == null){
+			return new ResponseEntity<>(asdto ,HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(oas.get(), HttpStatus.OK);
+		return new ResponseEntity<>(asdto,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AttendanceStudentModel> CreateAttendanceStudent(@RequestBody AttendanceStudentModel asm, UriComponentsBuilder builder){
+	public ResponseEntity<AttendanceStudentDTO> CreateAttendanceStudent(@RequestBody AttendanceStudentDTO asdto, UriComponentsBuilder builder){
+		AttendanceStudentModel asm = ModelMapperConfig.modelMapper.map(asdto, AttendanceStudentModel.class);
 		ASSv.save(asm);
+		asdto.setId(asm.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(asm.getId()).toUri());
-		return new ResponseEntity<>(asm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(asdto.getId()).toUri());
+		return new ResponseEntity<>(asdto,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<AttendanceStudentModel> updateAS(@PathVariable("id") Integer id,@RequestBody AttendanceStudentModel uasm) {
-        Optional<AttendanceStudentModel> currentAS = ASSv.ListAttendanceStudentById(id);
+    public ResponseEntity<AttendanceStudentDTO> updateAS(@PathVariable("id") Integer id,@RequestBody AttendanceStudentDTO asdto) {
+        AttendanceStudentModel currentAS = ASSv.ListAttendanceStudentById(id);
 
-        if (!currentAS .isPresent()) {
+        if (currentAS == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentAS.get().setId(uasm.getId());
-        currentAS.get().setAttendance_id(uasm.getAttendance_id());
-        currentAS.get().setStudent_id(uasm.getStudent_id());
-        currentAS.get().setCheck_in(uasm.getCheck_in());
-        currentAS.get().setCheck_out(uasm.getCheck_out());
-        currentAS.get().setMinute_late(uasm.getMinute_late());
-        currentAS.get().setMinute_leave_early(uasm.getMinute_leave_early());
-        currentAS.get().setStatus_id(uasm.getStatus_id());
-        currentAS.get().setNote(uasm.getNote());
+        currentAS.setId(asdto.getId());
+        currentAS.setAttendance_id(asdto.getAttendance_id());
+        currentAS.setStudent_id(asdto.getStudent_id());
+        currentAS.setCheck_in(asdto.getCheck_in());
+        currentAS.setCheck_out(asdto.getCheck_out());
+        currentAS.setMinute_late(asdto.getMinute_late());
+        currentAS.setMinute_leave_early(asdto.getMinute_leave_early());
+        currentAS.setStatus_id(asdto.getStatus_id());
+        currentAS.setNote(asdto.getNote());
 
-        ASSv.save(currentAS.get());
-        return new ResponseEntity<>(currentAS.get(), HttpStatus.OK);
+        ASSv.save(currentAS);
+        return new ResponseEntity<>(asdto, HttpStatus.OK);
     }
 
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceStudentModel> deleteAS(@PathVariable("id") Integer id) {
-		Optional<AttendanceStudentModel> das = ASSv.ListAttendanceStudentById(id);
-		if (!das.isPresent()) {
+		AttendanceStudentModel asm = ASSv.ListAttendanceStudentById(id);
+		if (asm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		ASSv.delete(das.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	

@@ -25,8 +25,8 @@ public class FCServiceImplement implements FCService{
 	}
 	
 	@Override
-	public Optional<FCModel> ListFCById(String id_fc){
-		return (Optional<FCModel>) FCRepo.findById(id_fc);
+	public FCModel ListFCById(String id_fc){
+		return FCRepo.findById(id_fc).get();
 	}
 	
 	@Override
