@@ -92,7 +92,7 @@ public class NgayNghiController {
 		if (holi == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		//holiSv.remove(holi.get());
+		holiSv.remove(holi);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
