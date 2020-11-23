@@ -74,7 +74,7 @@ private EmployeeService EmpSv;
         currentEmployee.setName_emp(edto.getName_emp());
         currentEmployee.setEmail_emp(edto.getEmail_emp());
         currentEmployee.setPhone_emp(edto.getPhone_emp());
-        currentEmployee.setPassword(edto.getPassword());
+        //currentEmployee.setPassword(edto.getPassword());
         currentEmployee.setActive_account(edto.getActive_account());
         currentEmployee.setList_role(edto.getList_role());
         currentEmployee.setStatus(edto.getStatus());

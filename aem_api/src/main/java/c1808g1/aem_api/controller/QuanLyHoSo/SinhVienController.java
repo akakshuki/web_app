@@ -30,18 +30,19 @@ public class SinhVienController {
 	private StudentService StuSv;
 
 	@Autowired
-	public SinhVienController (ScoreStudentService SSSv) {
+	public SinhVienController (ScoreStudentService SSSv,StudentService StuSv) {
 		this.SSSv = SSSv;
-	}
-	
-	@Autowired
-	public SinhVienController (StudentService StuSv) {
 		this.StuSv = StuSv;
 	}
 	
+//	@Autowired
+//	public SinhVienController () {
+//		
+//	}
+	
 	// ScoreStudent
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllScoreStudent" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ScoreStudentDTO>> ListAllScoreStudent(){
 		List<ScoreStudentModel> ssm = SSSv.ListAllScoreStudent();
 		List<ScoreStudentDTO> ssdto = ModelMapperConfig.mapList(ssm, ScoreStudentDTO.class);
@@ -61,7 +62,7 @@ public class SinhVienController {
 		return new ResponseEntity<>(ssdto ,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createScoreStudent" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ScoreStudentDTO> CreateScoreStudent(@RequestBody ScoreStudentDTO ssdto, UriComponentsBuilder builder){
 		ScoreStudentModel ssm = ModelMapperConfig.modelMapper.map(ssdto , ScoreStudentModel.class);
 		SSSv.save(ssm);
@@ -71,7 +72,7 @@ public class SinhVienController {
 		return new ResponseEntity<>(ssdto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateScoreStudent/{id}",method = RequestMethod.PUT)
     public ResponseEntity<ScoreStudentDTO> updateScoreStudent(@PathVariable("id") Integer id,@RequestBody ScoreStudentDTO ssdto) {
         ScoreStudentModel currentScoreStudent = SSSv.ListScoreStudentById(id);
 
@@ -96,7 +97,7 @@ public class SinhVienController {
         return new ResponseEntity<>(ssdto,HttpStatus.OK);
     }
 
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteScoreStudent/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<ScoreStudentModel> deleteScoreStudent(@PathVariable("id") Integer id) {
 		ScoreStudentModel ssm = SSSv.ListScoreStudentById(id);
 		if (ssm == null){
@@ -107,7 +108,7 @@ public class SinhVienController {
 	
 	// Student
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllStudent" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<StudentDTO>> ListAllStudent(){
 		List<StudentModel> sm = StuSv.ListAllStudent();
 		List<StudentDTO> sdto = ModelMapperConfig.mapList(sm, StudentDTO.class);
@@ -127,7 +128,7 @@ public class SinhVienController {
 		return new ResponseEntity<>(sdto ,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createStudent" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StudentDTO> CreateStudent(@RequestBody StudentDTO sdto, UriComponentsBuilder builder){
 		StudentModel sm = ModelMapperConfig.modelMapper.map(sdto, StudentModel.class);
 		StuSv.save(sm);
@@ -137,7 +138,7 @@ public class SinhVienController {
 		return new ResponseEntity<>(sdto,HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/update/{id_student}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateStudent/{id_student}",method = RequestMethod.PUT)
     public ResponseEntity<StudentDTO> updateStudent(@PathVariable("id_student") String id_student,@RequestBody StudentDTO sdto) {
         StudentModel currentStudent = StuSv.ListStudentById(id_student);
 
@@ -160,7 +161,7 @@ public class SinhVienController {
         currentStudent.setContact_phone(sdto.getContact_phone());
         currentStudent.setEmail_student(sdto.getEmail_student());
         currentStudent.setEmail_school(sdto.getEmail_school());
-        currentStudent.setPassword(sdto.getPassword());
+        //currentStudent.setPassword(sdto.getPassword());
         currentStudent.setAddress(sdto.getAddress());
         currentStudent.setContact_address(sdto.getContact_address());
         currentStudent.setApplication_date(sdto.getApplication_date());
@@ -183,7 +184,7 @@ public class SinhVienController {
     }
 
 
-	@RequestMapping(value = "/delete/{id_student}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteStudent/{id_student}",method = RequestMethod.DELETE)
 	public ResponseEntity<StudentModel> deleteStudent(@PathVariable("id_student") String id_student) {
 		StudentModel sm = StuSv.ListStudentById(id_student);
 		if (sm == null ){

@@ -46,7 +46,7 @@ public class DanhMucTinhTrangController {
 	}
 
 	@RequestMapping(value = "/getStatusById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StatusDTO> getstatusById(@PathVariable("id") Integer id) {
+	public ResponseEntity<StatusDTO> getstatusById(@PathVariable("id") int id) {
 		var data = statusSv.findStatusById(id);
 		//mapper từ entity -> DTO
 		StatusDTO status = ModelMapperConfig.modelMapper.map(data, StatusDTO.class);
@@ -57,9 +57,9 @@ public class DanhMucTinhTrangController {
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getStatusByGroupType/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StatusDTO> getstatusByGroupType(@PathVariable("group_type") Integer group_type) {
-		var data = statusSv.findStatusByGroupType(group_type);
+	@RequestMapping(value = "/getStatusByGroupType/{group_type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StatusDTO> getstatusByGroupType(@PathVariable("group_type") int type) {
+		var data = statusSv.findStatusByGroupType(type);
 		//mapper từ entity -> DTO
 		StatusDTO status = ModelMapperConfig.modelMapper.map(data, StatusDTO.class);
 
@@ -81,7 +81,7 @@ public class DanhMucTinhTrangController {
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<StatusDTO> updatestatus(@PathVariable("id") Integer id, @RequestBody StatusDTO status) {
+	public ResponseEntity<StatusDTO> updatestatus(@PathVariable("id") int id, @RequestBody StatusDTO status) {
 		StatusModel currentStatus = statusSv.findStatusById(id);
 		
 		if (currentStatus == null) {

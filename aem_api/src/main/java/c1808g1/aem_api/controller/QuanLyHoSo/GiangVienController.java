@@ -30,17 +30,18 @@ public class GiangVienController {
 	private FCService FCSv;
 
 	@Autowired
-	public GiangVienController (ScoreFCService SFCSv) {
+	public GiangVienController (ScoreFCService SFCSv,FCService FCSv) {
 		this.SFCSv = SFCSv;
-	}
-	
-	@Autowired
-	public GiangVienController (FCService FCSv) {
 		this.FCSv = FCSv;
 	}
 	
+//	@Autowired
+//	public GiangVienController () {
+//		
+//	}
+	
 	// ScoreFC
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllScoreFC" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ScoreFCDTO>> ListAllScoreFC(){
 		List<ScoreFCModel> sfcm = SFCSv.ListAllScoreFC();
 		List<ScoreFCDTO> sfcdto = ModelMapperConfig.mapList(sfcm, ScoreFCDTO.class);
@@ -60,7 +61,7 @@ public class GiangVienController {
 		return new ResponseEntity<>(sfcdto , HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createScoreFC" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ScoreFCDTO> CreateScoreFC(@RequestBody ScoreFCDTO sfcdto, UriComponentsBuilder builder){
 		ScoreFCModel sfcm = ModelMapperConfig.modelMapper.map(sfcdto,ScoreFCModel.class);  
 		SFCSv.save(sfcm);
@@ -70,7 +71,7 @@ public class GiangVienController {
 		return new ResponseEntity<>(sfcdto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateScoreFC/{id}",method = RequestMethod.PUT)
     public ResponseEntity<ScoreFCDTO> updateScoreFC(@PathVariable("id") Integer id,@RequestBody ScoreFCDTO sfcdto) {
         ScoreFCModel currentScoreFC = SFCSv.ListScoreFCById(id);
 
@@ -89,7 +90,7 @@ public class GiangVienController {
         return new ResponseEntity<>(sfcdto, HttpStatus.OK);
     }
 
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteScoreFC/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<ScoreFCModel> deleteScoreFC(@PathVariable("id") Integer id) {
 		ScoreFCModel sfcm = SFCSv.ListScoreFCById(id);
 		if (sfcm == null){
@@ -100,7 +101,7 @@ public class GiangVienController {
 	
 	// FC
 	
-	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAllFC" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<FCDTO>> FindAllFC(){
 		List<FCModel> fcm = FCSv.ListAllFC();
 		List<FCDTO> fcdto = ModelMapperConfig.mapList(fcm, FCDTO.class);
@@ -120,7 +121,7 @@ public class GiangVienController {
 		return new ResponseEntity<>(fcdto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/createFC" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FCDTO> CreateFC(@RequestBody FCDTO fcdto, UriComponentsBuilder builder){
 		FCModel fcm = ModelMapperConfig.modelMapper.map(fcdto, FCModel.class);
 		FCSv.save(fcm);
@@ -130,7 +131,7 @@ public class GiangVienController {
 		return new ResponseEntity<>(fcdto,HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id_fc}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateFC/{id_fc}",method = RequestMethod.PUT)
     public ResponseEntity<FCDTO> updateFC(@PathVariable("id_fc") String id_fc,@RequestBody FCDTO fcdto) {
         FCModel currentFC = FCSv.ListFCById(id_fc);
 
@@ -142,7 +143,7 @@ public class GiangVienController {
         currentFC.setName_fc(fcdto.getName_fc());
         currentFC.setEmail_fc(fcdto.getEmail_fc());
         currentFC.setEmail_school(fcdto.getEmail_school());
-        currentFC.setPassword(fcdto.getPassword());
+        //currentFC.setPassword(fcdto.getPassword());
         currentFC.setPhone_fc(fcdto.getPhone_fc());
         currentFC.setColor_css(fcdto.getColor_css());
         currentFC.setActive_account(fcdto.getActive_account());
@@ -157,7 +158,7 @@ public class GiangVienController {
     }
 
 
-	@RequestMapping(value = "/delete/{id_fc}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteFC/{id_fc}",method = RequestMethod.DELETE)
 	public ResponseEntity<FCModel> deleteFC(@PathVariable("id_fc") String id_fc) {
 		FCModel fcm = FCSv.ListFCById(id_fc);
 		if (fcm == null){

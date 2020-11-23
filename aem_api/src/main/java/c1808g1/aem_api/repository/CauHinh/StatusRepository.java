@@ -11,6 +11,6 @@ import c1808g1.aem_api.models.CauHinh.StatusModel;
 
 @Repository
 public interface StatusRepository extends JpaRepository<StatusModel, Integer>{
-	@Query(value="select * from status u where u.group_type =:group_type", nativeQuery=true)
-	List<StatusModel> findByGroup_Type(@Param("group_type") int group_type);
+	@Query(value="select * from status u where u.group_type =:type", nativeQuery=true)
+	StatusModel findByGroup_Type(@Param("type") int group_type);
 }

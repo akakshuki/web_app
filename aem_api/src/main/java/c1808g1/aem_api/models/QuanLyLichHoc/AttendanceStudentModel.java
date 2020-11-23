@@ -1,7 +1,8 @@
 package c1808g1.aem_api.models.QuanLyLichHoc;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "attendance_fc")
@@ -21,8 +24,10 @@ public class AttendanceStudentModel implements Serializable {
 	
 	public Integer attendance_id;
 	public String student_id;
-	public Date check_in;
-	public Date check_out;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+	public Timestamp check_in;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+	public Timestamp check_out;
 	public Integer minute_late;
 	public Integer minute_leave_early;
 	public Integer status_id;
@@ -54,19 +59,19 @@ public class AttendanceStudentModel implements Serializable {
 	}
 	
 	@Column(name = "check_in" , nullable = true)
-	public Date getCheck_in() {
+	public Timestamp getCheck_in() {
 		return check_in;
 	}
-	public void setCheck_in(Date check_in) {
+	public void setCheck_in(Timestamp check_in) {
 		this.check_in = check_in;
 	}
 	
 	@Column(name = "check_out" , nullable = true)
-	public Date getCheck_out() {
+	public Timestamp getCheck_out() {
 		return check_out;
 	}
-	public void setCheck_out(Date check_out) {
-		this.check_out = check_out;
+	public void setCheck_out(Timestamp Timestamp) {
+		this.check_out = Timestamp;
 	}
 	
 	@Column(name = "minute_late" , nullable = true)
@@ -103,19 +108,19 @@ public class AttendanceStudentModel implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public AttendanceStudentModel(Integer id, Integer attendance_id, String student_id, Date check_in, Date check_out,
-			Integer minute_late, Integer minute_leave_early, Integer status_id, String note) {
-		super();
-		this.id = id;
-		this.attendance_id = attendance_id;
-		this.student_id = student_id;
-		this.check_in = check_in;
-		this.check_out = check_out;
-		this.minute_late = minute_late;
-		this.minute_leave_early = minute_leave_early;
-		this.status_id = status_id;
-		this.note = note;
-	}
+//	public AttendanceStudentModel(Integer id, Integer attendance_id, String student_id, Timestamp check_in, Timestamp check_out,
+//			Integer minute_late, Integer minute_leave_early, Integer status_id, String note) {
+//		super();
+//		this.id = id;
+//		this.attendance_id = attendance_id;
+//		this.student_id = student_id;
+//		this.check_in = check_in;
+//		this.check_out = check_out;
+//		this.minute_late = minute_late;
+//		this.minute_leave_early = minute_leave_early;
+//		this.status_id = status_id;
+//		this.note = note;
+//	}
 	
 	
 }

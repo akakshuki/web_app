@@ -25,8 +25,8 @@ public class StatusServiceImplement implements StatusService{
 	}
 	
 	@Override
-	public List<StatusModel> findStatusByGroupType(int group_type){
-		return (List<StatusModel>) statusRepo.findByGroup_Type(group_type);
+	public StatusModel findStatusByGroupType(int group_type){
+		return (StatusModel) statusRepo.findByGroup_Type(group_type);
 	}
 	
 	@Override
