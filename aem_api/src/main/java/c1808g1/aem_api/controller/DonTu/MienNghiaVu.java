@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import c1808g1.aem_api.models.DonTu.ExemptionMs;
-import c1808g1.aem_api.repository.*;
+
 import c1808g1.aem_api.service.DonTu.ExemptionMsService;
 
 @RestController
@@ -29,7 +29,7 @@ public class MienNghiaVu {
 		this.emsSv = emsSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<ExemptionMs>> findAllExemptionMs() {
 		List<ExemptionMs> ExemptionMss =emsSv.findAllExemptionMs();
 		if (ExemptionMss.isEmpty()) {
@@ -38,7 +38,7 @@ public class MienNghiaVu {
 		return new ResponseEntity<>(ExemptionMss, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExemptionMs> getExemptionMsById(@PathVariable("id") Integer id) {
 		Optional<ExemptionMs> ExemptionMs = emsSv.findById(id);
 

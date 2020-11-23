@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import c1808g1.aem_api.models.CauHinh.TagModel;
+import lombok.Data;
+@Data
 @Entity
 @Table(name="controller")
 public class Controller {
@@ -28,27 +31,21 @@ public class Controller {
 	public void setNamecontroller(String namecontroller) {
 		this.namecontroller = namecontroller;
 	}
-	@Column(name="active",nullable=false)
+	@Column(name="active",nullable=true)
 	public Boolean getActive() {
 		return active;
 	}
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	@Column(name="menuroot",nullable=true)
 	public String getMenuroot() {
 		return menuroot;
-	}
-	@Column(name="menu_root",nullable=false)
+	}	
 	public void setMenuroot(String menuroot) {
 		this.menuroot = menuroot;
 	}
-	public Controller(String idcontroller, String namecontroller, Boolean active, String menuroot) {
-		super();
-		this.idcontroller = idcontroller;
-		this.namecontroller = namecontroller;
-		this.active = active;
-		this.menuroot = menuroot;
-	}
+	
 	public Controller() {
 	}
 

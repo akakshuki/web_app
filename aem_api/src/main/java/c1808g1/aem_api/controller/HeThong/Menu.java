@@ -38,7 +38,7 @@ public class Menu {
 		return new ResponseEntity<>(cl, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getAll/{id_controller}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Controller> getControllerById(@PathVariable("id") String id) {
 		Optional<Controller> cl = clSv.findById(id);
 
@@ -48,15 +48,15 @@ public class Menu {
 		return new ResponseEntity<>(cl.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value ="/create", method = RequestMethod.POST)
 	public ResponseEntity<Controller> createController(@RequestBody Controller cl, UriComponentsBuilder builder) {
 		clSv.save(cl);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/Controllers/{id}").buildAndExpand(cl.getIdcontroller()).toUri());
+		headers.setLocation(builder.path("/create").buildAndExpand(cl.getIdcontroller()).toUri());
 		return new ResponseEntity<>(cl, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id_controller}", method = RequestMethod.PUT)
 	public ResponseEntity<Controller> updateController(@PathVariable("id") String id, @RequestBody Controller cl) {
 		Optional<Controller> currentController = clSv.findById(id);
 
@@ -74,7 +74,7 @@ public class Menu {
 		return new ResponseEntity<>(currentController.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id_controller}", method = RequestMethod.DELETE)
 	public ResponseEntity<Controller> deleteController(@PathVariable("id") String id) {
 		Optional<Controller> cl = clSv.findById(id);
 		if (!cl.isPresent()) {

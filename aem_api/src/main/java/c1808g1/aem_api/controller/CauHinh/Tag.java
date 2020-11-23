@@ -47,7 +47,7 @@ public class Tag {
 		return new ResponseEntity<>(tag.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/tag", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TagModel> createtag(@RequestBody TagModel tag, UriComponentsBuilder builder) {
 		tagSv.save(tag);
 		HttpHeaders headers = new HttpHeaders();
