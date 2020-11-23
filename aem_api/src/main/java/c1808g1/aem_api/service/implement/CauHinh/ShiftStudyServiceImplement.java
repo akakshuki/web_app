@@ -20,13 +20,13 @@ public class ShiftStudyServiceImplement implements ShiftStudyService{
 	}
 	
 	@Override
-	public List<ShiftStudyModel> findAllShift(){
+	public List<ShiftStudyModel> findAllShiftStudy(){
 		return (List<ShiftStudyModel>) shiftRepo.findAll();
 	}
 	
 	@Override
-	public Optional<ShiftStudyModel> findShiftById(Integer id){
-		return shiftRepo.findById(id);
+	public ShiftStudyModel findShiftStudyById(Integer id){
+		return shiftRepo.findById(id).get();
 	}
 	
 	@Override

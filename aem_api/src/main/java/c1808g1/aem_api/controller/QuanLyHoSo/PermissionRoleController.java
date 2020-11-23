@@ -19,7 +19,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.PermissionRoleModel;
 import c1808g1.aem_api.service.QuanLyHoSo.PermissionRoleService;
 
 @RestController
-@RequestMapping("/cauhinh/permission_role_api")
+@RequestMapping("/api/cauhinh/permission_role_api")
 public class PermissionRoleController {
 	private PermissionRoleService PermissionRoleSv;
 
@@ -28,7 +28,7 @@ public class PermissionRoleController {
 		this.PermissionRoleSv = PermissionRoleSv;
 	}
 
-	@RequestMapping(value = "/PermissionRoleController", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<PermissionRoleModel>> findAllPermissionRole() {
 		List<PermissionRoleModel> PermissionRole = PermissionRoleSv.findAllPermissionRole();
 		if (PermissionRole.isEmpty()) {
@@ -37,7 +37,7 @@ public class PermissionRoleController {
 		return new ResponseEntity<>(PermissionRole, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/PermissionRoleController/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getPermissionRoleById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PermissionRoleModel> getPermissionRoleById(@PathVariable("id") Integer id) {
 		Optional<PermissionRoleModel> PermissionRole = PermissionRoleSv.findPermissionRoleById(id);
 
@@ -47,7 +47,7 @@ public class PermissionRoleController {
 		return new ResponseEntity<>(PermissionRole.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/PermissionRoleController", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PermissionRoleModel> createPermissionRole(@RequestBody PermissionRoleModel PermissionRole,
 			UriComponentsBuilder builder) {
 		PermissionRoleSv.save(PermissionRole);
@@ -56,7 +56,7 @@ public class PermissionRoleController {
 		return new ResponseEntity<>(PermissionRole, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/PermissionRoleController/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<PermissionRoleModel> updatePermissionRole(@PathVariable("id") Integer id,
 			@RequestBody PermissionRoleModel PermissionRole) {
 		Optional<PermissionRoleModel> currentPermissionRole = PermissionRoleSv.findPermissionRoleById(id);
@@ -74,7 +74,7 @@ public class PermissionRoleController {
 		return new ResponseEntity<>(currentPermissionRole.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/PermissionRoleController/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<PermissionRoleModel> deletePermissionRole(@PathVariable("id") Integer id) {
 		Optional<PermissionRoleModel> PermissionRole = PermissionRoleSv.findPermissionRoleById(id);
 		if (!PermissionRole.isPresent()) {

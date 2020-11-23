@@ -15,72 +15,84 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.CauHinh.SkuDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.CauHinh.SkuModel;
+import c1808g1.aem_api.models.CauHinh.SkuModel;
+import c1808g1.aem_api.service.CauHinh.SkuService;
 import c1808g1.aem_api.service.CauHinh.SkuService;
 
 @RestController
-@RequestMapping("/cauhinh/skuapi")
+@RequestMapping("/api/cauhinh/skuapi")
 public class SkuController {
 	private SkuService skuSv;
-
-	@Autowired
+    @Autowired
 	public SkuController(SkuService skuSv) {
 		this.skuSv = skuSv;
 	}
+	
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<SkuDTO>> findAllsku() {
+		List<SkuModel> listsku = skuSv.findAllSku();
+		// List<SkuDTO> lssku = listsku.stream().map(sku -> ModelMapperConfig.modelMapper.map(sku, SkuDTO.class))
+		// 		.collect(Collectors.toList());
 
-	@RequestMapping(value = "/sku", method = RequestMethod.GET)
-	public ResponseEntity<List<SkuModel>> findAllSku() {
-		List<SkuModel> sku = skuSv.findAllSku();
-		if (sku.isEmpty()) {
+		//mapper từ list entity -> list DTO
+		List<SkuDTO> lssku = ModelMapperConfig.mapList(listsku, SkuDTO.class);
+		if (lssku.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(lssku, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getSkuById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SkuDTO> getskuById(@PathVariable("id") Integer id) {
+		var data = skuSv.findSkuById(id);
+		//mapper từ entity -> DTO
+		SkuDTO sku = ModelMapperConfig.modelMapper.map(data, SkuDTO.class);
+
+		if (sku == null) {
+			return new ResponseEntity<>(sku, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(sku, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/sku/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SkuModel> getSkuById(@PathVariable("id") Integer id) {
-		Optional<SkuModel> sku = skuSv.findSkuById(id);
-
-		if (!sku.isPresent()) {
-			return new ResponseEntity<>(sku.get(), HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(sku.get(), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/sku", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SkuModel> createSku(@RequestBody SkuModel sku, UriComponentsBuilder builder) {
-		skuSv.save(sku);
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SkuDTO> createsku(@RequestBody SkuDTO sku, UriComponentsBuilder builder) {
+		//mapper từ DTO -> entity
+		SkuModel skuModel = ModelMapperConfig.modelMapper.map(sku, SkuModel.class);
+		skuSv.save(skuModel);
+		sku.setId(skuModel.getId());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/sku/{id}").buildAndExpand(sku.getId()).toUri());
 		return new ResponseEntity<>(sku, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/sku/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<SkuModel> updateSku(@PathVariable("id") Integer id, @RequestBody SkuModel sku) {
-		Optional<SkuModel> currentSku = skuSv.findSkuById(id);
-
-		if (!currentSku.isPresent()) {
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<SkuDTO> updatesku(@PathVariable("id") Integer id, @RequestBody SkuDTO sku) {
+		SkuModel currentSku = skuSv.findSkuById(id);
+		
+		if (currentSku == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentSku.get().setId(sku.getId());
-		currentSku.get().setUnit1(sku.getUnit1());
-		currentSku.get().setUnit2(sku.getUnit2());
-		currentSku.get().setUnit1_value(sku.getUnit1_value());
-		currentSku.get().setUnit2_value(sku.getUnit2_value());
-		currentSku.get().setNote(sku.getNote());
+		currentSku.setId(sku.getId());
+		currentSku.setUnit1(sku.getUnit1());
+		currentSku.setUnit2(sku.getUnit2());
+		currentSku.setUnit1_value(sku.getUnit1_value());
+		currentSku.setUnit2_value(sku.getUnit2_value());
+		currentSku.setNote(sku.getNote());
 
-		skuSv.save(currentSku.get());
-		return new ResponseEntity<>(currentSku.get(), HttpStatus.OK);
+		skuSv.save(currentSku);
+		return new ResponseEntity<>(sku, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/sku/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<SkuModel> deleteSku(@PathVariable("id") Integer id) {
-		Optional<SkuModel> sku = skuSv.findSkuById(id);
-		if (!sku.isPresent()) {
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<SkuModel> deletesku(@PathVariable("id") Integer id) {
+		SkuModel sku = skuSv.findSkuById(id);
+		if (sku == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		skuSv.remove(sku.get());
+		skuSv.remove(sku);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -15,75 +15,86 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.CauHinh.ShiftStudyDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.CauHinh.ShiftStudyModel;
 import c1808g1.aem_api.service.CauHinh.ShiftStudyService;
 
 
 @RestController
-@RequestMapping("/cauhinh/shiftapi")
+@RequestMapping("/api/cauhinh/shiftstudyapi")
 public class PhienDayController {
 	private ShiftStudyService shiftSv;
-
-	@Autowired
+    @Autowired
 	public PhienDayController(ShiftStudyService shiftSv) {
 		this.shiftSv = shiftSv;
 	}
+	
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<ShiftStudyDTO>> findAllshift() {
+		List<ShiftStudyModel> listshift = shiftSv.findAllShiftStudy();
+		// List<ShiftStudyDTO> lsshift = listshift.stream().map(shift -> ModelMapperConfig.modelMapper.map(shift, ShiftStudyDTO.class))
+		// 		.collect(Collectors.toList());
 
-	@RequestMapping(value = "/shift", method = RequestMethod.GET)
-	public ResponseEntity<List<ShiftStudyModel>> findAllshift() {
-		List<ShiftStudyModel> shift = shiftSv.findAllShift();
-		if (shift.isEmpty()) {
+		//mapper từ list entity -> list DTO
+		List<ShiftStudyDTO> lsshift = ModelMapperConfig.mapList(listshift, ShiftStudyDTO.class);
+		if (lsshift.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(lsshift, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getShiftStudyById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShiftStudyDTO> getshiftById(@PathVariable("id") Integer id) {
+		var data = shiftSv.findShiftStudyById(id);
+		//mapper từ entity -> DTO
+		ShiftStudyDTO shift = ModelMapperConfig.modelMapper.map(data, ShiftStudyDTO.class);
+
+		if (shift == null) {
+			return new ResponseEntity<>(shift, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(shift, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/shift/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShiftStudyModel> getshiftById(@PathVariable("id") Integer id) {
-		Optional<ShiftStudyModel> shift = shiftSv.findShiftById(id);
-
-		if (!shift.isPresent()) {
-			return new ResponseEntity<>(shift.get(), HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(shift.get(), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/shift", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShiftStudyModel> createshift(@RequestBody ShiftStudyModel shift, UriComponentsBuilder builder) {
-		shiftSv.save(shift);
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShiftStudyDTO> createshift(@RequestBody ShiftStudyDTO shift, UriComponentsBuilder builder) {
+		//mapper từ DTO -> entity
+		ShiftStudyModel shiftModel = ModelMapperConfig.modelMapper.map(shift, ShiftStudyModel.class);
+		shiftSv.save(shiftModel);
+		shift.setId(shiftModel.getId());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/shift/{id}").buildAndExpand(shift.getId()).toUri());
 		return new ResponseEntity<>(shift, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/shift/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ShiftStudyModel> updateshift(@PathVariable("id") Integer id, @RequestBody ShiftStudyModel shift) {
-		Optional<ShiftStudyModel> currentshift = shiftSv.findShiftById(id);
-
-		if (!currentshift.isPresent()) {
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<ShiftStudyDTO> updateshift(@PathVariable("id") Integer id, @RequestBody ShiftStudyDTO shift) {
+		ShiftStudyModel currentshift = shiftSv.findShiftStudyById(id);
+		
+		if (currentshift == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentshift.get().setId(shift.getId());
-		currentshift.get().setName_shift(shift.getName_shift());
-		currentshift.get().setStart_time(shift.getStart_time());
-		currentshift.get().setEnd_time(shift.getEnd_time());
-		currentshift.get().setAllow_late(shift.getAllow_late());;
-		currentshift.get().setAllow_leave_early(shift.getAllow_leave_early());;
-		currentshift.get().setEven_or_odd(shift.getEven_or_odd());;
-		currentshift.get().setNote(shift.getNote());
+		currentshift.setId(shift.getId());
+		currentshift.setName_shift(shift.getName_shift());
+		currentshift.setStart_time(shift.getStart_time());
+		currentshift.setEnd_time(shift.getEnd_time());
+		currentshift.setAllow_late(shift.getAllow_late());;
+		currentshift.setAllow_leave_early(shift.getAllow_leave_early());;
+		currentshift.setEven_or_odd(shift.getEven_or_odd());;
+		currentshift.setNote(shift.getNote());
 
-		shiftSv.save(currentshift.get());
-		return new ResponseEntity<>(currentshift.get(), HttpStatus.OK);
+
+		shiftSv.save(currentshift);
+		return new ResponseEntity<>(shift, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/shift/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ShiftStudyModel> deleteshift(@PathVariable("id") Integer id) {
-		Optional<ShiftStudyModel> shift = shiftSv.findShiftById(id);
-		if (!shift.isPresent()) {
+		ShiftStudyModel shift = shiftSv.findShiftStudyById(id);
+		if (shift == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		shiftSv.remove(shift.get());
+		shiftSv.remove(shift);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

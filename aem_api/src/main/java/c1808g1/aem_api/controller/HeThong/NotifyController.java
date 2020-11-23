@@ -19,7 +19,7 @@ import c1808g1.aem_api.models.HeThong.NotifyModel;
 import c1808g1.aem_api.service.HeThong.NotifyService;
 
 @RestController
-@RequestMapping("/cauhinh/notifyapi")
+@RequestMapping("/api/cauhinh/notifyapi")
 public class NotifyController {
 	private NotifyService notifySv;
 	
@@ -27,7 +27,7 @@ public class NotifyController {
 	public NotifyController(NotifyService notifySv) {
 		this.notifySv=notifySv;
 	}
-	@RequestMapping(value = "/notify", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<NotifyModel>> findAllnotify() {
 		List<NotifyModel> notify = notifySv.findAllNotify();
 		if (notify.isEmpty()) {
@@ -36,7 +36,7 @@ public class NotifyController {
 		return new ResponseEntity<>(notify, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getNotifyById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<NotifyModel> getnotifyById(@PathVariable("id") Integer id) {
 		Optional<NotifyModel> notify = notifySv.findNotifyById(id);
 
@@ -46,7 +46,7 @@ public class NotifyController {
 		return new ResponseEntity<>(notify.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/notify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<NotifyModel> createnotify(@RequestBody NotifyModel notify, UriComponentsBuilder builder) {
 		notifySv.save(notify);
 		HttpHeaders headers = new HttpHeaders();
@@ -54,7 +54,7 @@ public class NotifyController {
 		return new ResponseEntity<>(notify, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<NotifyModel> updatenotify(@PathVariable("id") Integer id, @RequestBody NotifyModel notify) {
 		Optional<NotifyModel> currentnotify = notifySv.findNotifyById(id);
 
@@ -73,7 +73,7 @@ public class NotifyController {
 		return new ResponseEntity<>(currentnotify.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<NotifyModel> deletenotify(@PathVariable("id") Integer id) {
 		Optional<c1808g1.aem_api.models.HeThong.NotifyModel> notify = notifySv.findNotifyById(id);
 		if (!notify.isPresent()) {

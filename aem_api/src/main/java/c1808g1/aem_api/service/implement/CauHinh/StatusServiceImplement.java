@@ -30,8 +30,8 @@ public class StatusServiceImplement implements StatusService{
 	}
 	
 	@Override
-	public Optional<StatusModel> findStatusById(Integer id){
-		return statusRepo.findById(id);
+	public StatusModel findStatusById(Integer id){
+		return statusRepo.findById(id).get();
 	}
 	
 	@Override
