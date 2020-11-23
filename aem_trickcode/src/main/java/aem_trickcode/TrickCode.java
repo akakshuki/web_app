@@ -254,15 +254,15 @@ public class TrickCode {
 		
 
 		//response form post request link
-		var response = Jsoup.connect("https://aptrack.asia/Academics/CascadingDropdown.asmx/GetSessionsForModule")
-				.header("Content-Type", "application/json")
-				.header("Accept", "application/json")
-				.followRedirects(true)
-				.ignoreHttpErrors(true).ignoreContentType(true)
-				.userAgent("Mozilla/5.0 AppleWebKit/537.36 (KHTML," + " like Gecko) Chrome/45.0.2454.4 Safari/537.36")
-				.method(Method.POST).requestBody("").maxBodySize(1_000_000 * 30) // 30 mb ~
-				.cookies(this.cookies).timeout(0) // infinite timeout
-				.execute();
+		// var response = Jsoup.connect("https://aptrack.asia/Academics/CascadingDropdown.asmx/GetSessionsForModule")
+		// 		.header("Content-Type", "application/json")
+		// 		.header("Accept", "application/json")
+		// 		.followRedirects(true)
+		// 		.ignoreHttpErrors(true).ignoreContentType(true)
+		// 		.userAgent("Mozilla/5.0 AppleWebKit/537.36 (KHTML," + " like Gecko) Chrome/45.0.2454.4 Safari/537.36")
+		// 		.method(Method.POST).requestBody("").maxBodySize(1_000_000 * 30) // 30 mb ~
+		// 		.cookies(this.cookies).timeout(0) // infinite timeout
+		// 		.execute();
 
 
 

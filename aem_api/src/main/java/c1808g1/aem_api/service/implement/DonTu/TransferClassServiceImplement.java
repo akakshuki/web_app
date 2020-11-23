@@ -22,25 +22,25 @@ public class TransferClassServiceImplement implements TransferClassService {
 	}
 	@Override
 	public List<TransferClass> findAllTransferClass() {
-		// TODO Auto-generated method stub
+		 
 		return (List<TransferClass>) tfcrepo.findAll();
 	}
 
 	@Override
 	public Optional<TransferClass> findById(Integer id) {
-		// TODO Auto-generated method stub
+		 
 		return tfcrepo.findById(id);
 	}
 
 	@Override
 	public void save(TransferClass tfc) {
-		// TODO Auto-generated method stub
+		 
 		tfcrepo.save(tfc);
 	}
 
 	@Override
 	public void remove(TransferClass tfc) {
-		// TODO Auto-generated method stub
+		 
 		tfcrepo.delete(tfc);
 	}
 }

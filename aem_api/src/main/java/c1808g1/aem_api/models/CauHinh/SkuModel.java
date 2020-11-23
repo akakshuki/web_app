@@ -18,7 +18,7 @@ public class SkuModel {
     private String note;
     
     public SkuModel() {
-		// TODO Auto-generated constructor stub
+	
 	}
     
     @Id

@@ -7,6 +7,7 @@ import c1808g1.aem_api.models.CauHinh.StatusModel;
 
 public interface StatusService {
 	List<StatusModel> findAllStatus();
+	List<StatusModel> findStatusByGroupType(int group_type);
 	Optional<StatusModel> findStatusById(Integer id);
 	void save(StatusModel stat);
 	void remove(StatusModel stat);

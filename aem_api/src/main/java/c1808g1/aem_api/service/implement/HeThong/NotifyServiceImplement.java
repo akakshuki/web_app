@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import c1808g1.aem_api.controller.HeThong.Notify;
 import c1808g1.aem_api.models.HeThong.NotifyModel;
 import c1808g1.aem_api.repository.HeThong.NotifyRepository;
 import c1808g1.aem_api.service.HeThong.NotifyService;

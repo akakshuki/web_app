@@ -1,5 +1,6 @@
 package c1808g1.aem_api.service.implement.CauHinh;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +27,13 @@ public class HolidayServiceImplement implements HolidayService{
 	}
 	
 	@Override
-	public Optional<HolidayModel> findHolidayById(Integer id){
-		return holiRepo.findById(id);
+	public HolidayModel findHolidayById(Integer id){
+		return holiRepo.findById(id).get();
 	}
+	// @Override
+	// public HolidayModel findHolidayByDateOff(Date id){
+	// 	return holiRepo.findByDate_Off(id);
+	// }
 	
 	@Override
 	public void save(HolidayModel holi){

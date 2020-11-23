@@ -20,25 +20,25 @@ import c1808g1.aem_api.service.HeThong.RoleService;
 		}
 		@Override
 		public List<Role> findAllRole() {
-			// TODO Auto-generated method stub
+			 
 			return (List<Role>) rrepo.findAll();
 		}
 
 		@Override
 		public Optional<Role> findById(Integer id) {
-			// TODO Auto-generated method stub
+			 
 			return rrepo.findById(id);
 		}
 
 		@Override
 		public void save(Role r) {
-			// TODO Auto-generated method stub
+			 
 			rrepo.save(r);
 		}
 
 		@Override
 		public void remove(Role r) {
-			// TODO Auto-generated method stub
+			 
 			rrepo.delete(r);
 		}
 
