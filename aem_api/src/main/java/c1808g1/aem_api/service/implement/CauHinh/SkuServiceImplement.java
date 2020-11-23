@@ -25,8 +25,8 @@ public class SkuServiceImplement implements SkuService{
 	}
 	
 	@Override
-	public Optional<SkuModel> findSkuById(Integer id){
-		return skuRepo.findById(id);
+	public SkuModel findSkuById(Integer id){
+		return skuRepo.findById(id).get();
 	}
 	
 	@Override

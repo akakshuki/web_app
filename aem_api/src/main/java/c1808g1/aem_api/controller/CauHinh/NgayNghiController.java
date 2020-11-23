@@ -26,7 +26,7 @@ import c1808g1.aem_api.models.CauHinh.HolidayModel;
 import c1808g1.aem_api.service.CauHinh.HolidayService;
 
 @RestController
-@RequestMapping("/cauhinh/holidayapi")
+@RequestMapping("/api/cauhinh/holidayapi")
 public class NgayNghiController {
 	private HolidayService holiSv;
     @Autowired
@@ -34,7 +34,7 @@ public class NgayNghiController {
 		this.holiSv = holiSv;
 	}
 	
-	@RequestMapping(value = "/holi", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<HolidayDTO>> findAllholi() {
 		List<HolidayModel> listHoli = holiSv.findAllHoliday();
 		// List<HolidayDTO> lsHoli = listHoli.stream().map(holi -> ModelMapperConfig.modelMapper.map(holi, HolidayDTO.class))
@@ -48,7 +48,7 @@ public class NgayNghiController {
 		return new ResponseEntity<>(lsHoli, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/holi/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getHolidayById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HolidayDTO> getholiById(@PathVariable("id") Integer id) {
 		var data = holiSv.findHolidayById(id);
 		//mapper từ entity -> DTO
@@ -59,7 +59,7 @@ public class NgayNghiController {
 		}
 		return new ResponseEntity<>(holi, HttpStatus.OK);
 	}
-	@RequestMapping(value = "/holi", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HolidayDTO> createholi(@RequestBody HolidayDTO holi, UriComponentsBuilder builder) {
 		//mapper từ DTO -> entity
 		HolidayModel holiModel = ModelMapperConfig.modelMapper.map(holi, HolidayModel.class);
@@ -70,7 +70,7 @@ public class NgayNghiController {
 		return new ResponseEntity<>(holi, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/holi/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<HolidayDTO> updateholi(@PathVariable("id") Integer id, @RequestBody HolidayDTO holi) {
 		HolidayModel holiday = holiSv.findHolidayById(id);
 		
@@ -86,13 +86,13 @@ public class NgayNghiController {
 		return new ResponseEntity<>(holi, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/holi/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<HolidayModel> deleteholi(@PathVariable("id") Integer id) {
 		HolidayModel holi = holiSv.findHolidayById(id);
 		if (holi == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		//holiSv.remove(holi.get());
+		holiSv.remove(holi);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

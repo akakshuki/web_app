@@ -25,8 +25,8 @@ public class TagServiceImplement implements TagService{
 	}
 	
 	@Override
-	public Optional<TagModel> findTagById(String id){
-		return tagRepo.findById(id);
+	public TagModel findTagById(String id){
+		return tagRepo.findById(id).get();
 	}
 	
 	@Override
