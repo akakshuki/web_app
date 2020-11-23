@@ -27,8 +27,8 @@ public class HolidayServiceImplement implements HolidayService{
 	}
 	
 	@Override
-	public Optional<HolidayModel> findHolidayById(Integer id){
-		return holiRepo.findById(id);
+	public HolidayModel findHolidayById(Integer id){
+		return holiRepo.findById(id).get();
 	}
 	// @Override
 	// public HolidayModel findHolidayByDateOff(Date id){
