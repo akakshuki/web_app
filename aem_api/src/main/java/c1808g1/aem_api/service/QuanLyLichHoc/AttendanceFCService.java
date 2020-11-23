@@ -1,4 +1,4 @@
-package c1808g1.aem_api.services.QuanLyLichHoc;
+package c1808g1.aem_api.service.QuanLyLichHoc;
 
 import java.util.List;
 import java.util.Optional;
