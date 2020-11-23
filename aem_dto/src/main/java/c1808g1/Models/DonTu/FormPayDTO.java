@@ -3,7 +3,6 @@ package c1808g1.Models.DonTu;
 import java.sql.Date;
 
 import lombok.Data;
-
 @Data
 public class FormPayDTO {
 	private int id;

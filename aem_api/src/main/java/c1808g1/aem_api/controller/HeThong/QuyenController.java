@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.HeThong.RoleDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.HeThong.Role;
 import c1808g1.aem_api.service.HeThong.RoleService;
 
 
 
 @RestController
-@RequestMapping("/hethong/Roleapi")
+@RequestMapping("/api/hethong/Roleapi")
 public class QuyenController {
 	private RoleService rSv;
 
@@ -30,57 +32,65 @@ public class QuyenController {
 		this.rSv = rSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public ResponseEntity<List<Role>> findAllRole() {
-		List<Role> Roles =rSv.findAllRole();
-		if (Roles.isEmpty()) {
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<RoleDTO>> findAllRole() {
+		List<Role> listr = rSv.findAllRole();
+
+		//mapper từ list entity -> list DTO
+		List<RoleDTO> listrd = ModelMapperConfig.mapList(listr, RoleDTO.class);
+		if (listrd.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(Roles, HttpStatus.OK);
+		return new ResponseEntity<>(listrd, HttpStatus.OK);
 	}
+	
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Role> getRoleById(@PathVariable("id") Integer id) {
-		Optional<Role> Role = rSv.findById(id);
+	@RequestMapping(value = "/getRoleById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RoleDTO> getRoleById(@PathVariable("id") Integer id) {
+		var data = rSv.findRoleById(id);
+		//mapper từ entity -> DTO
+		RoleDTO rd = ModelMapperConfig.modelMapper.map(data, RoleDTO.class);
 
-		if (!Role.isPresent()) {
-			return new ResponseEntity<>(Role.get(), HttpStatus.NO_CONTENT);
+		if (rd == null) {
+			return new ResponseEntity<>(rd, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(Role.get(), HttpStatus.OK);
+		return new ResponseEntity<>(rd, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Role> createRole(@RequestBody Role Role, UriComponentsBuilder builder) {
-		rSv.save(Role);
+	public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO rd, UriComponentsBuilder builder) {
+		Role r = ModelMapperConfig.modelMapper.map(rd, Role.class);
+		rSv.save(r);
+		rd.setId(r.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/Roles/{id}").buildAndExpand(Role.getId()).toUri());
-		return new ResponseEntity<>(Role, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/rd/{id}").buildAndExpand(rd.getId()).toUri());
+		return new ResponseEntity<>(rd, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Role> updateRole(@PathVariable("id") Integer id, @RequestBody Role Role) {
-		Optional<Role> currentRole = rSv.findById(id);
-
-		if (!currentRole.isPresent()) {
+	public ResponseEntity<RoleDTO> updateRole(@PathVariable("id") Integer id, @RequestBody RoleDTO rd) {
+		Role r = rSv.findRoleById(id);
+		
+		if (r == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		
-		currentRole.get().setId(Role.getId());
-		currentRole.get().setNamerole(Role.getNamerole());
-		currentRole.get().setAllowedit(Role.isAllowedit());
-		currentRole.get().setAllowdelete(Role.isAllowdelete());
 
-		rSv.save(currentRole.get());
-		return new ResponseEntity<>(currentRole.get(), HttpStatus.OK);
+		r.setId(rd.getId());
+		r.setNamerole(rd.getNamerole());
+		r.setAllowedit(rd.isAllowedit());
+		r.setAllowdelete(rd.isAllowdelete());
+
+		rSv.save(r);
+		return new ResponseEntity<>(rd, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Role> deleteRole(@PathVariable("id") Integer id) {
-		Optional<Role> Role = rSv.findById(id);
-		if (!Role.isPresent()) {
+		Role tfc = rSv.findRoleById(id);
+		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		rSv.remove(Role.get());
+		//holiSv.remove(holi.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+}
 }

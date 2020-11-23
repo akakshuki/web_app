@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.DonTu.ExemptionMsDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.DonTu.ExemptionMs;
+
 import c1808g1.aem_api.service.DonTu.ExemptionMsService;
 
+
 @RestController
-@RequestMapping("/dontu/exemptionmsapi")
+@RequestMapping("/api/dontu/exemptionmsapi")
 public class MienNghiaVuController {
 	private ExemptionMsService emsSv;
 
@@ -28,66 +32,74 @@ public class MienNghiaVuController {
 		this.emsSv = emsSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public ResponseEntity<List<ExemptionMs>> findAllExemptionMs() {
-		List<ExemptionMs> ExemptionMss =emsSv.findAllExemptionMs();
-		if (ExemptionMss.isEmpty()) {
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<ExemptionMsDTO>> findAllExemptionMs() {
+		List<ExemptionMs> listems = emsSv.findAllExemptionMs();
+
+		//mapper từ list entity -> list DTO
+		List<ExemptionMsDTO> listemsd = ModelMapperConfig.mapList(listems, ExemptionMsDTO.class);
+		if (listemsd.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(ExemptionMss, HttpStatus.OK);
+		return new ResponseEntity<>(listemsd, HttpStatus.OK);
 	}
+	
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExemptionMs> getExemptionMsById(@PathVariable("id") Integer id) {
-		Optional<ExemptionMs> ExemptionMs = emsSv.findById(id);
+	@RequestMapping(value = "/getExemptionMsById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ExemptionMsDTO> getExemptionMsById(@PathVariable("id") Integer id) {
+		var data = emsSv.findExemptionMsById(id);
+		//mapper từ entity -> DTO
+		ExemptionMsDTO emsd = ModelMapperConfig.modelMapper.map(data, ExemptionMsDTO.class);
 
-		if (!ExemptionMs.isPresent()) {
-			return new ResponseEntity<>(ExemptionMs.get(), HttpStatus.NO_CONTENT);
+		if (emsd == null) {
+			return new ResponseEntity<>(emsd, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(ExemptionMs.get(), HttpStatus.OK);
+		return new ResponseEntity<>(emsd, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<ExemptionMs> createExemptionMs(@RequestBody ExemptionMs ExemptionMs, UriComponentsBuilder builder) {
-		emsSv.save(ExemptionMs);
+	public ResponseEntity<ExemptionMsDTO> createExemptionMs(@RequestBody ExemptionMsDTO emsd, UriComponentsBuilder builder) {
+		ExemptionMs ems = ModelMapperConfig.modelMapper.map(emsd, ExemptionMs.class);
+		emsSv.save(ems);
+		emsd.setId(ems.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/ExemptionMss/{id}").buildAndExpand(ExemptionMs.getId()).toUri());
-		return new ResponseEntity<>(ExemptionMs, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/emsd/{id}").buildAndExpand(emsd.getId()).toUri());
+		return new ResponseEntity<>(emsd, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ExemptionMs> updateExemptionMs(@PathVariable("id") Integer id, @RequestBody ExemptionMs ExemptionMs) {
-		Optional<ExemptionMs> currentExemptionMs = emsSv.findById(id);
-
-		if (!currentExemptionMs.isPresent()) {
+	public ResponseEntity<ExemptionMsDTO> updateExemptionMs(@PathVariable("id") Integer id, @RequestBody ExemptionMsDTO emsd) {
+		ExemptionMs ems = emsSv.findExemptionMsById(id);
+		
+		if (ems == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentExemptionMs.get().setStudentid(ExemptionMs.getStudentid());
-		currentExemptionMs.get().setExpirationdate(ExemptionMs.getExpirationdate());
-		currentExemptionMs.get().setMonthstart(ExemptionMs.getMonthstart());
-		currentExemptionMs.get().setYearstart(ExemptionMs.getYearstart());
-		currentExemptionMs.get().setMonthend(ExemptionMs.getMonthend());
-		currentExemptionMs.get().setYearend(ExemptionMs.getYearend());
-		currentExemptionMs.get().setPathfile(ExemptionMs.getPathfile());
-		currentExemptionMs.get().setCreator(ExemptionMs.getCreator());
-		currentExemptionMs.get().setDatecreate(ExemptionMs.getDatecreate());
-		currentExemptionMs.get().setConfirmed(ExemptionMs.getConfirmed());
-		currentExemptionMs.get().setDateconfirm(ExemptionMs.getDateconfirm());
-		currentExemptionMs.get().setCreatorconfirm(ExemptionMs.getCreatorconfirm());
-
-		emsSv.save(currentExemptionMs.get());
-		return new ResponseEntity<>(currentExemptionMs.get(), HttpStatus.OK);
+		ems.setId(emsd.getId());
+		ems.setStudentid(emsd.getStudentid());
+		ems.setExpirationdate(emsd.getExpirationdate());
+		ems.setMonthstart(emsd.getMonthstart());
+		ems.setYearstart(emsd.getYearstart());
+		ems.setMonthend(emsd.getMonthend());
+		ems.setYearend(emsd.getYearend());
+		ems.setNote(emsd.getNote());
+		ems.setCreator(emsd.getCreator());
+		ems.setDatecreate(emsd.getDatecreate());
+		ems.setConfirmed(emsd.getConfirmed());
+		ems.setCreatorconfirm(emsd.getCreatorconfirm());
+		ems.setDateconfirm(emsd.getDateconfirm());
+		emsSv.save(ems);
+		return new ResponseEntity<>(emsd, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ExemptionMs> deleteExemptionMs(@PathVariable("id") Integer id) {
-		Optional<ExemptionMs> ExemptionMs = emsSv.findById(id);
-		if (!ExemptionMs.isPresent()) {
+		ExemptionMs tfc = emsSv.findExemptionMsById(id);
+		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		emsSv.remove(ExemptionMs.get());
+		//holiSv.remove(holi.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+}
 
 }

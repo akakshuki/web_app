@@ -30,4 +30,3 @@ public class RegisExamDTO {
 	private String note_status;
 	private int form_pay_id_refer;
 }
-

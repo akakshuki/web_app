@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.HeThong.ControllerDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
+
 import c1808g1.aem_api.models.HeThong.Controller;
 import c1808g1.aem_api.service.HeThong.ControllerService;
 
 
 @RestController
-@RequestMapping("/hethong/Controllerapi")
+@RequestMapping("/api/hethong/Controllerapi")
 public class MenuController {
 	private ControllerService clSv;
 
@@ -29,58 +32,65 @@ public class MenuController {
 		this.clSv = clSv;
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public ResponseEntity<List<Controller>> findAllController() {
-		List<Controller> cl =clSv.findAllController();
-		if (cl.isEmpty()) {
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<ControllerDTO>> findAllController() {
+		List<Controller> listcl = clSv.findAllController();
+
+		//mapper từ list entity -> list DTO
+		List<ControllerDTO> listcld = ModelMapperConfig.mapList(listcl, ControllerDTO.class);
+		if (listcld.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(cl, HttpStatus.OK);
+		return new ResponseEntity<>(listcld, HttpStatus.OK);
 	}
+	
 
-	@RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Controller> getControllerById(@PathVariable("id") String id) {
-		Optional<Controller> cl = clSv.findById(id);
+	@RequestMapping(value = "/getControllerById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ControllerDTO> getControllerById(@PathVariable("id") String id) {
+		var data = clSv.findControllerById(id);
+		//mapper từ entity -> DTO
+		ControllerDTO tfc = ModelMapperConfig.modelMapper.map(data, ControllerDTO.class);
 
-		if (!cl.isPresent()) {
-			return new ResponseEntity<>(cl.get(), HttpStatus.NO_CONTENT);
+		if (tfc == null) {
+			return new ResponseEntity<>(tfc, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(cl.get(), HttpStatus.OK);
+		return new ResponseEntity<>(tfc, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Controller> createController(@RequestBody Controller cl, UriComponentsBuilder builder) {
+	public ResponseEntity<ControllerDTO> createController(@RequestBody ControllerDTO cld, UriComponentsBuilder builder) {
+		Controller cl = ModelMapperConfig.modelMapper.map(cld, Controller.class);
 		clSv.save(cl);
+		cld.setIdcontroller(cl.getIdcontroller());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/Controllers/{id}").buildAndExpand(cl.getIdcontroller()).toUri());
-		return new ResponseEntity<>(cl, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/cl/{id}").buildAndExpand(cld.getIdcontroller()).toUri());
+		return new ResponseEntity<>(cld, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Controller> updateController(@PathVariable("id") String id, @RequestBody Controller cl) {
-		Optional<Controller> currentController = clSv.findById(id);
-
-		if (!currentController.isPresent()) {
+	public ResponseEntity<ControllerDTO> updateController(@PathVariable("id") String id, @RequestBody ControllerDTO cld) {
+		Controller cl = clSv.findControllerById(id);
+		
+		if (cl == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		
-		currentController.get().setIdcontroller(cl.getIdcontroller());
-		currentController.get().setNamecontroller(cl.getNamecontroller());
-		currentController.get().setActive(cl.getActive());
-		currentController.get().setMenuroot(cl.getMenuroot());
 
+		cl.setIdcontroller(cld.getIdcontroller());
+		cl.setNamecontroller(cld.getNamecontroller());
+		cl.setActive(cld.getActive());
+		cl.setMenuroot(cld.getMenuroot());
 
-		clSv.save(currentController.get());
-		return new ResponseEntity<>(currentController.get(), HttpStatus.OK);
+		clSv.save(cl);
+		return new ResponseEntity<>(cld, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Controller> deleteController(@PathVariable("id") String id) {
-		Optional<Controller> cl = clSv.findById(id);
-		if (!cl.isPresent()) {
+		Controller tfc = clSv.findControllerById(id);
+		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		clSv.remove(cl.get());
+		//holiSv.remove(holi.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
