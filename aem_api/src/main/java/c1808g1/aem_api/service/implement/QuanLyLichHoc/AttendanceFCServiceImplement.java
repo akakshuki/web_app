@@ -1,4 +1,4 @@
-package c1808g1.aem_api.services.servicesimplements.QuanLyLichHoc;
+package c1808g1.aem_api.service.implement.QuanLyLichHoc;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyLichHoc.AttendanceFCModel;
 import c1808g1.aem_api.repository.QuanLyLichHoc.AttendanceFCRepository;
-import c1808g1.aem_api.services.QuanLyLichHoc.AttendanceFCService;
+import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceFCService;
 
 @Service
 public class AttendanceFCServiceImplement implements AttendanceFCService{

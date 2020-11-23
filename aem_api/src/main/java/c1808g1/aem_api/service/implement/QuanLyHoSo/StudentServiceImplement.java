@@ -1,4 +1,4 @@
-package c1808g1.aem_api.services.servicesimplements.QuanLyHoSo;
+package c1808g1.aem_api.service.implement.QuanLyHoSo;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
 import c1808g1.aem_api.repository.QuanLyHoSo.StudentRepository;
-import c1808g1.aem_api.services.QuanLyHoSo.StudentService;
+import c1808g1.aem_api.service.QuanLyHoSo.StudentService;
 
 @Service
 public class StudentServiceImplement implements StudentService{
