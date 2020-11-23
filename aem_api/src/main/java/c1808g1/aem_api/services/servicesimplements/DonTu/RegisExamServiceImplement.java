@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.DonTu.RegisExamModel;
-import c1808g1.aem_api.repositories.DonTu.RegisExamRepository;
+import c1808g1.aem_api.repository.DonTu.RegisExamRepository;
 import c1808g1.aem_api.services.DonTu.RegisExamService;
 
 @Service
