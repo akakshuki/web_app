@@ -27,7 +27,7 @@ public class Lop {
 		this.classSv = classSv;
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Class>> findAllClass(){
 		List<Class> classV = classSv.findAllClass();
 		if (classV.isEmpty()) {
@@ -36,7 +36,7 @@ public class Lop {
 		return new ResponseEntity<>(classV, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get/{id_class}", method = RequestMethod.GET, produces = "appliection/json")
+	@RequestMapping(value = "/getClassById/{id_class}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Class> getClassById(@PathVariable("id_class") String id_class){
 		Optional<Class> classV = classSv.findById(id_class);
 		

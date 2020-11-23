@@ -28,7 +28,6 @@ public class Subject {
 
 	@Id
 	@Column(name = "id_subject", nullable = false)
-
 	public String getId_subject() {
 		return id_subject;
 	}

@@ -27,7 +27,7 @@ public class HocKy {
 		this.smtSv = smtSv;
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Semester>> findAllSemester(){
 		List<Semester> smt = smtSv.findAllSemester();
 		if (smt.isEmpty()) {
@@ -36,7 +36,7 @@ public class HocKy {
 		return new ResponseEntity<>(smt, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "appliection/json")
+	@RequestMapping(value = "/getSemesterById/{id}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Semester> getSemesterById(@PathVariable("id") Integer id){
 		Optional<Semester> smt = smtSv.findById(id);
 		
