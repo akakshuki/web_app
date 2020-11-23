@@ -19,7 +19,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.StatusStudentModel;
 import c1808g1.aem_api.service.QuanLyHoSo.StatusStudentService;
 
 @RestController
-@RequestMapping("/cauhinh/status_student_api")
+@RequestMapping("/api/cauhinh/status_student_api")
 public class StatusStudentController {
 	private StatusStudentService StatusStudentSv;
 
@@ -28,7 +28,7 @@ public class StatusStudentController {
 		this.StatusStudentSv = StatusStudentSv;
 	}
 
-	@RequestMapping(value = "/StatusStudentController", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<StatusStudentModel>> findAllStatusStudent() {
 		List<StatusStudentModel> StatusStudent = StatusStudentSv.findAllStatusStudent();
 		if (StatusStudent.isEmpty()) {
@@ -37,7 +37,7 @@ public class StatusStudentController {
 		return new ResponseEntity<>(StatusStudent, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/StatusStudentController/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getStatusStudentById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StatusStudentModel> getStatusStudentById(@PathVariable("id") Integer id) {
 		Optional<StatusStudentModel> StatusStudent = StatusStudentSv.findStatusStudentById(id);
 
@@ -47,7 +47,7 @@ public class StatusStudentController {
 		return new ResponseEntity<>(StatusStudent.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/StatusStudentController", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StatusStudentModel> createStatusStudent(@RequestBody StatusStudentModel StatusStudent,
 			UriComponentsBuilder builder) {
 		StatusStudentSv.save(StatusStudent);
@@ -56,7 +56,7 @@ public class StatusStudentController {
 		return new ResponseEntity<>(StatusStudent, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/StatusStudentController/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<StatusStudentModel> updateStatusStudent(@PathVariable("id") Integer id,
 			@RequestBody StatusStudentModel StatusStudent) {
 		Optional<StatusStudentModel> currentStatusStudent = StatusStudentSv.findStatusStudentById(id);
@@ -78,7 +78,7 @@ public class StatusStudentController {
 		return new ResponseEntity<>(currentStatusStudent.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/StatusStudentController/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<StatusStudentModel> deleteStatusStudent(@PathVariable("id") Integer id) {
 		Optional<StatusStudentModel> StatusStudent = StatusStudentSv.findStatusStudentById(id);
 		if (!StatusStudent.isPresent()) {

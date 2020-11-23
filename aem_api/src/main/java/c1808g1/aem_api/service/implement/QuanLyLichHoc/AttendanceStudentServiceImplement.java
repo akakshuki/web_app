@@ -19,8 +19,8 @@ public class AttendanceStudentServiceImplement implements AttendanceStudentServi
 	}
 
 	@Override
-	public Optional<AttendanceStudentModel> ListAttendanceStudentById(Integer id) {
-		return (Optional<AttendanceStudentModel>) ASRepo.findById(id);
+	public AttendanceStudentModel ListAttendanceStudentById(Integer id) {
+		return ASRepo.findById(id).get();
 	}
 
 	@Override

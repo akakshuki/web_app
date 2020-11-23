@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.QuanLyChuongTrinhHoc.ClassDTO;
+import c1808g1.Models.QuanLyChuongTrinhHoc.SubjectDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
+import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Class;
 import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Subject;
 import c1808g1.aem_api.service.QuanLyChuongTrinhHoc.SubjectServices;
 
@@ -28,68 +32,72 @@ public class MonHocController {
 	}
 	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<Subject>> findAllSubject(){
-		List<Subject> sub = subSv.findAllSubject();
-		if (sub.isEmpty()) {
+	public ResponseEntity<List<SubjectDTO>> findAllSubject(){
+		List<Subject> listsub = subSv.findAllSubject();
+		List<SubjectDTO> lssub = ModelMapperConfig.mapList(listsub, SubjectDTO.class);
+		if (lssub.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(lssub, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSubjectById/{id_subject}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<SubjectDTO> getSubjectById(@PathVariable("id_subject") String id_subject){
+		var data = subSv.findById(id_subject);
+		SubjectDTO sub = ModelMapperConfig.modelMapper.map(data, SubjectDTO.class);
+		
+		if(sub == null) {
+			return new ResponseEntity<>(sub, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(sub, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getSubjectById/{id_subject}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Subject> getSubjectById(@PathVariable("id_subject") String id_subject){
-		Optional<Subject> sub = subSv.findById(id_subject);
-		
-		if(!sub.isPresent()) {
-			return new ResponseEntity<>(sub.get(), HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(sub.get() ,HttpStatus.OK);
-	}
-	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<Subject> createSubject(@RequestBody Subject sub, UriComponentsBuilder builder){
-		subSv.save(sub);
+	public ResponseEntity<SubjectDTO> createSubject(@RequestBody SubjectDTO sub, UriComponentsBuilder builder){
+		Subject SubjectModel = ModelMapperConfig.modelMapper.map(sub, Subject.class);
+		subSv.save(SubjectModel);
+		sub.setId_subject(SubjectModel.getId_subject());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/subject/{id_subject}").buildAndExpand(sub.getId_subject()).toUri());
 		return new ResponseEntity<>(sub, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/update/{id_subject}",method = RequestMethod.PUT)
-    public ResponseEntity<Subject> updateSubject(
+    public ResponseEntity<SubjectDTO> updateSubject(
             @PathVariable("id_subject") String id_subject,
-            @RequestBody Subject sub) {
-        Optional<Subject> currentSubject = subSv.findById(id_subject);
+            @RequestBody SubjectDTO sub) {
+        Subject currentSubject = subSv.findById(id_subject);
 
-        if (!currentSubject.isPresent()) {
+        if (currentSubject == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentSubject.get().setId_subject(sub.getId_subject());
-        currentSubject.get().setName_subject(sub.getName_subject());
-        currentSubject.get().setSort_name(sub.getSort_name());
-        currentSubject.get().setHour_study(sub.getHour_study());
-        currentSubject.get().setSeme_id(sub.getSeme_id());
-        currentSubject.get().setNumber_session(sub.getNumber_session());
-        currentSubject.get().setMoney_subject(sub.getMoney_subject());
-        currentSubject.get().setSku_id(sub.getSku_id());
-        currentSubject.get().setType_subjcet_id(sub.getType_subjcet_id());
-        currentSubject.get().setNote(sub.getNote());
-        currentSubject.get().setFactor(sub.getFactor());
-        currentSubject.get().setPoint(sub.getPoint());
+        currentSubject.setId_subject(sub.getId_subject());
+        currentSubject.setName_subject(sub.getName_subject());
+        currentSubject.setSort_name(sub.getSort_name());
+        currentSubject.setHour_study(sub.getHour_study());
+        currentSubject.setSeme_id(sub.getSeme_id());
+        currentSubject.setNumber_session(sub.getNumber_session());
+        currentSubject.setMoney_subject(sub.getMoney_subject());
+        currentSubject.setSku_id(sub.getSku_id());
+        currentSubject.setType_subjcet_id(sub.getType_subject_id());
+        currentSubject.setNote(sub.getNote());
+        currentSubject.setFactor(sub.getFactor());
+        currentSubject.setPoint(sub.getPoint());
 
-        subSv.save(currentSubject.get());
-        return new ResponseEntity<>(currentSubject.get(), HttpStatus.OK);
+        subSv.save(currentSubject);
+        return new ResponseEntity<>(sub, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id_subject}",
             method = RequestMethod.DELETE)
     public ResponseEntity<Subject> deleteSubject(
             @PathVariable("id_subject") String id_subject) {
-        Optional<Subject> sub = subSv.findById(id_subject);
-        if (!sub.isPresent()) {
+        Subject sub = subSv.findById(id_subject);
+        if (sub == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        subSv.remove(sub.get());
+        subSv.remove(sub);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

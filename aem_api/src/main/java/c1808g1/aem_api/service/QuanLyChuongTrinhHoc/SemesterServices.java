@@ -6,7 +6,7 @@ import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Semester;
 
 public interface SemesterServices {
 	List<Semester> findAllSemester();
-	Optional<Semester> findById(Integer id);
+	Semester findById(Integer id);
 	void save(Semester semester);
 	void remove(Semester semester);
 }

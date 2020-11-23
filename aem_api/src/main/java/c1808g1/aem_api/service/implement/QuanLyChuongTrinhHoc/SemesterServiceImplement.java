@@ -25,8 +25,8 @@ public class SemesterServiceImplement implements SemesterServices {
 	}
 	
 	@Override
-	public Optional<Semester> findById(Integer id){
-		return smtRepo.findById(id);
+	public Semester findById(Integer id){
+		return smtRepo.findById(id).get();
 	}
 	
 	@Override

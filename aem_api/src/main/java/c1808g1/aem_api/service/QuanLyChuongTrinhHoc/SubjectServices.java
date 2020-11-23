@@ -6,7 +6,7 @@ import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Subject;
 
 public interface SubjectServices {
 	List<Subject> findAllSubject();
-	Optional<Subject> findById(String id);
+	Subject findById(String id);
 	void save(Subject subject);
 	void remove(Subject subject);
 }

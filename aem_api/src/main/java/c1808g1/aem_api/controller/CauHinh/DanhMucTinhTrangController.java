@@ -15,70 +15,96 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.CauHinh.StatusDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.CauHinh.StatusModel;
+import c1808g1.aem_api.models.CauHinh.StatusModel;
+import c1808g1.aem_api.service.CauHinh.StatusService;
 import c1808g1.aem_api.service.CauHinh.StatusService;
 
 @RestController
-@RequestMapping("/cauhinh/statusapi")
+@RequestMapping("/api/cauhinh/statusapi")
 public class DanhMucTinhTrangController {
 	private StatusService statusSv;
-
-	@Autowired
+    @Autowired
 	public DanhMucTinhTrangController(StatusService statusSv) {
 		this.statusSv = statusSv;
 	}
+	
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<StatusDTO>> findAllstatus() {
+		List<StatusModel> liststatus = statusSv.findAllStatus();
+		// List<StatusDTO> lsstatus = liststatus.stream().map(status -> ModelMapperConfig.modelMapper.map(status, StatusDTO.class))
+		// 		.collect(Collectors.toList());
 
-	@RequestMapping(value = "/status", method = RequestMethod.GET)
-	public ResponseEntity<List<StatusModel>> findAllStatus() {
-		List<StatusModel> statusModel = statusSv.findAllStatus();
-		if (statusModel.isEmpty()) {
+		//mapper từ list entity -> list DTO
+		List<StatusDTO> lsstatus = ModelMapperConfig.mapList(liststatus, StatusDTO.class);
+		if (lsstatus.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(statusModel, HttpStatus.OK);
+		return new ResponseEntity<>(lsstatus, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/status/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StatusModel> getStatusById(@PathVariable("id") Integer id) {
-		Optional<StatusModel> statusModel = statusSv.findStatusById(id);
+	@RequestMapping(value = "/getStatusById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StatusDTO> getstatusById(@PathVariable("id") Integer id) {
+		var data = statusSv.findStatusById(id);
+		//mapper từ entity -> DTO
+		StatusDTO status = ModelMapperConfig.modelMapper.map(data, StatusDTO.class);
 
-		if (!statusModel.isPresent()) {
-			return new ResponseEntity<>(statusModel.get(), HttpStatus.NO_CONTENT);
+		if (status == null) {
+			return new ResponseEntity<>(status, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(statusModel.get(), HttpStatus.OK);
+		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getStatusByGroupType/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StatusDTO> getstatusByGroupType(@PathVariable("group_type") Integer group_type) {
+		var data = statusSv.findStatusByGroupType(group_type);
+		//mapper từ entity -> DTO
+		StatusDTO status = ModelMapperConfig.modelMapper.map(data, StatusDTO.class);
 
-	@RequestMapping(value = "/status", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StatusModel> createStatus(@RequestBody StatusModel statusModel, UriComponentsBuilder builder) {
+		if (status == null) {
+			return new ResponseEntity<>(status, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StatusDTO> createstatus(@RequestBody StatusDTO status, UriComponentsBuilder builder) {
+		//mapper từ DTO -> entity
+		StatusModel statusModel = ModelMapperConfig.modelMapper.map(status, StatusModel.class);
 		statusSv.save(statusModel);
+		status.setId(statusModel.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/status/{id}").buildAndExpand(statusModel.getId()).toUri());
-		return new ResponseEntity<>(statusModel, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/status/{id}").buildAndExpand(status.getId()).toUri());
+		return new ResponseEntity<>(status, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/status/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<StatusModel> updateStatus(@PathVariable("id") Integer id, @RequestBody StatusModel statusModel) {
-		Optional<StatusModel> currentstatus = statusSv.findStatusById(id);
-
-		if (!currentstatus.isPresent()) {
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<StatusDTO> updatestatus(@PathVariable("id") Integer id, @RequestBody StatusDTO status) {
+		StatusModel currentStatus = statusSv.findStatusById(id);
+		
+		if (currentStatus == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentstatus.get().setId(statusModel.getId());
-		currentstatus.get().setName_status(statusModel.getName_status());
-		currentstatus.get().setGroup_type(statusModel.getGroup_type());
-		currentstatus.get().setActive(statusModel.getActive());
+		currentStatus.setId(status.getId());
+		currentStatus.setName_status(status.getName_status());
+		currentStatus.setGroup_type(status.getGroup_type());
+		currentStatus.setActive(status.getActive());
 
-		statusSv.save(currentstatus.get());
-		return new ResponseEntity<>(currentstatus.get(), HttpStatus.OK);
+
+		statusSv.save(currentStatus);
+		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/status/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<StatusModel> deleteStatus(@PathVariable("id") Integer id) {
-		Optional<StatusModel> statusModel = statusSv.findStatusById(id);
-		if (!statusModel.isPresent()) {
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<StatusModel> deletestatus(@PathVariable("id") Integer id) {
+		StatusModel status = statusSv.findStatusById(id);
+		if (status == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		statusSv.remove(statusModel.get());
+		statusSv.remove(status);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

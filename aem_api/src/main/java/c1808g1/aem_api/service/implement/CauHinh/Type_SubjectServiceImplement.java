@@ -25,8 +25,8 @@ public class Type_SubjectServiceImplement implements Type_SubjectServices {
 	}
 	
 	@Override
-	public Optional<Type_Subject> findById(Integer id){
-		return tysubRepo.findById(id);
+	public Type_Subject findType_SubjectById(Integer id){
+		return tysubRepo.findById(id).get();
 	}
 	
 	@Override

@@ -25,8 +25,8 @@ public class StudentServiceImplement implements StudentService{
 	}
 	
 	@Override
-	public Optional<StudentModel> ListStudentById(String id_student){
-		return (Optional<StudentModel>) StuRepo.findById(id_student);
+	public StudentModel ListStudentById(String id_student){
+		return StuRepo.findById(id_student).get();
 	}
 	
 	@Override

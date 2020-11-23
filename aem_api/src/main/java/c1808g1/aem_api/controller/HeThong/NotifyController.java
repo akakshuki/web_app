@@ -23,7 +23,7 @@ import c1808g1.aem_api.models.HeThong.NotifyModel;
 import c1808g1.aem_api.service.HeThong.NotifyService;
 
 @RestController
-@RequestMapping("/cauhinh/notifyapi")
+@RequestMapping("/api/cauhinh/notifyapi")
 public class NotifyController {
 	private NotifyService notifySv;
 	

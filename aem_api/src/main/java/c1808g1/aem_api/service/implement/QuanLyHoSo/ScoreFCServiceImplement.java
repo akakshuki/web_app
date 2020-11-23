@@ -19,8 +19,8 @@ public class ScoreFCServiceImplement implements ScoreFCService{
 	}
 
 	@Override
-	public Optional<ScoreFCModel> ListScoreFCById(Integer id) {
-		return (Optional<ScoreFCModel>) SFCRepo.findById(id);
+	public ScoreFCModel ListScoreFCById(Integer id) {
+		return SFCRepo.findById(id).get();
 	}
 
 	@Override
