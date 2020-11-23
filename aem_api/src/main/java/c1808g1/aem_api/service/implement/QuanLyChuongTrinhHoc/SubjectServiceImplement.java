@@ -25,7 +25,7 @@ public class SubjectServiceImplement implements SubjectServices {
 	}
 	
 	@Override
-	public Optional<Subject> findById(Integer id){
+	public Optional<Subject> findById(String id){
 		return subRepo.findById(id);
 	}
 	
