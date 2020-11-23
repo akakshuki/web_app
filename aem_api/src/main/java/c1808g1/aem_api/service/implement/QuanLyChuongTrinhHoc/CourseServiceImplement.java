@@ -25,8 +25,8 @@ public class CourseServiceImplement implements CourseServices {
 	}
 	
 	@Override
-	public Optional<Course> findById(String id){
-		return cosRepo.findById(id);
+	public Course findById(String id){
+		return cosRepo.findById(id).get();
 	}
 	
 	@Override

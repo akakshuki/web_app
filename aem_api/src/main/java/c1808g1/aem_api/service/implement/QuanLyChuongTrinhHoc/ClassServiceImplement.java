@@ -25,8 +25,8 @@ public class ClassServiceImplement implements ClassServices {
 	}
 	
 	@Override
-	public Optional<Class> findById(String id){
-		return classRepo.findById(id);
+	public Class findById(String id){
+		return classRepo.findById(id).get();
 	}
 	
 	@Override
