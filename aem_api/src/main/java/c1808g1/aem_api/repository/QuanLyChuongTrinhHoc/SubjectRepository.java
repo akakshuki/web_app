@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Subject;
 
 @Repository
-public interface SubjectRepository extends JpaRepository<Subject, Integer> {
+public interface SubjectRepository extends JpaRepository<Subject, String> {
 
 }

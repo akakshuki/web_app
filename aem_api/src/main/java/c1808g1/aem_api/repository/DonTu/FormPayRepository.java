@@ -1,4 +1,4 @@
-package c1808g1.aem_api.repositories.DonTu;
+package c1808g1.aem_api.repository.DonTu;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

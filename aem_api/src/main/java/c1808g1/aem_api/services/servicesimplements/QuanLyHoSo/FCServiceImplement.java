@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.FCModel;
-import c1808g1.aem_api.repositories.QuanLyHoSo.FCRepository;
+import c1808g1.aem_api.repository.QuanLyHoSo.FCRepository;
 import c1808g1.aem_api.services.QuanLyHoSo.FCService;
 
 @Service

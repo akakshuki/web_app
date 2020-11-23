@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.ScoreStudentModel;
-import c1808g1.aem_api.repositories.QuanLyHoSo.ScoreStudentRepository;
+import c1808g1.aem_api.repository.QuanLyHoSo.ScoreStudentRepository;
 import c1808g1.aem_api.services.QuanLyHoSo.ScoreStudentService;
 
 @Service
