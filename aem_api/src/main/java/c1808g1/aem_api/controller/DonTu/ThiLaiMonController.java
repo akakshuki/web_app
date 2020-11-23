@@ -1,6 +1,5 @@
 package c1808g1.aem_api.controller.DonTu;
 
-<<<<<<< HEAD:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/ThiLaiMon.java
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +19,12 @@ import c1808g1.aem_api.models.DonTu.RegisExamModel;
 import c1808g1.aem_api.services.DonTu.RegisExamService;
 
 @RestController
-@RequestMapping("api/dontu/thilaimonapi")
-public class ThiLaiMon {
+@RequestMapping("/api/dontu/thilaimonapi")
+public class ThiLaiMonController {
 	private RegisExamService RESv;
 
 	@Autowired
-	public ThiLaiMon(RegisExamService RESv) {
+	public ThiLaiMonController (RegisExamService RESv) {
 		this.RESv = RESv;
 	}
 	
@@ -86,8 +85,4 @@ public class ThiLaiMon {
 		RESv.delete(dre.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-=======
-public class ThiLaiMonController {
-    
->>>>>>> 4de3a8ab80257f04521cd78a978bd8c7a58c0d5e:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/ThiLaiMonController.java
 }

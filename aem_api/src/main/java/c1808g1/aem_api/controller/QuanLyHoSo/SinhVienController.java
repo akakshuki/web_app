@@ -1,6 +1,5 @@
 package c1808g1.aem_api.controller.QuanLyHoSo;
 
-<<<<<<< HEAD:aem_api/src/main/java/c1808g1/aem_api/controller/QuanLyHoSo/GiangVien.java
 import java.util.List;
 import java.util.Optional;
 
@@ -16,150 +15,171 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import c1808g1.aem_api.models.QuanLyHoSo.FCModel;
-import c1808g1.aem_api.models.QuanLyHoSo.ScoreFCModel;
-import c1808g1.aem_api.services.QuanLyHoSo.FCService;
-import c1808g1.aem_api.services.QuanLyHoSo.ScoreFCService;
+import c1808g1.aem_api.models.QuanLyHoSo.ScoreStudentModel;
+import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
+import c1808g1.aem_api.services.QuanLyHoSo.ScoreStudentService;
+import c1808g1.aem_api.services.QuanLyHoSo.StudentService;
 
 @RestController
-@RequestMapping("api/quanlyhoso/giangvienapi")
-public class GiangVien {
-	private ScoreFCService SFCSv;
-	private FCService FCSv;
+@RequestMapping("/api/quanlyhoso/sinhvienapi")
+public class SinhVienController {
+	private ScoreStudentService SSSv;
+	private StudentService StuSv;
 
 	@Autowired
-	public GiangVien (ScoreFCService SFCSv) {
-		this.SFCSv = SFCSv;
+	public SinhVienController (ScoreStudentService SSSv) {
+		this.SSSv = SSSv;
 	}
 	
 	@Autowired
-	public GiangVien(FCService FCSv) {
-		this.FCSv = FCSv;
+	public SinhVienController (StudentService StuSv) {
+		this.StuSv = StuSv;
 	}
 	
-	// ScoreFC
+	// ScoreStudent
+	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ScoreFCModel>> ListAllScoreFC(){
-		List<ScoreFCModel> lsfc = SFCSv.ListAllScoreFC();
-		if (lsfc.isEmpty()) {
+	public ResponseEntity<List<ScoreStudentModel>> ListAllScoreStudent(){
+		List<ScoreStudentModel> lss = SSSv.ListAllScoreStudent();
+		if (lss.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lsfc,HttpStatus.OK);
+		return new ResponseEntity<>(lss,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getScoreFcById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ScoreFCModel> ListScoreFCById(@PathVariable("id") Integer id){
-		Optional<ScoreFCModel> osfc = SFCSv.ListScoreFCById(id);
-		if(!osfc.isPresent()) {
-			return new ResponseEntity<>(osfc.get(), HttpStatus.NO_CONTENT);
+	@RequestMapping(value = "/getScoreStudentById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ScoreStudentModel> ListScoreStudentById(@PathVariable("id") Integer id){
+		Optional<ScoreStudentModel> oss = SSSv.ListScoreStudentById(id);
+		if(!oss.isPresent()) {
+			return new ResponseEntity<>(oss.get(), HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(osfc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(oss.get(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ScoreFCModel> CreateScoreFC(@RequestBody ScoreFCModel sfcm, UriComponentsBuilder builder){
-		SFCSv.save(sfcm);
+	public ResponseEntity<ScoreStudentModel> CreateScoreStudent(@RequestBody ScoreStudentModel sdm, UriComponentsBuilder builder){
+		SSSv.save(sdm);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id}").buildAndExpand(sfcm.getId()).toUri());
-		return new ResponseEntity<>(sfcm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id}").buildAndExpand(sdm.getId()).toUri());
+		return new ResponseEntity<>(sdm,HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<ScoreFCModel> updateScoreFC(@PathVariable("id") Integer id,@RequestBody ScoreFCModel usfc) {
-        Optional<ScoreFCModel> currentScoreFC = SFCSv.ListScoreFCById(id);
+    public ResponseEntity<ScoreStudentModel> updateScoreStudent(@PathVariable("id") Integer id,@RequestBody ScoreStudentModel ussm) {
+        Optional<ScoreStudentModel> currentScoreStudent = SSSv.ListScoreStudentById(id);
 
-        if (!currentScoreFC.isPresent()) {
+        if (!currentScoreStudent.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentScoreFC.get().setId(usfc.getId());
-        currentScoreFC.get().setSubject_id(usfc.getSubject_id());
-        currentScoreFC.get().setFc_id(usfc.getFc_id());
-        currentScoreFC.get().setScore_percent(usfc.getScore_percent());
-        currentScoreFC.get().setScore_number(usfc.getScore_number());
-        currentScoreFC.get().setDate_create(usfc.getDate_create());
+        currentScoreStudent.get().setId(ussm.getId());
+        currentScoreStudent.get().setRegis_exam_id(ussm.getRegis_exam_id());
+        currentScoreStudent.get().setStudent_id(ussm.getStudent_id());
+        currentScoreStudent.get().setPass_exam(ussm.getPass_exam());
+        currentScoreStudent.get().setStatus_id(ussm.getStatus_id());
+        currentScoreStudent.get().setScore_percent(ussm.getScore_percent());
+        currentScoreStudent.get().setScore_number(ussm.getScore_number());
+        currentScoreStudent.get().setType_exam(ussm.getType_exam());
+        currentScoreStudent.get().setPath_file(ussm.getPath_file());
+        currentScoreStudent.get().setCreator(ussm.getCreator());
+        currentScoreStudent.get().setDate_create(ussm.getDate_create());
+        currentScoreStudent.get().setNote(ussm.getNote());
         
-        SFCSv.save(currentScoreFC.get());
-        return new ResponseEntity<>(currentScoreFC.get(), HttpStatus.OK);
+        SSSv.save(currentScoreStudent.get());
+        return new ResponseEntity<>(currentScoreStudent.get(), HttpStatus.OK);
     }
 
 	@RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<ScoreFCModel> deleteScoreFC(@PathVariable("id") Integer id) {
-		Optional<ScoreFCModel> dsfc = SFCSv.ListScoreFCById(id);
-		if (!dsfc.isPresent()) {
+	public ResponseEntity<ScoreStudentModel> deleteScoreStudent(@PathVariable("id") Integer id) {
+		Optional<ScoreStudentModel> dss = SSSv.ListScoreStudentById(id);
+		if (!dss.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		SFCSv.delete(dsfc.get());
+		SSSv.delete(dss.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	// FC
+	// Student
 	
 	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<FCModel>> FindAllFC(){
-		List<FCModel> lfc = FCSv.ListAllFC();
-		if (lfc.isEmpty()) {
+	public ResponseEntity<List<StudentModel>> ListAllStudent(){
+		List<StudentModel> lstu = StuSv.ListAllStudent();
+		if (lstu.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(lfc,HttpStatus.OK);
+		return new ResponseEntity<>(lstu,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getFCById/{id_fc}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FCModel> FindFCById(@PathVariable("id_fc") String id_fc){
-		Optional<FCModel> ofc = FCSv.ListFCById(id_fc);
-		if(!ofc.isPresent()) {
-			return new ResponseEntity<>(ofc.get(), HttpStatus.NO_CONTENT);
+	@RequestMapping(value = "/getStudentById/{id_student}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StudentModel> ListStudentById(@PathVariable("id_student") String id_student){
+		Optional<StudentModel> ostu = StuSv.ListStudentById(id_student);
+		if(!ostu.isPresent()) {
+			return new ResponseEntity<>(ostu.get(), HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(ofc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(ostu.get(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FCModel> CreateFC(@RequestBody FCModel fcm, UriComponentsBuilder builder){
-		FCSv.save(fcm);
+		@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StudentModel> CreateStudent(@RequestBody StudentModel astu , UriComponentsBuilder builder){
+		StuSv.save(astu);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/create/{id_fc}").buildAndExpand(fcm.getId_fc()).toUri());
-		return new ResponseEntity<>(fcm,HttpStatus.CREATED);
+		headers.setLocation(builder.path("/create/{id_student}").buildAndExpand(astu.getId_student()).toUri());
+		return new ResponseEntity<>(astu,HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/update/{id_student}",method = RequestMethod.PUT)
+    public ResponseEntity<StudentModel> updateStudent(@PathVariable("id_student") String id_student,@RequestBody StudentModel ustu) {
+        Optional<StudentModel> currentStudent = StuSv.ListStudentById(id_student);
 
-	@RequestMapping(value = "/update/{id_fc}",method = RequestMethod.PUT)
-    public ResponseEntity<FCModel> updateFC(@PathVariable("id_fc") String id_fc,@RequestBody FCModel ufcm) {
-        Optional<FCModel> currentFC = FCSv.ListFCById(id_fc);
-
-        if (!currentFC.isPresent()) {
+        if (!currentStudent.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        currentFC.get().setId_fc(ufcm.getId_fc());
-        currentFC.get().setName_fc(ufcm.getName_fc());
-        currentFC.get().setEmail_fc(ufcm.getEmail_fc());
-        currentFC.get().setEmail_school(ufcm.getEmail_school());
-        currentFC.get().setPassword(ufcm.getPassword());
-        currentFC.get().setPhone_fc(ufcm.getPhone_fc());
-        currentFC.get().setColor_css(ufcm.getColor_css());
-        currentFC.get().setActive_account(ufcm.getActive_account());
-        currentFC.get().setList_role(ufcm.getList_role());
-        currentFC.get().setStatus_id(ufcm.getStatus_id());
-        currentFC.get().setStart_date(ufcm.getStart_date());
-        currentFC.get().setEnd_date(ufcm.getEnd_date());
-        currentFC.get().setNote_status(ufcm.getNote_status());
+        currentStudent.get().setId_student(ustu.getId_student());
+        currentStudent.get().setFirst_name(ustu.getFirst_name());
+        currentStudent.get().setLast_name(ustu.getLast_name());
+        currentStudent.get().setFull_name(ustu.getFull_name());
+        currentStudent.get().setFirst_class(ustu.getFirst_class());
+        currentStudent.get().setCurrent_class(ustu.getCurrent_class());
+        currentStudent.get().setActive_account(ustu.getActive_account());
+        currentStudent.get().setDate_of_doing(ustu.getDate_of_doing());
+        currentStudent.get().setSex(ustu.getSex());
+        currentStudent.get().setDob(ustu.getDob());
+        currentStudent.get().setMobile_phone(ustu.getMobile_phone());
+        currentStudent.get().setHome_phone(ustu.getHome_phone());
+        currentStudent.get().setContact_phone(ustu.getContact_phone());
+        currentStudent.get().setEmail_student(ustu.getEmail_student());
+        currentStudent.get().setEmail_school(ustu.getEmail_school());
+        currentStudent.get().setPassword(ustu.getPassword());
+        currentStudent.get().setAddress(ustu.getAddress());
+        currentStudent.get().setContact_address(ustu.getContact_address());
+        currentStudent.get().setApplication_date(ustu.getApplication_date());
+        currentStudent.get().setDistrict(ustu.getDistrict());
+        currentStudent.get().setCity(ustu.getCity());
+        currentStudent.get().setHo_so(ustu.getHo_so());
+        currentStudent.get().setCs(ustu.getCs());
+        currentStudent.get().setCourse_id(ustu.getCourse_id());
+        currentStudent.get().setCourse_family(ustu.getCourse_family());
+        currentStudent.get().setHigh_school(ustu.getHigh_school());
+        currentStudent.get().setUniversity(ustu.getUniversity());
+        currentStudent.get().setTemp_id(ustu.getTemp_id());
+        currentStudent.get().setImage_student(ustu.getImage_student());
+        currentStudent.get().setCentre_name(ustu.getCentre_name());
+        currentStudent.get().setMobile_mac(ustu.getMobile_mac());
+        currentStudent.get().setRole_id(ustu.getRole_id());
 
-        FCSv.save(currentFC.get());
-        return new ResponseEntity<>(currentFC.get(), HttpStatus.OK);
+        StuSv.save(currentStudent.get());
+        return new ResponseEntity<>(currentStudent.get(), HttpStatus.OK);
     }
 
 
-	@RequestMapping(value = "/delete/{id_fc}",method = RequestMethod.DELETE)
-	public ResponseEntity<FCModel> deleteFC(@PathVariable("id_fc") String id_fc) {
-		Optional<FCModel> dfc = FCSv.ListFCById(id_fc);
-		if (!dfc.isPresent()) {
+	@RequestMapping(value = "/delete/{id_student}",method = RequestMethod.DELETE)
+	public ResponseEntity<StudentModel> deleteStudent(@PathVariable("id_student") String id_student) {
+		Optional<StudentModel> dstu = StuSv.ListStudentById(id_student);
+		if (!dstu.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		FCSv.delete(dfc.get());
+		StuSv.delete(dstu.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
-=======
-public class SinhVienController {
-    
-}
->>>>>>> 4de3a8ab80257f04521cd78a978bd8c7a58c0d5e:aem_api/src/main/java/c1808g1/aem_api/controller/QuanLyHoSo/SinhVienController.java

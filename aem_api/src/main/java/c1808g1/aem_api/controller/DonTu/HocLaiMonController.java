@@ -1,6 +1,5 @@
 package c1808g1.aem_api.controller.DonTu;
 
-<<<<<<< HEAD:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/HocLaiMon.java
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +19,12 @@ import c1808g1.aem_api.models.DonTu.FormPayModel;
 import c1808g1.aem_api.services.DonTu.FormPayService;
 
 @RestController
-@RequestMapping("api/dontu/hoclaimonapi")
-public class HocLaiMon {
+@RequestMapping("/api/dontu/hoclaimonapi")
+public class HocLaiMonController {
 	private FormPayService FPSv;
 
 	@Autowired
-	public HocLaiMon(FormPayService FPSv) {
+	public HocLaiMonController (FormPayService FPSv) {
 		this.FPSv = FPSv;
 	}
 	
@@ -93,8 +92,4 @@ public class HocLaiMon {
 		FPSv.delete(dfp.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-=======
-public class HocLaiMonController {
-    
->>>>>>> 4de3a8ab80257f04521cd78a978bd8c7a58c0d5e:aem_api/src/main/java/c1808g1/aem_api/controller/DonTu/HocLaiMonController.java
 }
