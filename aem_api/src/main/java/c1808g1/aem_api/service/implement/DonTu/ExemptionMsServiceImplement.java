@@ -25,9 +25,9 @@ public class ExemptionMsServiceImplement implements ExemptionMsService {
 	}
 
 	@Override
-	public Optional<ExemptionMs> findById(Integer id) {
+	public ExemptionMs findExemptionMsById(Integer id) {
 		 
-		return emsrepo.findById(id);
+		return emsrepo.findById(id).get();
 	}
 
 	@Override

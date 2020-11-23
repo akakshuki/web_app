@@ -6,7 +6,7 @@ import c1808g1.aem_api.models.DonTu.ExemptionMs;
 
 public interface ExemptionMsService {
 	List<ExemptionMs> findAllExemptionMs();
-	Optional<ExemptionMs> findById(Integer id);
+	ExemptionMs findExemptionMsById(Integer id);
 	void save(ExemptionMs ems);
 	void remove(ExemptionMs ems);
 }

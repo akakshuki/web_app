@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.HeThong.*;
 
 public interface RoleService {
 	List<Role> findAllRole();
-	Optional<Role> findById(Integer id);
+	Role findRoleById(Integer id);
 	void save(Role rs);
 	void remove(Role rs);
 }

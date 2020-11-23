@@ -25,9 +25,9 @@ import c1808g1.aem_api.service.HeThong.RoleService;
 		}
 
 		@Override
-		public Optional<Role> findById(Integer id) {
+		public Role findRoleById(Integer id) {
 			 
-			return rrepo.findById(id);
+			return rrepo.findById(id).get();
 		}
 
 		@Override

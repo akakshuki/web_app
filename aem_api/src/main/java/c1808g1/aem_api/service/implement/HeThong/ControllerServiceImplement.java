@@ -27,9 +27,9 @@ public class ControllerServiceImplement implements ControllerService {
 	}
 
 	@Override
-	public Optional<Controller> findById(String id) {
+	public Controller findControllerById(String id) {
 		 
-		return clrepo.findById(id);
+		return clrepo.findById(id).get();
 	}
 
 	@Override

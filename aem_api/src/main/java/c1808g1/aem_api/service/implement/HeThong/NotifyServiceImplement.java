@@ -25,8 +25,8 @@ public class NotifyServiceImplement implements NotifyService{
 	}
 	
 	@Override
-	public Optional<NotifyModel> findNotifyById(Integer id){
-		return notifyRepo.findById(id);
+	public NotifyModel findNotifyById(Integer id){
+		return notifyRepo.findById(id).get();
 	}
 	
 	@Override

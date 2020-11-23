@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.util.UriComponentsBuilder;
+
+import c1808g1.Models.HeThong.NotifyDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 
 import c1808g1.aem_api.models.HeThong.NotifyModel;
 import c1808g1.aem_api.service.HeThong.NotifyService;
@@ -27,59 +31,67 @@ public class NotifyController {
 	public NotifyController(NotifyService notifySv) {
 		this.notifySv=notifySv;
 	}
-	@RequestMapping(value = "/notify", method = RequestMethod.GET)
-	public ResponseEntity<List<NotifyModel>> findAllnotify() {
-		List<NotifyModel> notify = notifySv.findAllNotify();
-		if (notify.isEmpty()) {
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public ResponseEntity<List<NotifyDTO>> findAllNotify() {
+		List<NotifyModel> listntf = notifySv.findAllNotify();
+
+		//mapper từ list entity -> list DTO
+		List<NotifyDTO> listntfd = ModelMapperConfig.mapList(listntf, NotifyDTO.class);
+		if (listntfd.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(notify, HttpStatus.OK);
+		return new ResponseEntity<>(listntfd, HttpStatus.OK);
 	}
+	
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<NotifyModel> getnotifyById(@PathVariable("id") Integer id) {
-		Optional<NotifyModel> notify = notifySv.findNotifyById(id);
+	@RequestMapping(value = "/getNotifyById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<NotifyDTO> getNotifyById(@PathVariable("id") int id) {
+		var data = notifySv.findNotifyById(id);
+		//mapper từ entity -> DTO
+		NotifyDTO tfc = ModelMapperConfig.modelMapper.map(data, NotifyDTO.class);
 
-		if (!notify.isPresent()) {
-			return new ResponseEntity<>(notify.get(), HttpStatus.NO_CONTENT);
+		if (tfc == null) {
+			return new ResponseEntity<>(tfc, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(notify.get(), HttpStatus.OK);
+		return new ResponseEntity<>(tfc, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/notify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<NotifyModel> createnotify(@RequestBody NotifyModel notify, UriComponentsBuilder builder) {
-		notifySv.save(notify);
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ResponseEntity<NotifyDTO> create(@RequestBody NotifyDTO ntfd, UriComponentsBuilder builder) {
+		NotifyModel ntf = ModelMapperConfig.modelMapper.map(ntfd, NotifyModel.class);
+		notifySv.save(ntf);
+		ntfd.setId(ntf.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/notify/{id}").buildAndExpand(notify.getId()).toUri());
-		return new ResponseEntity<>(notify, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/ntf/{id}").buildAndExpand(ntfd.getId()).toUri());
+		return new ResponseEntity<>(ntfd, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<NotifyModel> updatenotify(@PathVariable("id") Integer id, @RequestBody NotifyModel notify) {
-		Optional<NotifyModel> currentnotify = notifySv.findNotifyById(id);
-
-		if (!currentnotify.isPresent()) {
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<NotifyDTO> updateNotify(@PathVariable("id") int id, @RequestBody NotifyDTO ntfd) {
+		NotifyModel ntf = notifySv.findNotifyById(id);
+		
+		if (ntf == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentnotify.get().setId(notify.getId());
-		currentnotify.get().setReceiver_id(notify.getReceiver_id());
-		currentnotify.get().setUrl(notify.getUrl());
-		currentnotify.get().setTitle(notify.getTitle());
-		currentnotify.get().setSeen(notify.getSeen());
-		currentnotify.get().setNote(notify.getNote());
+		ntf.setId(ntfd.getId());
+		ntf.setUrl(ntfd.getUrl());
+		ntf.setReceiver_id(ntfd.getReceiver_id());
+		ntf.setTitle(ntfd.getTitle());
+		ntf.setSeen(ntfd.getSeen());
+		ntf.setNote(ntfd.getNote());
 
-		notifySv.save(currentnotify.get());
-		return new ResponseEntity<>(currentnotify.get(), HttpStatus.OK);
+		notifySv.save(ntf);
+		return new ResponseEntity<>(ntfd, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/notify/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<NotifyModel> deletenotify(@PathVariable("id") Integer id) {
-		Optional<c1808g1.aem_api.models.HeThong.NotifyModel> notify = notifySv.findNotifyById(id);
-		if (!notify.isPresent()) {
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<NotifyModel> deleteNotify(@PathVariable("id") int id) {
+		NotifyModel tfc = notifySv.findNotifyById(id);
+		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		notifySv.remove(notify.get());
+		//holiSv.remove(holi.get());
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
