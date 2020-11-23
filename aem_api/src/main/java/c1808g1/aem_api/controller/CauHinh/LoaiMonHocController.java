@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cauhinh/type_subjectapi")
+@RequestMapping("/api/cauhinh/type_subjectapi")
 public class LoaiMonHocController {
 	private Type_SubjectServices tysubSv;
 	
@@ -27,7 +27,7 @@ public class LoaiMonHocController {
 		this.tysubSv = tysubSv;
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Type_Subject>> findAllTypeSubject(){
 		List<Type_Subject> tysub = tysubSv.findAllType_Subject();
 		if (tysub.isEmpty()) {
@@ -36,7 +36,7 @@ public class LoaiMonHocController {
 		return new ResponseEntity<>(tysub, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = "appliection/json")
+	@RequestMapping(value = "/getTypeSubjectById/{id}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Type_Subject> getTypeSubjectById(@PathVariable("id") Integer id){
 		Optional<Type_Subject> sub = tysubSv.findById(id);
 		

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/subjectapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/subjectapi")
 public class MonHocController {
 	private SubjectServices subSv;
 	
@@ -27,7 +27,7 @@ public class MonHocController {
 		this.subSv = subSv;
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Subject>> findAllSubject(){
 		List<Subject> sub = subSv.findAllSubject();
 		if (sub.isEmpty()) {
@@ -36,8 +36,8 @@ public class MonHocController {
 		return new ResponseEntity<>(sub, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get/{id_subject}", method = RequestMethod.GET, produces = "appliection/json")
-	public ResponseEntity<Subject> getSubjectById(@PathVariable("id_subject") Integer id_subject){
+	@RequestMapping(value = "/getSubjectById/{id_subject}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<Subject> getSubjectById(@PathVariable("id_subject") String id_subject){
 		Optional<Subject> sub = subSv.findById(id_subject);
 		
 		if(!sub.isPresent()) {
@@ -56,7 +56,7 @@ public class MonHocController {
 	
 	@RequestMapping(value = "/update/{id_subject}",method = RequestMethod.PUT)
     public ResponseEntity<Subject> updateSubject(
-            @PathVariable("id_subject") Integer id_subject,
+            @PathVariable("id_subject") String id_subject,
             @RequestBody Subject sub) {
         Optional<Subject> currentSubject = subSv.findById(id_subject);
 
@@ -84,7 +84,7 @@ public class MonHocController {
     @RequestMapping(value = "/delete/{id_subject}",
             method = RequestMethod.DELETE)
     public ResponseEntity<Subject> deleteSubject(
-            @PathVariable("id_subject") Integer id_subject) {
+            @PathVariable("id_subject") String id_subject) {
         Optional<Subject> sub = subSv.findById(id_subject);
         if (!sub.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

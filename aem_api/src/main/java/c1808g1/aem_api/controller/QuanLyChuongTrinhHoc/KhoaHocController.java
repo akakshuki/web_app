@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quanlychuongtrinhhoc/courseapi")
+@RequestMapping("/api/quanlychuongtrinhhoc/courseapi")
 public class KhoaHocController {
 	private CourseServices cosSv;
 	
@@ -27,7 +27,7 @@ public class KhoaHocController {
 		this.cosSv = cosSv;
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Course>> findAllCourse(){
 		List<Course> cos = cosSv.findAllCourse();
 		if (cos.isEmpty()) {
@@ -36,8 +36,8 @@ public class KhoaHocController {
 		return new ResponseEntity<>(cos, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get/{id_course}", method = RequestMethod.GET, produces = "appliection/json")
-	public ResponseEntity<Course> getCourseById(@PathVariable("id_course") Integer id_course){
+	@RequestMapping(value = "/getCourseById/{id_course}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<Course> getCourseById(@PathVariable("id_course") String id_course){
 		Optional<Course> cos = cosSv.findById(id_course);
 		
 		if(!cos.isPresent()) {
@@ -56,7 +56,7 @@ public class KhoaHocController {
 	
 	@RequestMapping(value = "/update/{id_course}",method = RequestMethod.PUT)
     public ResponseEntity<Course> updateCourse(
-            @PathVariable("id_course") Integer id_course,
+            @PathVariable("id_course") String id_course,
             @RequestBody Course course) {
         Optional<Course> currentCourse = cosSv.findById(id_course);
 
@@ -77,7 +77,7 @@ public class KhoaHocController {
     @RequestMapping(value = "/delete/{id_course}",
             method = RequestMethod.DELETE)
     public ResponseEntity<Course> deleteCourse(
-            @PathVariable("id_course") Integer id_course) {
+            @PathVariable("id_course") String id_course) {
         Optional<Course> course = cosSv.findById(id_course);
         if (!course.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
