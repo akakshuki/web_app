@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.EmployeeModel;
 import c1808g1.aem_api.services.QuanLyHoSo.EmployeeService;
 
 @RestController
-@RequestMapping("/quanlyhoso/nhanvien")
+@RequestMapping("api/quanlyhoso/nhanvienapi")
 public class NhanVien {
 private EmployeeService EmpSv;
 	
@@ -27,7 +28,7 @@ private EmployeeService EmpSv;
 		this.EmpSv = EmpSv;
 	}
 	
-	@RequestMapping(value = "/employee" , method = RequestMethod.GET , produces = "application/json")
+	@RequestMapping(value = "/getAll" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EmployeeModel>> ListAllEmployee(){
 		List<EmployeeModel> lemp = EmpSv.ListAllEmployee();
 		if (lemp.isEmpty()) {
@@ -36,7 +37,7 @@ private EmployeeService EmpSv;
 		return new ResponseEntity<>(lemp,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/employee/{id_emp}" , method = RequestMethod.GET , produces = "application/json")
+	@RequestMapping(value = "/getEmployeeById/{id_emp}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmployeeModel> ListEmployeeById(@PathVariable("id_emp") String id_emp){
 		Optional<EmployeeModel> oemp = EmpSv.ListEmployeeById(id_emp);
 		if(!oemp.isPresent()) {
@@ -45,16 +46,16 @@ private EmployeeService EmpSv;
 		return new ResponseEntity<>(oemp.get(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/employee" , method = RequestMethod.POST , produces = "application/json")
+	@RequestMapping(value = "/create" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmployeeModel> CreateEmployee(@RequestBody EmployeeModel emp, UriComponentsBuilder builder){
 		EmpSv.save(emp);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/employee/{id_emp}").buildAndExpand(emp.getId_emp()).toUri());
+		headers.setLocation(builder.path("/create/{id_emp}").buildAndExpand(emp.getId_emp()).toUri());
 		return new ResponseEntity<>(emp,HttpStatus.CREATED);
 	}
 	
 	
-	@RequestMapping(value = "/employee/{id_emp}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{id_emp}",method = RequestMethod.PUT)
     public ResponseEntity<EmployeeModel> updateEmployee(@PathVariable("id_emp") String id_emp,@RequestBody EmployeeModel uemp) {
         Optional<EmployeeModel> currentEmployee = EmpSv.ListEmployeeById(id_emp);
 
@@ -76,7 +77,7 @@ private EmployeeService EmpSv;
     }
 
 
-	@RequestMapping(value = "/employee/{id_emp}",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id_emp}",method = RequestMethod.DELETE)
 	public ResponseEntity<EmployeeModel> deleteEmployee(@PathVariable("id_emp") String id_emp) {
 		Optional<EmployeeModel> demp = EmpSv.ListEmployeeById(id_emp);
 		if (!demp.isPresent()) {
