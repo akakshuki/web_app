@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.QuanLyLichHoc.ScheduleModel;
 
 public interface ScheduleService {
 	List<ScheduleModel> ListAllSchedule();
-	Optional<ScheduleModel> ListScheduleById(Integer id);
+	ScheduleModel ListScheduleById(Integer id);
 	void save(ScheduleModel sm);
 	void delete(ScheduleModel sm);
 }

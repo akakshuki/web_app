@@ -19,8 +19,8 @@ public class ScheduleServiceImplement implements ScheduleService{
 	}
 
 	@Override
-	public Optional<ScheduleModel> ListScheduleById(Integer id) {
-		return (Optional<ScheduleModel>) SRepo.findById(id);
+	public ScheduleModel ListScheduleById(Integer id) {
+		return  SRepo.findById(id).get();
 	}
 
 	@Override
