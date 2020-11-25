@@ -25,8 +25,8 @@ public class PermissionRoleServiceImplement implements PermissionRoleService{
 	}
 	
 	@Override
-	public Optional<PermissionRoleModel> findPermissionRoleById(Integer id){
-		return prRepo.findById(id);
+	public PermissionRoleModel findPermissionRoleById(Integer id){
+		return prRepo.findById(id).get();
 	}
 	
 	@Override

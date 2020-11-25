@@ -87,6 +87,7 @@ public class ThiLaiMonController {
 		if (rem == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		RESv.delete(rem);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

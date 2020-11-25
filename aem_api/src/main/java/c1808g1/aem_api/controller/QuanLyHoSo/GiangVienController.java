@@ -96,6 +96,7 @@ public class GiangVienController {
 		if (sfcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		SFCSv.delete(sfcm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
@@ -164,6 +165,7 @@ public class GiangVienController {
 		if (fcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		FCSv.delete(fcm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

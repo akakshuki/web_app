@@ -21,15 +21,15 @@ public class FormPayModel implements Serializable {
 	private String class_id;
 	private String subject_id;
 	private String student_id;
-	private Integer money;
-	private Integer money_sku;
+	private Double money;
+	private Double money_sku;
 	private String type_payment;
-	private String type_form;
+	private int type_form;
 	private String creator;
 	private Date date_create;
 	private String note;
 	private String path_file;
-	private Integer confirmed;
+	private int confirmed;
 	private String creator_confirm;
 	private Date date_confirm;
 	
@@ -72,20 +72,20 @@ public class FormPayModel implements Serializable {
 	}
 
 	@Column(name = "money" , nullable = true)
-	public Integer getMoney() {
+	public Double getMoney() {
 		return money;
 	}
 
-	public void setMoney(Integer money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 
 	@Column(name = "money_sku" , nullable = true)
-	public Integer getMoney_sku() {
+	public Double getMoney_sku() {
 		return money_sku;
 	}
 
-	public void setMoney_sku(Integer money_sku) {
+	public void setMoney_sku(Double money_sku) {
 		this.money_sku = money_sku;
 	}
 
@@ -99,11 +99,11 @@ public class FormPayModel implements Serializable {
 	}
 
 	@Column(name = "type_form" , nullable = true)
-	public String getType_form() {
+	public int getType_form() {
 		return type_form;
 	}
 
-	public void setType_form(String type_form) {
+	public void setType_form(int type_form) {
 		this.type_form = type_form;
 	}
 
@@ -174,8 +174,8 @@ public class FormPayModel implements Serializable {
 		return serialVersionUID;
 	}
 
-	public FormPayModel(Integer id, String class_id, String subject_id, String student_id, Integer money,
-			Integer money_sku, String type_payment, String type_form, String creator, Date date_create, String note,
+	public FormPayModel(Integer id, String class_id, String subject_id, String student_id, Double money,
+			Double money_sku, String type_payment, int type_form, String creator, Date date_create, String note,
 			String path_file, Integer confirmed, String creator_confirm, Date date_confirm) {
 		super();
 		this.id = id;

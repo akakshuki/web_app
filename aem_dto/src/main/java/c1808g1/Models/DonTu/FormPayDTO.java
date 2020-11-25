@@ -9,10 +9,10 @@ public class FormPayDTO {
 	private String class_id;
 	private String subject_id;
 	private String student_id;
-	private int money;
-	private int money_sku;
+	private Double money;
+	private Double money_sku;
 	private String type_payment;
-	private String type_form;
+	private int type_form;
 	private String creator;
 	private Date date_create;
 	private String note;
@@ -21,8 +21,8 @@ public class FormPayDTO {
 	private String creator_confirm;
 	private Date date_confirm;
 	
-	public FormPayDTO(int id, String class_id, String subject_id, String student_id, int money, int money_sku,
-			String type_payment, String type_form, String creator, Date date_create, String note, String path_file,
+	public FormPayDTO(int id, String class_id, String subject_id, String student_id, Double money, Double money_sku,
+			String type_payment, int type_form, String creator, Date date_create, String note, String path_file,
 			int confirmed, String creator_confirm, Date date_confirm) {
 		super();
 		this.id = id;

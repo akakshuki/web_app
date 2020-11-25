@@ -27,7 +27,7 @@ import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceService;
 import c1808g1.aem_api.service.QuanLyLichHoc.AttendanceStudentService;
 
 @RestController
-@RequestMapping("/api/dontu/diemdanhapi")
+@RequestMapping("/api/quanlylichhoc/diemdanhapi")
 public class DiemDanhController {
 	private AttendanceFCService AFCSv;
 	private AttendanceService ASv;
@@ -108,6 +108,7 @@ public class DiemDanhController {
 		if (am == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		ASv.delete(am);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
@@ -168,6 +169,7 @@ public class DiemDanhController {
 		if (afcm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		AFCSv.delete(afcm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
@@ -175,7 +177,7 @@ public class DiemDanhController {
 	
 	@RequestMapping(value = "/getAllAttendanceStudent" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AttendanceStudentDTO>> ListAllAttendanceStudent(){
-		List<AttendanceStudentModel> asm = ASSv.ListAllAttendanceStudent();
+		List<AttendanceStudentModel> asm = ASSv.getAllAttendanceStudent();
 		List<AttendanceStudentDTO> asdto = ModelMapperConfig.mapList(asm, AttendanceStudentDTO.class);
 		if (asdto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -185,7 +187,7 @@ public class DiemDanhController {
 	
 	@RequestMapping(value = "/getAttendanceStudentById/{id}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AttendanceStudentDTO> ListAttendanceStudentById(@PathVariable("id") Integer id){
-		var data = ASSv.ListAttendanceStudentById(id);
+		var data = ASSv.getAttendanceStudentById(id);
 		AttendanceStudentDTO asdto = ModelMapperConfig.modelMapper.map(data , AttendanceStudentDTO.class);
 		if(asdto == null){
 			return new ResponseEntity<>(asdto ,HttpStatus.NO_CONTENT);
@@ -205,7 +207,7 @@ public class DiemDanhController {
 
 	@RequestMapping(value = "/updateAttendanceStudent/{id}",method = RequestMethod.PUT)
     public ResponseEntity<AttendanceStudentDTO> updateAS(@PathVariable("id") Integer id,@RequestBody AttendanceStudentDTO asdto) {
-        AttendanceStudentModel currentAS = ASSv.ListAttendanceStudentById(id);
+        AttendanceStudentModel currentAS = ASSv.getAttendanceStudentById(id);
 
         if (currentAS == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -213,7 +215,7 @@ public class DiemDanhController {
 
         currentAS.setAttendance_id(asdto.getAttendance_id());
         currentAS.setStudent_id(asdto.getStudent_id());
-        currentAS.setCheck_in(asdto.getCheck_in());
+        currentAS.setCheckIn(asdto.getCheckIn());
         currentAS.setCheck_out(asdto.getCheck_out());
         currentAS.setMinute_late(asdto.getMinute_late());
         currentAS.setMinute_leave_early(asdto.getMinute_leave_early());
@@ -227,10 +229,11 @@ public class DiemDanhController {
 
 	@RequestMapping(value = "/deleteAttendanceStudent/{id}",method = RequestMethod.DELETE)
 	public ResponseEntity<AttendanceStudentModel> deleteAS(@PathVariable("id") Integer id) {
-		AttendanceStudentModel asm = ASSv.ListAttendanceStudentById(id);
+		AttendanceStudentModel asm = ASSv.getAttendanceStudentById(id);
 		if (asm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		ASSv.delete(asm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	

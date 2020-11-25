@@ -14,39 +14,37 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "attendance_fc")
+@Table(name = "attendance_student")
 public class AttendanceStudentModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer id;
+	public int id;
 	
-	public Integer attendance_id;
+	public int attendance_id;
 	public String student_id;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-	public Timestamp check_in;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-	public Timestamp check_out;
-	public Integer minute_late;
-	public Integer minute_leave_early;
-	public Integer status_id;
+	public String checkIn;
+	public String check_out;
+	public int minute_late;
+	public int minute_leave_early;
+	public int status_id;
 	public String note;
 	
 	
 	@Column(name = "id" , nullable = false)
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@Column(name = "attendance_id" , nullable = false)
-	public Integer getAttendance_id() {
+	public int getAttendance_id() {
 		return attendance_id;
 	}
-	public void setAttendance_id(Integer attendance_id) {
+	public void setAttendance_id(int attendance_id) {
 		this.attendance_id = attendance_id;
 	}
 	
@@ -58,43 +56,43 @@ public class AttendanceStudentModel implements Serializable {
 		this.student_id = student_id;
 	}
 	
-	@Column(name = "check_in" , nullable = true)
-	public Timestamp getCheck_in() {
-		return check_in;
+	@Column(name = "check_in", nullable = true)
+	public String getCheckIn() {
+		return checkIn;
 	}
-	public void setCheck_in(Timestamp check_in) {
-		this.check_in = check_in;
+	public void setCheckIn(String check_in) {
+		this.checkIn = check_in;
 	}
 	
-	@Column(name = "check_out" , nullable = true)
-	public Timestamp getCheck_out() {
+	@Column(name = "check_out", nullable = true)
+	public String getCheck_out() {
 		return check_out;
 	}
-	public void setCheck_out(Timestamp Timestamp) {
-		this.check_out = Timestamp;
+	public void setCheck_out(String String) {
+		this.check_out = String;
 	}
 	
 	@Column(name = "minute_late" , nullable = true)
-	public Integer getMinute_late() {
+	public int getMinute_late() {
 		return minute_late;
 	}
-	public void setMinute_late(Integer minute_late) {
+	public void setMinute_late(int minute_late) {
 		this.minute_late = minute_late;
 	}
 	
 	@Column(name = "minute_leave_early" , nullable = true)
-	public Integer getMinute_leave_early() {
+	public int getMinute_leave_early() {
 		return minute_leave_early;
 	}
-	public void setMinute_leave_early(Integer minute_leave_early) {
+	public void setMinute_leave_early(int minute_leave_early) {
 		this.minute_leave_early = minute_leave_early;
 	}
 	
 	@Column(name = "status_id" , nullable = true)
-	public Integer getStatus_id() {
+	public int getStatus_id() {
 		return status_id;
 	}
-	public void setStatus_id(Integer status_id) {
+	public void setStatus_id(int status_id) {
 		this.status_id = status_id;
 	}
 	
@@ -105,11 +103,8 @@ public class AttendanceStudentModel implements Serializable {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-//	public AttendanceStudentModel(Integer id, Integer attendance_id, String student_id, Timestamp check_in, Timestamp check_out,
-//			Integer minute_late, Integer minute_leave_early, Integer status_id, String note) {
+//	public AttendanceStudentModel(int id, int attendance_id, String student_id, String check_in, String check_out,
+//			int minute_late, int minute_leave_early, int status_id, String note) {
 //		super();
 //		this.id = id;
 //		this.attendance_id = attendance_id;

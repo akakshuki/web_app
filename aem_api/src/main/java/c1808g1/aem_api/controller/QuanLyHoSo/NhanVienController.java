@@ -90,6 +90,7 @@ private EmployeeService EmpSv;
 		if (em == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		EmpSv.delete(em);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

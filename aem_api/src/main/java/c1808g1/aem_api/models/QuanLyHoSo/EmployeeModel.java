@@ -95,18 +95,18 @@ public class EmployeeModel{
 		this.status = status;
 	}
 
-	public EmployeeModel(String id_emp, String name_emp, String email_emp, String phone_emp, String password,
-			Boolean active_account, String list_role, Boolean status) {
-		super();
-		this.id_emp = id_emp;
-		this.name_emp = name_emp;
-		this.email_emp = email_emp;
-		this.phone_emp = phone_emp;
-		this.password = password;
-		this.active_account = active_account;
-		this.list_role = list_role;
-		this.status = status;
-	}
+//	public EmployeeModel(String id_emp, String name_emp, String email_emp, String phone_emp, String password,
+//			Boolean active_account, String list_role, Boolean status) {
+//		super();
+//		this.id_emp = id_emp;
+//		this.name_emp = name_emp;
+//		this.email_emp = email_emp;
+//		this.phone_emp = phone_emp;
+//		this.password = password;
+//		this.active_account = active_account;
+//		this.list_role = list_role;
+//		this.status = status;
+//	}
 	
 }
 

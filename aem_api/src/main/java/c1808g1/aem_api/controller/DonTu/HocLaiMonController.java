@@ -95,6 +95,7 @@ public class HocLaiMonController {
 		if (fpm == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		FPSv.delete(fpm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import c1808g1.Models.QuanLiHoSo.GradeSalaryFcDTO;
+import c1808g1.aem_api.config.ModelMapperConfig;
 import c1808g1.aem_api.models.QuanLyHoSo.GradeSalaryFcModel;
 import c1808g1.aem_api.service.QuanLyHoSo.GradeSalaryFcService;
 
@@ -23,64 +25,74 @@ import c1808g1.aem_api.service.QuanLyHoSo.GradeSalaryFcService;
 @RestController
 @RequestMapping("/api/cauhinh/grade_salary_fc_api")
 public class GradeSalaryFcController {
-private GradeSalaryFcService GradeSalaryFcSv;
-	
-	@Autowired
-	public GradeSalaryFcController(GradeSalaryFcService GradeSalaryFcSv) {
-		this.GradeSalaryFcSv=GradeSalaryFcSv;
+	private GradeSalaryFcService gsfcSv;
+    @Autowired
+	public GradeSalaryFcController(GradeSalaryFcService gsfcSv) {
+		this.gsfcSv = gsfcSv;
 	}
+	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public ResponseEntity<List<GradeSalaryFcModel>> findAllGradeSalaryFc() {
-		List<GradeSalaryFcModel> GradeSalaryFc = GradeSalaryFcSv.findAllGradeSalaryFc();
-		if (GradeSalaryFc.isEmpty()) {
+	public ResponseEntity<List<GradeSalaryFcDTO>> findAllgsfc() {
+		List<GradeSalaryFcModel> listgsfc = gsfcSv.findAllGradeSalaryFc();
+		// List<GradeSalaryFcDTO> lsgsfc = listgsfc.stream().map(gsfc -> ModelMapperConfig.modelMapper.map(gsfc, GradeSalaryFcDTO.class))
+		// 		.collect(Collectors.toList());
+
+		//mapper từ list entity -> list DTO
+		List<GradeSalaryFcDTO> lsgsfc = ModelMapperConfig.mapList(listgsfc, GradeSalaryFcDTO.class);
+		if (lsgsfc.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(GradeSalaryFc, HttpStatus.OK);
+		return new ResponseEntity<>(lsgsfc, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getGradeSalaryFcById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GradeSalaryFcModel> getGradeSalaryFcById(@PathVariable("id") Integer id) {
-		Optional<GradeSalaryFcModel> GradeSalaryFc = GradeSalaryFcSv.findGradeSalaryFcById(id);
+	public ResponseEntity<GradeSalaryFcDTO> getgsfcById(@PathVariable("id") Integer id) {
+		var data = gsfcSv.findGradeSalaryFcById(id);
+		//mapper từ entity -> DTO
+		GradeSalaryFcDTO gsfc = ModelMapperConfig.modelMapper.map(data, GradeSalaryFcDTO.class);
 
-		if (!GradeSalaryFc.isPresent()) {
-			return new ResponseEntity<>(GradeSalaryFc.get(), HttpStatus.NO_CONTENT);
+		if (gsfc == null) {
+			return new ResponseEntity<>(gsfc, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(GradeSalaryFc.get(), HttpStatus.OK);
+		return new ResponseEntity<>(gsfc, HttpStatus.OK);
 	}
-
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GradeSalaryFcModel> createGradeSalaryFc(@RequestBody GradeSalaryFcModel GradeSalaryFc, UriComponentsBuilder builder) {
-		GradeSalaryFcSv.save(GradeSalaryFc);
+	public ResponseEntity<GradeSalaryFcDTO> creategsfc(@RequestBody GradeSalaryFcDTO gsfc, UriComponentsBuilder builder) {
+		//mapper từ DTO -> entity
+		GradeSalaryFcModel gsfcModel = ModelMapperConfig.modelMapper.map(gsfc, GradeSalaryFcModel.class);
+		gsfcSv.save(gsfcModel);
+		gsfc.setId(gsfcModel.getId());
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/GradeSalaryFcController/{id}").buildAndExpand(GradeSalaryFc.getId()).toUri());
-		return new ResponseEntity<>(GradeSalaryFc, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/gsfc/{id}").buildAndExpand(gsfc.getId()).toUri());
+		return new ResponseEntity<>(gsfc, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<GradeSalaryFcModel> updateGradeSalaryFc(@PathVariable("id") Integer id, @RequestBody GradeSalaryFcModel GradeSalaryFc) {
-		Optional<GradeSalaryFcModel> currentGradeSalaryFc = GradeSalaryFcSv.findGradeSalaryFcById(id);
-
-		if (!currentGradeSalaryFc.isPresent()) {
+	public ResponseEntity<GradeSalaryFcDTO> updategsfc(@PathVariable("id") Integer id, @RequestBody GradeSalaryFcDTO gsfc) {
+		GradeSalaryFcModel currentGradeSalaryFc = gsfcSv.findGradeSalaryFcById(id);
+		
+		if (currentGradeSalaryFc == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		currentGradeSalaryFc.get().setId(GradeSalaryFc.getId());
-		currentGradeSalaryFc.get().setFc_id(GradeSalaryFc.getFc_id());
-		currentGradeSalaryFc.get().setHour_salary(GradeSalaryFc.getHour_salary());
-		currentGradeSalaryFc.get().setStart_date(GradeSalaryFc.getStart_date());
-		currentGradeSalaryFc.get().setDate_create(GradeSalaryFc.getDate_create());
+		currentGradeSalaryFc.setId(gsfc.getId());
+		currentGradeSalaryFc.setFc_id(gsfc.getFc_id());
+		currentGradeSalaryFc.setHour_salary(gsfc.getHour_salary());
+		currentGradeSalaryFc.setStart_date(gsfc.getStart_date());
+		currentGradeSalaryFc.setDate_create(gsfc.getDate_create());
 
-		GradeSalaryFcSv.save(currentGradeSalaryFc.get());
-		return new ResponseEntity<>(currentGradeSalaryFc.get(), HttpStatus.OK);
+		gsfcSv.save(currentGradeSalaryFc);
+		return new ResponseEntity<>(gsfc, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<GradeSalaryFcModel> deleteGradeSalaryFc(@PathVariable("id") Integer id) {
-		Optional<GradeSalaryFcModel> GradeSalaryFc = GradeSalaryFcSv.findGradeSalaryFcById(id);
-		if (!GradeSalaryFc.isPresent()) {
+	public ResponseEntity<GradeSalaryFcModel> deletegsfc(@PathVariable("id") Integer id) {
+		GradeSalaryFcModel gsfc = gsfcSv.findGradeSalaryFcById(id);
+		if (gsfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		GradeSalaryFcSv.remove(GradeSalaryFc.get());
+		gsfcSv.remove(gsfc);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
 }

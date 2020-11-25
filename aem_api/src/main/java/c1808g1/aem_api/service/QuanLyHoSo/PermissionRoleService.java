@@ -8,7 +8,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.PermissionRoleModel;
 
 public interface PermissionRoleService {
 	List<PermissionRoleModel> findAllPermissionRole();
-	Optional<PermissionRoleModel> findPermissionRoleById(Integer id);
+	PermissionRoleModel findPermissionRoleById(Integer id);
 	void save(PermissionRoleModel pr);
 	void remove(PermissionRoleModel pr);
 }

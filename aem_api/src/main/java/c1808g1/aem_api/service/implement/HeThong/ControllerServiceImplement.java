@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import c1808g1.aem_api.models.CauHinh.StatusModel;
 import c1808g1.aem_api.models.HeThong.Controller;
 import c1808g1.aem_api.repository.HeThong.ControllerRepository;
 import c1808g1.aem_api.service.HeThong.ControllerService;
@@ -30,6 +31,11 @@ public class ControllerServiceImplement implements ControllerService {
 	public Controller findControllerById(String id) {
 		 
 		return clrepo.findById(id).get();
+	}
+	
+	@Override
+	public List<Controller>findControllerByMenuRoot(String menu_root){
+		return (List<Controller>) clrepo.findByMenu_Root(menu_root);
 	}
 
 	@Override
