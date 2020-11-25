@@ -24,12 +24,27 @@ public class LoginController {
 	private EmployeeService empSv;
 
 	@Autowired
-	public LoginController(RoleService roleSv,StudentService stuSv,FCService fcSv,EmployeeService empSv) {
+	public LoginController(RoleService roleSv, StudentService stuSv, FCService fcSv, EmployeeService empSv) {
 		this.roleSv = roleSv;
-		this.stuSv=stuSv;
-		this.fcSv=fcSv;
-		this.empSv=empSv;
+		this.stuSv = stuSv;
+		this.fcSv = fcSv;
+		this.empSv = empSv;
 	}
 
-
+	@RequestMapping(value = "/getAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserLoginDTO> checkUserLogin(int id_role, String email, String pass) {
+		Role role = roleSv.findRoleById(id_role);
+		RoleDTO roleDTO = ModelMapperConfig.modelMapper.map(role, RoleDTO.class);
+		UserLoginDTO ul = new UserLoginDTO();
+		String full_name = null;
+		if (id_role == 1) {
+			return new ResponseEntity<>(ul, HttpStatus.OK);
+		} else if (id_role == 2) {
+			return new ResponseEntity<>(ul, HttpStatus.OK);
+		} else if (id_role == 3) {
+			return new ResponseEntity<>(ul, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(ul, HttpStatus.NO_CONTENT);
+		}
+	}
 }
