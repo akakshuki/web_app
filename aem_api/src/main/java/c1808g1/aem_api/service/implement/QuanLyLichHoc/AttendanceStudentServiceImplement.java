@@ -21,12 +21,12 @@ public class AttendanceStudentServiceImplement implements AttendanceStudentServi
 	}
 
 	@Override
-	public List<AttendanceStudentModel> ListAllAttendanceStudent() {
+	public List<AttendanceStudentModel> getAllAttendanceStudent() {
 		return (List<AttendanceStudentModel>) ASRepo.findAll();
 	}
 
 	@Override
-	public AttendanceStudentModel ListAttendanceStudentById(Integer id) {
+	public AttendanceStudentModel getAttendanceStudentById(Integer id) {
 		return ASRepo.findById(id).get();
 	}
 

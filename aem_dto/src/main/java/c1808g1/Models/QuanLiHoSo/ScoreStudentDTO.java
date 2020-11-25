@@ -6,21 +6,21 @@ import lombok.Data;
 
 @Data
 public class ScoreStudentDTO {
-	private Integer id;
-	private Integer regis_exam_id;
+	private int id;
+	private int regis_exam_id;
 	private String student_id;
 	private String pass_exam;
-	private Integer status_id;
-	private Integer score_percent;
-	private Integer score_number;
+	private int status_id;
+	private int score_percent;
+	private Double score_number;
 	private String type_exam;
 	private String path_file;
 	private String creator;
 	private Date date_create;
 	private String note;
 	
-	public ScoreStudentDTO(Integer id, Integer regis_exam_id, String student_id, String pass_exam, Integer status_id,
-			Integer score_percent, Integer score_number, String type_exam, String path_file, String creator,
+	public ScoreStudentDTO(int id, int regis_exam_id, String student_id, String pass_exam, int status_id,
+			int score_percent, Double score_number, String type_exam, String path_file, String creator,
 			Date date_create, String note) {
 		super();
 		this.id = id;

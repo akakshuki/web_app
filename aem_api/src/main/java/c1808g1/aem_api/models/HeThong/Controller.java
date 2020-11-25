@@ -38,7 +38,7 @@ public class Controller {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	@Column(name="menuroot",nullable=true)
+	@Column(name="menu_root",nullable=true)
 	public String getMenuroot() {
 		return menuroot;
 	}	

@@ -58,10 +58,10 @@ public class DanhMucTinhTrangController {
 	}
 	
 	@RequestMapping(value = "/getStatusByGroupType/{group_type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StatusDTO> getstatusByGroupType(@PathVariable("group_type") int type) {
+	public ResponseEntity<List<StatusDTO>> getstatusByGroupType(@PathVariable("group_type") int type) {
 		var data = statusSv.findStatusByGroupType(type);
 		//mapper từ entity -> DTO
-		StatusDTO status = ModelMapperConfig.modelMapper.map(data, StatusDTO.class);
+		List<StatusDTO> status = ModelMapperConfig.mapList(data, StatusDTO.class);
 
 		if (status == null) {
 			return new ResponseEntity<>(status, HttpStatus.NO_CONTENT);

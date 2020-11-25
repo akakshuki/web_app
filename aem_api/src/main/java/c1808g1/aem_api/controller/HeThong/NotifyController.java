@@ -31,6 +31,7 @@ public class NotifyController {
 	public NotifyController(NotifyService notifySv) {
 		this.notifySv=notifySv;
 	}
+	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<List<NotifyDTO>> findAllNotify() {
 		List<NotifyModel> listntf = notifySv.findAllNotify();
@@ -91,7 +92,7 @@ public class NotifyController {
 		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		//holiSv.remove(holi.get());
+		notifySv.remove(tfc);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -8,6 +8,7 @@ import c1808g1.aem_api.models.HeThong.Controller;
 public interface ControllerService {
 	List<Controller> findAllController();
 	Controller findControllerById(String id);
+	List<Controller> findControllerByMenuRoot(String menu_root);
 	void save(Controller cl);
 	void remove(Controller cl);
 }

@@ -103,6 +103,7 @@ public class SinhVienController {
 		if (ssm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		SSSv.delete(ssm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
@@ -190,6 +191,7 @@ public class SinhVienController {
 		if (sm == null ){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		StuSv.delete(sm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

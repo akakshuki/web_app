@@ -25,8 +25,8 @@ public class GradeSalaryFcServiceImplement implements GradeSalaryFcService{
 	}
 	
 	@Override
-	public Optional<GradeSalaryFcModel> findGradeSalaryFcById(Integer id){
-		return salaryRepo.findById(id);
+	public GradeSalaryFcModel findGradeSalaryFcById(Integer id){
+		return salaryRepo.findById(id).get();
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ import c1808g1.aem_api.service.QuanLyLichHoc.ScheduleService;
 
 
 @RestController
-@RequestMapping("/api/dontu/lichhocapi")
+@RequestMapping("/api/quanlylichhoc/lichhocapi")
 public class LichHocController {
 	private ScheduleService SSv;
 
@@ -93,6 +93,7 @@ public class LichHocController {
 		if (sm == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		SSv.delete(sm);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

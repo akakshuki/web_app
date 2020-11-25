@@ -56,6 +56,18 @@ public class MenuController {
 		}
 		return new ResponseEntity<>(tfc, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getControllerByMenuRoot/{menu}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ControllerDTO>> getControllerByMenuRoot(@PathVariable("menu") String menu_root) {
+		var data = clSv.findControllerByMenuRoot(menu_root);
+		//mapper từ entity -> DTO
+		List<ControllerDTO> tfc = ModelMapperConfig.mapList(data, ControllerDTO.class);
+
+		if (tfc == null) {
+			return new ResponseEntity<>(tfc, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(tfc, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<ControllerDTO> createController(@RequestBody ControllerDTO cld, UriComponentsBuilder builder) {
@@ -90,7 +102,7 @@ public class MenuController {
 		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		//holiSv.remove(holi.get());
+		clSv.remove(tfc);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

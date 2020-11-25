@@ -90,7 +90,7 @@ public class QuyenController {
 		if (tfc == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		//holiSv.remove(holi.get());
+		rSv.remove(tfc);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 }
 }

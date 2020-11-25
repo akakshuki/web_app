@@ -17,13 +17,13 @@ public class ScoreStudentModel implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private Integer regis_exam_id;
+	private int id;
+	private int regis_exam_id;
 	private String student_id;
 	private String pass_exam;
-	private Integer status_id;
-	private Integer score_percent;
-	private Integer score_number;
+	private int status_id;
+	private int score_percent;
+	private Double score_number;
 	private String type_exam;
 	private String path_file;
 	private String creator;
@@ -31,18 +31,18 @@ public class ScoreStudentModel implements Serializable {
 	private String note;
 	
 	@Column(name="id" ,nullable = false)
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@Column(name="regis_exam_id" ,nullable = false)
-	public Integer getRegis_exam_id() {
+	public int getRegis_exam_id() {
 		return regis_exam_id;
 	}
-	public void setRegis_exam_id(Integer regis_exam_id) {
+	public void setRegis_exam_id(int regis_exam_id) {
 		this.regis_exam_id = regis_exam_id;
 	}
 	
@@ -63,26 +63,26 @@ public class ScoreStudentModel implements Serializable {
 	}
 
 	@Column(name="status_id" ,nullable = true)
-	public Integer getStatus_id() {
+	public int getStatus_id() {
 		return status_id;
 	}
-	public void setStatus_id(Integer status_id) {
+	public void setStatus_id(int status_id) {
 		this.status_id = status_id;
 	}
 
 	@Column(name="score_percent" ,nullable = true)
-	public Integer getScore_percent() {
+	public int getScore_percent() {
 		return score_percent;
 	}
-	public void setScore_percent(Integer score_percent) {
+	public void setScore_percent(int score_percent) {
 		this.score_percent = score_percent;
 	}
 
 	@Column(name="score_number" ,nullable = true)
-	public Integer getScore_number() {
+	public Double getScore_number() {
 		return score_number;
 	}
-	public void setScore_number(Integer score_number) {
+	public void setScore_number(Double score_number) {
 		this.score_number = score_number;
 	}
 
@@ -128,23 +128,23 @@ public class ScoreStudentModel implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public ScoreStudentModel(Integer id, Integer regis_exam_id, String student_id, String pass_exam, Integer status_id,
-			Integer score_percent, Integer score_number, String type_exam, String path_file, String creator,
-			Date date_create, String note) {
-		super();
-		this.id = id;
-		this.regis_exam_id = regis_exam_id;
-		this.student_id = student_id;
-		this.pass_exam = pass_exam;
-		this.status_id = status_id;
-		this.score_percent = score_percent;
-		this.score_number = score_number;
-		this.type_exam = type_exam;
-		this.path_file = path_file;
-		this.creator = creator;
-		this.date_create = date_create;
-		this.note = note;
-	}
+//	public ScoreStudentModel(int id, int regis_exam_id, String student_id, String pass_exam, int status_id,
+//			int score_percent, int score_number, String type_exam, String path_file, String creator,
+//			Date date_create, String note) {
+//		super();
+//		this.id = id;
+//		this.regis_exam_id = regis_exam_id;
+//		this.student_id = student_id;
+//		this.pass_exam = pass_exam;
+//		this.status_id = status_id;
+//		this.score_percent = score_percent;
+//		this.score_number = score_number;
+//		this.type_exam = type_exam;
+//		this.path_file = path_file;
+//		this.creator = creator;
+//		this.date_create = date_create;
+//		this.note = note;
+//	}
 	
 	
 }

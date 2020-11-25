@@ -22,15 +22,15 @@ public class ScheduleModel implements Serializable {
 	private String list_fc;
 	private String subject_id;
 	private String class_id;
-	private Integer shift_id;
+	private int shift_id;
 	private String brand_id;
 	private Date start_date;
 	private Date end_date;
 	private String note;
 	private String list_student;
 	private Double coef_salary;
-	private Integer current_session;
-	private Integer max_session;
+	private int current_session;
+	private int max_session;
 
 	@Column(name = "id" , nullable = false)
 	public Integer getId() {

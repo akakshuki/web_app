@@ -7,17 +7,17 @@ public class SubjectDTO {
 	private String id_subject;
 	private String name_subject;
 	private String sort_name;
-	private int hour_study;
+	private Double hour_study;
 	private int seme_id;
 	private int number_session;
-	private String money_subject;
-	private String sku_id;
-	private String type_subject_id;
+	private Double money_subject;
+	private int sku_id;
+	private int type_subject_id;
 	private String note;
-	private String factor;
+	private Double factor;
 	private int point;
-	public SubjectDTO(String id_subject, String name_subject, String sort_name, int hour_study, int seme_id,
-			int number_session, String money_subject, String sku_id, String type_subject_id, String note, String factor,
+	public SubjectDTO(String id_subject, String name_subject, String sort_name, Double hour_study, int seme_id,
+			int number_session, Double money_subject, int sku_id, int type_subject_id, String note, Double factor,
 			int point) {
 		super();
 		this.id_subject = id_subject;

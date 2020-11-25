@@ -75,15 +75,15 @@ public class ScoreFCModel implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public ScoreFCModel(Integer id, String subject_id, String fc_id, Integer score_percent, Integer score_number,
-			Date date_create) {
-		super();
-		this.id = id;
-		this.subject_id = subject_id;
-		this.fc_id = fc_id;
-		this.score_percent = score_percent;
-		this.score_number = score_number;
-		this.date_create = date_create;
-	}
+//	public ScoreFCModel(Integer id, String subject_id, String fc_id, Integer score_percent, Integer score_number,
+//			Date date_create) {
+//		super();
+//		this.id = id;
+//		this.subject_id = subject_id;
+//		this.fc_id = fc_id;
+//		this.score_percent = score_percent;
+//		this.score_number = score_number;
+//		this.date_create = date_create;
+//	}
 	
 }
