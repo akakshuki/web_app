@@ -8,6 +8,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.FCModel;
 public interface FCService {
 	List<FCModel> ListAllFC();
 	FCModel ListFCById(String id_fc);
+	FCModel ListFCByEmailAndPassword(String email,String password);
 	void save(FCModel fc);
 	void delete(FCModel fc);
 }

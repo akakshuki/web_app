@@ -8,6 +8,7 @@ import c1808g1.aem_api.models.QuanLyHoSo.EmployeeModel;
 public interface EmployeeService {
 	List<EmployeeModel> ListAllEmployee();
 	EmployeeModel ListEmployeeById(String id_emp);
+	EmployeeModel ListEmployeeByEmailAndPassword(String email,String password);
 	void save(EmployeeModel employee);
 	void delete(EmployeeModel employee);
 }

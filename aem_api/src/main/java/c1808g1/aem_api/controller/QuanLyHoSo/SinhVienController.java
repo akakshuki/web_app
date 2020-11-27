@@ -60,7 +60,7 @@ public class SinhVienController {
 			return new ResponseEntity<>(ssdto ,HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(ssdto ,HttpStatus.OK);
-	}
+	}	
 	
 	@RequestMapping(value = "/createScoreStudent" , method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ScoreStudentDTO> CreateScoreStudent(@RequestBody ScoreStudentDTO ssdto, UriComponentsBuilder builder){
@@ -125,6 +125,16 @@ public class SinhVienController {
 		StudentDTO sdto = ModelMapperConfig.modelMapper.map(data , StudentDTO.class);
 		if(sdto == null){
 			return new ResponseEntity<>(sdto, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(sdto ,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getStudentByMobileMac/{mobile}" , method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StudentDTO> ListScoreStudentByMobileMac(@PathVariable("mobile") String mobile){
+		var data = StuSv.ListStudentByMobileMac(mobile);
+		StudentDTO sdto = ModelMapperConfig.modelMapper.map(data, StudentDTO.class);
+		if(sdto == null){
+			return new ResponseEntity<>(sdto ,HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(sdto ,HttpStatus.OK);
 	}

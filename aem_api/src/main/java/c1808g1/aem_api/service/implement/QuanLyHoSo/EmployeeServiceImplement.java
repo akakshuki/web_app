@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.EmployeeModel;
+import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
 import c1808g1.aem_api.repository.QuanLyHoSo.EmployeeRepository;
 import c1808g1.aem_api.service.QuanLyHoSo.EmployeeService;
 
@@ -27,6 +28,11 @@ public class EmployeeServiceImplement implements EmployeeService{
 	@Override
 	public EmployeeModel ListEmployeeById(String id_emp){
 		return  EmpRepo.findById(id_emp).get();
+	}
+	
+	@Override
+	public EmployeeModel ListEmployeeByEmailAndPassword(String email,String password){
+		return EmpRepo.findByEmailAndPassword(email, password);
 	}
 	
 	@Override

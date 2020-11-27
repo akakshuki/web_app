@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import c1808g1.aem_api.models.QuanLyHoSo.FCModel;
+import c1808g1.aem_api.models.QuanLyHoSo.StudentModel;
 import c1808g1.aem_api.repository.QuanLyHoSo.FCRepository;
 import c1808g1.aem_api.service.QuanLyHoSo.FCService;
 
@@ -27,6 +28,11 @@ public class FCServiceImplement implements FCService{
 	@Override
 	public FCModel ListFCById(String id_fc){
 		return FCRepo.findById(id_fc).get();
+	}
+	
+	@Override
+	public FCModel ListFCByEmailAndPassword(String email,String password){
+		return FCRepo.findByEmailAndPassword(email, password);
 	}
 	
 	@Override
