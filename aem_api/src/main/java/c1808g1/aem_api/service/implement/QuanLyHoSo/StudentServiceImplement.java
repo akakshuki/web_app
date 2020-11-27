@@ -30,6 +30,16 @@ public class StudentServiceImplement implements StudentService{
 	}
 	
 	@Override
+	public StudentModel ListStudentByEmailAndPassword(String email,String password){
+		return StuRepo.findByEmailAndPassword(email, password);
+	}
+	
+	@Override
+	public StudentModel ListStudentByMobileMac(String mobile){
+		return StuRepo.findByMobileMac(mobile);
+	}
+	
+	@Override
 	public void save(StudentModel student) {
 		StuRepo.save(student);
 	}

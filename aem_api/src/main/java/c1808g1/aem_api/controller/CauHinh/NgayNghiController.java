@@ -1,6 +1,7 @@
 package c1808g1.aem_api.controller.CauHinh;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
@@ -59,6 +60,18 @@ public class NgayNghiController {
 		}
 		return new ResponseEntity<>(holi, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getHolidayByDateOff/{date}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<HolidayDTO> getholiByDate_off(@PathVariable("date") Date date) {
+		var data = holiSv.findHolidayByDateOff(date);
+		//mapper từ entity -> DTO
+		HolidayDTO holi = ModelMapperConfig.modelMapper.map(data, HolidayDTO.class);
+		if (holi == null) {
+			return new ResponseEntity<>(holi, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(holi, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HolidayDTO> createholi(@RequestBody HolidayDTO holi, UriComponentsBuilder builder) {
 		//mapper từ DTO -> entity
