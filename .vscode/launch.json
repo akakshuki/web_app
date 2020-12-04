@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AemWebApplication<aem_web>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "c1808g1.aem_web.AemWebApplication",
+            "projectName": "aem_web",
+            "args": ""
+        }
+    ]
+}
