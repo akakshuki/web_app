@@ -1,0 +1,219 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+	isELIgnored="false"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+</div>
+<!-- /.content-wrapper -->
+<!--Btn scroll top-->
+<button onclick="topFunction()" id="myBtn" title="Go to top">&#x2B06;</button>
+<!--Btn scroll top-->
+<!--modal default-->
+      <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Model title</h4>
+            </div>
+            <div class="modal-body">
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-primary" id="btnSaveModal">Lưu</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!--modal default-->
+      <!--modal large-->
+      <div class="modal fade" id="modal-large">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Modal Title</h4>
+            </div>
+
+            <div class="modal-body">
+              
+            </div>
+          </div>
+        </div>
+        <!--modal large-->
+      </div>
+      <!--modal large-->
+<footer class="main-footer">
+  <div class="pull-right hidden-xs">
+    <b>Version</b> 2018 - 2021
+  </div>
+  <strong> Mr.Khiem Bui - C1808G1 &copy; </strong> All rights reserved.
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Create the tabs -->
+  <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+    <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- Home tab content -->
+    <div class="tab-pane" id="control-sidebar-home-tab">
+      <h3 class="control-sidebar-heading">Birthdays <span id="dateBirth"></span></h3>
+      <ul class="control-sidebar-menu">
+        <li>
+          <a href="javascript:void(0)">
+            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+            <div class="menu-info">
+              <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+              <p>Will be 23 on April 24th</p>
+            </div>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <!-- /.tab-pane -->
+  </div>
+</aside>
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+<div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<c:url value="${pageContext.request.contextPath}/lib/jquery/dist/jquery.min.js" var="pathJquery" />
+<script src="${pathJquery}"></script>
+<!-- jQuery UI 1.11.4 -->
+<c:url value="${pageContext.request.contextPath}/lib/jquery-ui/jquery-ui.min.js" var="pathJqueryUI" />
+<script src="${pathJqueryUI}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<c:url value="${pageContext.request.contextPath}/lib/bootstrap/dist/js/bootstrap.min.js" var="pathBoostrapJS" />
+<script src="${pathBoostrapJS}"></script>
+<!-- Material Design -->
+<c:url value="${pageContext.request.contextPath}/dist/js/material.min.js" var="pathTemplateJS" />
+<script src="${pathTemplateJS}"></script>
+<c:url value="${pageContext.request.contextPath}/dist/js/ripples.min.js" var="pathRippleJS" />
+<script src="${pathRippleJS}"></script>
+<c:url value="${pageContext.request.contextPath}/dist/js/fontawesome.min.js" var="pathFASJS" />
+<script src="${pathFASJS}"></script>
+<script>
+  $.material.init();
+</script>
+<!--lodash-->
+<c:url value="${pageContext.request.contextPath}/lib/lodash.min.js" var="pathLodashJS" />
+<script src="${pathLodashJS}"></script>
+<!-- Sparkline -->
+<%-- <script src="lib/jquery-sparkline/dist/jquery.sparkline.min.js"></script> --%>
+<!-- jvectormap -->
+<%-- <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script> --%>
+<%-- <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script> --%>
+<!-- jQuery Knob Chart -->
+<%-- <script src="lib/jquery-knob/dist/jquery.knob.min.js"></script> --%>
+<!-- Select2 -->
+<c:url value="${pageContext.request.contextPath}/lib/select2/dist/js/select2.full.min.js" var="pathSelect2JS" />
+<script src="${pathSelect2JS}"></script>
+<!-- InputMask -->
+<c:url value="${pageContext.request.contextPath}/lib/input-mask/jquery.inputmask.js" var="pathMaskJS" />
+<script src="${pathMaskJS}"></script>
+<c:url value="${pageContext.request.contextPath}/lib/input-mask/jquery.inputmask.date.extensions.js" var="pathMaskDateJS" />
+<script src="${pathMaskDateJS}"></script>
+<c:url value="${pageContext.request.contextPath}/lib/input-mask/jquery.inputmask.extensions.js" var="pathMaskExtensJS" />
+<script src="${pathMaskExtensJS}"></script>
+<!-- bootstrap color picker -->
+<c:url value="${pageContext.request.contextPath}/lib/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js" var="pathColorJS" />
+<script src="${pathColorJS}"></script>
+<!-- bootstrap time picker -->
+<%-- <script src="plugins/timepicker/bootstrap-timepicker.min.js"></script> --%>
+<!-- daterangepicker -->
+<c:url value="${pageContext.request.contextPath}/lib/moment/min/moment.min.js" var="pathMomentJS" />
+<script src="${pathMomentJS}"></script>
+<c:url value="${pageContext.request.contextPath}/lib/bootstrap-daterangepicker/daterangepicker.js" var="pathDateRangeJS" />
+<script src="${pathDateRangeJS}"></script>
+<!-- datepicker -->
+<c:url value="${pageContext.request.contextPath}/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" var="pathDatePickJS" />
+<script src="${pathDatePickJS}"></script>
+<!-- DataTables -->
+<c:url value="${pageContext.request.contextPath}/lib/datatables.net/js/jquery.dataTables.min.js" var="pathTableJS" />
+<script src="${pathTableJS}"></script>
+<c:url value="${pageContext.request.contextPath}/lib/datatables.net-bs/js/dataTables.bootstrap.min.js" var="pathTableBSJS" />
+<script src="${pathTableBSJS}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<%-- <c:url value="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" var="pathEditorJS" />
+<script src="${pathEditorJS}"></script> --%>
+<!-- Slimscroll -->
+<c:url value="${pageContext.request.contextPath}/lib/jquery-slimscroll/jquery.slimscroll.min.js" var="pathSlimJS" />
+<script src="${pathSlimJS}"></script>
+<!-- FastClick -->
+<c:url value="${pageContext.request.contextPath}/lib/fastclick.js" var="pathFastJS" />
+<script src="${pathFastJS}"></script>
+<!-- AdminLTE App -->
+<c:url value="${pageContext.request.contextPath}/dist/js/adminlte.min.js" var="pathWebAdminJS" />
+<script src="${pathWebAdminJS}"></script>
+<!-- AdminLTE for demo purposes -->
+<c:url value="${pageContext.request.contextPath}/dist/js/demo.js" var="pathDemoJS" />
+<script src="${pathDemoJS}"></script>
+<c:url value="${pageContext.request.contextPath}/dist/js/jquery_help.js" var="pathHeplJS" />
+<script src="${pathHeplJS}"></script>
+<c:url value="${pageContext.request.contextPath}/lib/alertify/js/alertify.min.js" var="pathAlertJS" />
+<script src="${pathAlertJS}"></script>
+<!-- <script src="plugins/alertify.js"></script> -->
+<!--clock-->
+<script type="text/javascript">
+  $(document).ready(function () {
+    // Making 2 variable month and day
+    var monthNames = ["Th 1", "Th 2", "Th 3", "Th 4", "Th 5", "Th 6", "Th 7", "Th 8", "Th 9", "Th 10", "Th 11", "Th 12"];
+    var dayNames = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"]
+
+    // make single object
+    var newDate = new Date();
+    // make current time
+    newDate.setDate(newDate.getDate());
+    // setting date and time
+    $('#Date').html(dayNames[newDate.getDay()] + ", " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+    $("#dateBirth").text('(' + monthNames[newDate.getMonth()] + ')');
+    setInterval(function () {
+      // Create a newDate() object and extract the seconds of the current time on the visitor's
+      var seconds = new Date().getSeconds();
+      // Add a leading zero to seconds value
+      $("#sec").html((seconds < 10 ? "0" : "") + seconds);
+    }, 1000);
+
+    setInterval(function () {
+      // Create a newDate() object and extract the minutes of the current time on the visitor's
+      var minutes = new Date().getMinutes();
+      // Add a leading zero to the minutes value
+      $("#min").html((minutes < 10 ? "0" : "") + minutes);
+    }, 1000);
+
+    setInterval(function () {
+      // Create a newDate() object and extract the hours of the current time on the visitor's
+      var hours = new Date().getHours();
+      // Add a leading zero to the hours value
+      $("#hours").html((hours < 10 ? "0" : "") + hours);
+    }, 1000);
+  });
+  function imgError(image) {
+    image.onerror = "";
+    image.src = "${pageContext.request.contextPath}/dist/img/default-user.png"; //image default if path image not found
+    return true;
+  }
+</script>
+
+</body>
+
+</html>

@@ -1,6 +1,5 @@
 package c1808g1.aem_api.repository.CauHinh;
 
-
 import java.sql.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;

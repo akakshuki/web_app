@@ -35,7 +35,7 @@
     		
     <module>aem_api</module>
     		
-    <module>aem_portal</module>
+    <module>aem_web</module>
     		
     <module>aem_trickcode</module>
     	  

@@ -1,0 +1,59 @@
+/*Login*/
+@media (max-width: 992px){
+    #bg-logo{
+      display: none;
+    }
+    #wrap-form {
+      width: 80%!important;
+      margin-top: 50%!important;
+    }
+  }
+  #bg-logo img {
+    height: 100vh;
+  }
+  
+  #wrap-login {
+    background-color: brown;
+    height: 100vh;
+  }
+  
+  #wrap-form {
+    width: 60%;
+    margin: auto;
+    margin-top: 25%;
+  }
+  
+  #wrap-form > .login-logo {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  
+  #wrap-form > .login-logo span {
+    font-size: 30px;
+    font-weight: unset;
+    font-style: italic;
+  }
+  
+  #wrap-form .login-box-body {
+    background: transparent;
+    padding: 0;
+  }
+  
+  #wrap-form button {
+    background-color: white;
+    color: brown;
+    font-weight: bold;
+  }
+  
+  .form-login {
+    color: white !important;
+  }
+  
+  .form-login > option {
+    color: brown;
+  }
+  .login-box-body .form-group{
+      padding-bottom: 10px!important;
+      margin: 0!important;
+  }
