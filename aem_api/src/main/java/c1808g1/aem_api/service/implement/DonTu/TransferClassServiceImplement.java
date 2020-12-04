@@ -27,9 +27,9 @@ public class TransferClassServiceImplement implements TransferClassService {
 	}
 
 	@Override
-	public Optional<TransferClass> findById(Integer id) {
+	public TransferClass findTransferClassById(Integer id) {
 		 
-		return tfcrepo.findById(id);
+		return tfcrepo.findById(id).get();
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.HeThong.NotifyModel;
 
 public interface NotifyService {
 	List<NotifyModel> findAllNotify();
-	Optional<NotifyModel> findNotifyById(Integer id);
+	NotifyModel findNotifyById(Integer id);
 	void save(NotifyModel notify);
 	void remove(NotifyModel notify);
 }

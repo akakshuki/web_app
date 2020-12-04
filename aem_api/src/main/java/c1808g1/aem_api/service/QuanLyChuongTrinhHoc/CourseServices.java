@@ -7,7 +7,7 @@ import c1808g1.aem_api.models.QuanLyChuongTrinhHoc.Course;
 
 public interface CourseServices {
 	List<Course> findAllCourse();
-	Optional<Course> findById(Integer id);
+	Course findById(String id);
 	void save(Course course);
 	void remove(Course course);
 }

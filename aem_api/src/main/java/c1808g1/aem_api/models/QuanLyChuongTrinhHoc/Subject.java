@@ -12,14 +12,14 @@ public class Subject {
 	private String id_subject;
 	private String name_subject;
 	private String sort_name;
-	private int hour_study;
+	private Double hour_study;
 	private int seme_id;
 	private int number_session;
-	private String money_subject;
-	private String sku_id;
-	private String type_subject_id;
+	private Double money_subject;
+	private int sku_id;
+	private int type_subject_id;
 	private String note;
-	private String factor;
+	private Double factor;
 	private int point;
 
 	public Subject() {
@@ -28,7 +28,6 @@ public class Subject {
 
 	@Id
 	@Column(name = "id_subject", nullable = false)
-
 	public String getId_subject() {
 		return id_subject;
 	}
@@ -59,11 +58,11 @@ public class Subject {
 
 	
 	@Column(name = "hour_study", nullable = true)
-	public int getHour_study() {
+	public Double getHour_study() {
 		return hour_study;
 	}
 
-	public void setHour_study(int hour_study) {
+	public void setHour_study(Double hour_study) {
 		this.hour_study = hour_study;
 	}
 
@@ -89,31 +88,31 @@ public class Subject {
 
 	
 	@Column(name = "money_subject", nullable = true)
-	public String getMoney_subject() {
+	public Double getMoney_subject() {
 		return money_subject;
 	}
 
-	public void setMoney_subject(String money_subject) {
+	public void setMoney_subject(Double money_subject) {
 		this.money_subject = money_subject;
 	}
 
 	
 	@Column(name = "sku_id", nullable = true)
-	public String getSku_id() {
+	public int getSku_id() {
 		return sku_id;
 	}
 
-	public void setSku_id(String sku_id) {
+	public void setSku_id(int sku_id) {
 		this.sku_id = sku_id;
 	}
 
 	
 	@Column(name = "type_subject_id", nullable = true)
-	public String getType_subjcet_id() {
+	public int getType_subjcet_id() {
 		return type_subject_id;
 	}
 
-	public void setType_subjcet_id(String type_subject_id) {
+	public void setType_subjcet_id(int type_subject_id) {
 		this.type_subject_id = type_subject_id;
 	}
 
@@ -129,11 +128,11 @@ public class Subject {
 
 	
 	@Column(name = "factor", nullable = true)
-	public String getFactor() {
+	public Double getFactor() {
 		return factor;
 	}
 
-	public void setFactor(String factor) {
+	public void setFactor(Double factor) {
 		this.factor = factor;
 	}
 

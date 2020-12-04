@@ -25,8 +25,8 @@ public class StatusStudentServiceImplement implements StatusStudentService{
 	}
 	
 	@Override
-	public Optional<StatusStudentModel> findStatusStudentById(Integer id){
-		return stastuRepo.findById(id);
+	public StatusStudentModel findStatusStudentById(Integer id){
+		return stastuRepo.findById(id).get();
 	}
 	
 	@Override

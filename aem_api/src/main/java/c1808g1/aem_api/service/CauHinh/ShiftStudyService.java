@@ -6,8 +6,8 @@ import java.util.Optional;
 import c1808g1.aem_api.models.CauHinh.ShiftStudyModel;
 
 public interface ShiftStudyService {
-	List<ShiftStudyModel> findAllShift();
-	Optional<ShiftStudyModel> findShiftById(Integer id);
+	List<ShiftStudyModel> findAllShiftStudy();
+	ShiftStudyModel findShiftStudyById(Integer id);
 	void save(ShiftStudyModel shiftStudyModel);
 	void remove(ShiftStudyModel shiftStudyModel);
 }
